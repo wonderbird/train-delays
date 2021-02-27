@@ -1,0 +1,74 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    name: Build and test
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100
+
+      - name: Install dotnet global tools (coverlet, reportgenerator)
+        run: |
+          dotnet tool install --global coverlet.console
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Debug --no-restore
+
+      - name: Run tests
+        run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/coverage.cobertura.xml' 
+
+      - name: Generate coverage reports
+        run: reportgenerator "-reports:RomanNumerals.Lib.Tests/TestResults/*.xml" \
+          "-targetdir:report" \
+          "-reporttypes:Html;lcov" \
+          "-title:RomanNumerals"
+
+      - name: Attach coverage reports to build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: report
+
+  publish-reports:
+    runs-on: ubuntu-latest
+    name: Publish coverage reports
+
+    needs: build-and-test
+
+    steps:
+      # the repository is required by codeclimate-action
+      - uses: actions/checkout@v2
+
+      - name: Download coverage reports
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-reports
+          path: coverage-reports
+
+      - name: Publish coverage report to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: coverage-reports/lcov.info
+
+      - name: Publish coverage report to CodeClimate
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: coverage-reports/lcov.info:lcov
