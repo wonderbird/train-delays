@@ -33,7 +33,7 @@ jobs:
         run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/coverage.cobertura.xml' 
 
       - name: Generate coverage reports
-        run: reportgenerator "-reports:RomanNumerals.Lib.Tests/TestResults/*.xml" \
+        run: reportgenerator "-reports:RomanNumerals.Logic.Tests/TestResults/*.xml" \
           "-targetdir:report" \
           "-reporttypes:Html;lcov" \
           "-title:RomanNumerals"
