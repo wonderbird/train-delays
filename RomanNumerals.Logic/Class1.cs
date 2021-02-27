@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RomanNumerals.Lib
+namespace RomanNumerals.Logic
 {
     public class Class1
     {

@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RomanNumerals.Lib\RomanNumerals.Lib.csproj" />
+    <ProjectReference Include="..\RomanNumerals.Logic\RomanNumerals.Logic.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace RomanNumerals.Lib.Tests
+namespace RomanNumerals.Logic.Tests
 {
     public class UnitTest1
     {

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomanNumerals.Lib", "RomanNumerals.Lib\RomanNumerals.Lib.csproj", "{4F054F47-9777-4E9B-AC7D-803A3539ED29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomanNumerals.Logic", "RomanNumerals.Logic\RomanNumerals.Logic.csproj", "{4F054F47-9777-4E9B-AC7D-803A3539ED29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomanNumerals.Lib.Tests", "RomanNumerals.Lib.Tests\RomanNumerals.Lib.Tests.csproj", "{5EC6F230-F709-49F1-97A5-0482B48719E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomanNumerals.Logic.Tests", "RomanNumerals.Logic.Tests\RomanNumerals.Logic.Tests.csproj", "{5EC6F230-F709-49F1-97A5-0482B48719E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{27116A02-4742-47C4-8770-D67D4205E8D3}"
 ProjectSection(SolutionItems) = preProject
