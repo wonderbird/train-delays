@@ -1,4 +1,4 @@
-# Test Helper: RemoteControlledProcess
+# Kata: Roman Numerals Helper
 
 [![Build Status Badge](https://github.com/wonderbird/kata-roman-numerals/workflows/.NET/badge.svg)](https://github.com/wonderbird/kata-roman-numerals/actions?query=workflow%3A%22.NET)
 [![Test Coverage (coveralls)](https://img.shields.io/coveralls/github/wonderbird/kata-roman-numerals)](https://coveralls.io/github/wonderbird/kata-roman-numerals)
@@ -8,6 +8,8 @@
 [![Technical Debt](https://img.shields.io/codeclimate/tech-debt/wonderbird/kata-roman-numerals)](https://codeclimate.com/github/wonderbird/kata-roman-numerals)
 [![CodeScene Code Health](https://codescene.io/projects/13366/status-badges/code-health)](https://codescene.io/projects/13366/jobs/latest-successful/results)
 [![CodeScene System Mastery](https://codescene.io/projects/13366/status-badges/system-mastery)](https://codescene.io/projects/13366/jobs/latest-successful/results)
+
+This repository implements the [Roman Numerals Helper Kata as found on CodeWars](https://www.codewars.com/kata/51b66044bce5799a7f000003/train/csharp)
 
 ## Thanks
 
