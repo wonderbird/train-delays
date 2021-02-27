@@ -44,8 +44,8 @@ dotnet test
 # As an alternative, run the tests with coverage and produce a coverage report
 rm -r RomanNumerals.Lib.Tests/TestResults && \
   dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/coverage.cobertura.xml' && \
-  reportgenerator "-reports:RomanNumerals.Lib.Tests/TestResults/*.xml" "-targetdir:RomanNumerals.Lib.Tests/TestResults/report" "-reporttypes:Html;lcov" "-title:RomanNumerals"
-open RomanNumerals.Lib.Tests/TestResults/report/index.html
+  reportgenerator "-reports:RomanNumerals.Logic.Tests/TestResults/*.xml" "-targetdir:report" "-reporttypes:Html;lcov" "-title:RomanNumerals"
+open report/index.html
 ```
 
 ### Before Creating a Pull Request ...
