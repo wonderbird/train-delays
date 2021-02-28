@@ -1,0 +1,6 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: dotnet restore && dotnet build --configuration Debug --no-restore
+    command: dotnet test --no-restore
