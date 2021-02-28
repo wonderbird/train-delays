@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\RomanNumerals.Logic\RomanNumerals.Logic.csproj" />
+        <ProjectReference Include="..\DotnetStarter.Logic\DotnetStarter.Logic.csproj" />
     </ItemGroup>
 
 </Project>
