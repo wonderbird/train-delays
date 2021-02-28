@@ -25,7 +25,10 @@ After having forked this starter project, you'll need to adapt the project names
 in the badges section above, the textual description in this README.md file and - if using
 [CodeClimate (Quality)](https://codeclimate.com) - add the `CC_TEST_REPORTER_ID` to the github project secrets:
 
-1. Rename the `.sln`, the contained projects and the root namespaces to match your new project and adapt the `.github/workflow/dotnet.yml` file accordingly.
+1. Renaming from `DotnetStarter` to ...
+   - rename the `.sln`, the contained projects and the root namespaces to match your new project
+   - adapt the test entry in the `.github/workflow/dotnet.yml` file
+   - adapt the environment variable in `tools/dupfinder.sh` and `tools/dupfinder.bat`, respectively
 
 2. If you have a [coveralls.io](https://coveralls.io) account, add the new project and replace the corresponding `wonderbird/dotnet-starter` entries above by your Github name and the name of this project.
 
