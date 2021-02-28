@@ -13,6 +13,7 @@ ProjectSection(SolutionItems) = preProject
 	tools\dupfinder.bat = tools\dupfinder.bat
 	tools\dupfinder.sh = tools\dupfinder.sh
 	.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+	LICENSE = LICENSE
 EndProjectSection
 EndProject
 Global

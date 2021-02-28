@@ -25,25 +25,27 @@ After having forked this starter project, you'll need to adapt the project names
 in the badges section above, the textual description in this README.md file and - if using
 [CodeClimate (Quality)](https://codeclimate.com) - add the `CC_TEST_REPORTER_ID` to the github project secrets:
 
-1. Renaming from `DotnetStarter` to ...
+1. Change the LICENSE to your needs
+
+2. Renaming from `DotnetStarter` to ...
    - rename the `.sln`, the contained projects and the root namespaces to match your new project
    - adapt the test entry in the `.github/workflow/dotnet.yml` file
    - adapt the environment variable in `tools/dupfinder.sh` and `tools/dupfinder.bat`, respectively
 
-2. If you have a [coveralls.io](https://coveralls.io) account, add the new project and replace the corresponding `wonderbird/dotnet-starter` entries above by your Github name and the name of this project.
+3. If you have a [coveralls.io](https://coveralls.io) account, add the new project and replace the corresponding `wonderbird/dotnet-starter` entries above by your Github name and the name of this project.
 
-3. If you have a [CodeClimate (Quality)](https://codeclimate.com) account,
+4. If you have a [CodeClimate (Quality)](https://codeclimate.com) account,
    - add the new project and replace the corresponding `wonderbird/dotnet-starter` entries above by your Github name and the name of this project
    - get the `CC_TEST_REPORTER_ID` from the [CodeClimate](https://codeclimate.com) test coverage settings and set it as a repository secret in your Github project
 
-4. If you have a [CodeScene](https://codescene.io) account,
+5. If you have a [CodeScene](https://codescene.io) account,
    - add the new project and trigger an analysis
    - in the [CodeScene](https://codescene.io) status badges configuration, tick the checboxes next to Code Health and System Mastery in order to make the badges visible to the public
    - in the badges section above, replace the [CodeScene](https://codescene.io) project number `13371` by the number of your project
 
-5. Delete all badges from above, which you don't need
+6. Delete all badges from above, which you don't need
 
-6. Commit and push in order to trigger a build. Then check whether all badges work as expected, i.e. click them and check whether they redirect to the correct projects.
+7. Commit and push in order to trigger a build. Then check whether all badges work as expected, i.e. click them and check whether they redirect to the correct projects.
 
 ### Quick-Start
 
