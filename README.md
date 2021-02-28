@@ -1,5 +1,6 @@
 # Kata: Roman Numerals Helper
 
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/wonderbird/kata-roman-numerals)
 [![Build Status Badge](https://github.com/wonderbird/kata-roman-numerals/workflows/.NET/badge.svg)](https://github.com/wonderbird/kata-roman-numerals/actions?query=workflow%3A%22.NET)
 [![Test Coverage (coveralls)](https://img.shields.io/coveralls/github/wonderbird/kata-roman-numerals)](https://coveralls.io/github/wonderbird/kata-roman-numerals)
 [![Test Coverage (codeclimate)](https://img.shields.io/codeclimate/coverage-letter/wonderbird/kata-roman-numerals)](https://codeclimate.com/github/wonderbird/kata-roman-numerals/trends/test_coverage_total)
