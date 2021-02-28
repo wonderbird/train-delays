@@ -1,7 +1,7 @@
 # Starter Template for new .NET Projects
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/wonderbird/dotnet-starter)
-[![Build Status Badge](https://github.com/wonderbird/kata-roman-numerals/workflows/.NET/badge.svg)](https://github.com/wonderbird/dotnet-starter/actions?query=workflow%3A%22.NET)
+[![Build Status Badge](https://github.com/wonderbird/kata-roman-numerals/workflows/.NET/badge.svg)](https://github.com/wonderbird/dotnet-starter/actions?query=workflow%3A%22.NET%22)
 [![Test Coverage (coveralls)](https://img.shields.io/coveralls/github/wonderbird/dotnet-starter)](https://coveralls.io/github/wonderbird/dotnet-starter)
 [![Test Coverage (codeclimate)](https://img.shields.io/codeclimate/coverage-letter/wonderbird/dotnet-starter)](https://codeclimate.com/github/wonderbird/dotnet-starter/trends/test_coverage_total)
 [![Code Maintainability](https://img.shields.io/codeclimate/maintainability-percentage/wonderbird/dotnet-starter)](https://codeclimate.com/github/wonderbird/dotnet-starter)
