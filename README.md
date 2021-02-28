@@ -14,7 +14,7 @@ This repository implements the [Roman Numerals Helper Kata as found on CodeWars]
 
 ## Thanks
 
-Many thanks to [JetBrains](https://www.jetbrains.com/?from=kata-roman-numerals) who provide
+Many thanks to [JetBrains](https://www.jetbrains.com/?from=dotnet-starter) who provide
 an [Open Source License](https://www.jetbrains.com/community/opensource/) for this project ❤️.
 
 # Development
