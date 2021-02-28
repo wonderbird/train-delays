@@ -1,3 +1,3 @@
 tasks:
-  - init: restore and build
-    command: dotnet restore && dotnet build
+  - init: dotnet restore && dotnet build --configuration Debug --no-restore
+    command: dotnet test --no-restore
