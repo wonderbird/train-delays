@@ -25,7 +25,7 @@ To compile, test and run this project the latest [.NET Core SDK](https://dotnet.
 your machine. For calculating code metrics I recommend [metrix++](https://github.com/metrixplusplus/metrixplusplus).
 This requires python.
 
-You need the following tools installed:
+If you are interested in test coverage, then you'll need the following tools installed:
 
 ```shell
 dotnet tool install --global coverlet.console --configfile NuGet-OfficialOnly.config
@@ -42,8 +42,11 @@ Run the following commands from the folder containing the `.sln` file in order t
 dotnet build
 dotnet test
 
+# If you like continuous testing then use the dotnet file watcher to trigger your tests
+dotnet watch -p ./RomanNumerals.Logic.Tests test
+
 # As an alternative, run the tests with coverage and produce a coverage report
-rm -r RomanNumerals.Lib.Tests/TestResults && \
+rm -r RomanNumerals.Logic.Tests/TestResults && \
   dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/coverage.cobertura.xml' && \
   reportgenerator "-reports:RomanNumerals.Logic.Tests/TestResults/*.xml" "-targetdir:report" "-reporttypes:Html;lcov" "-title:RomanNumerals"
 open report/index.html
@@ -116,8 +119,11 @@ The report will be created as `dupfinder-report.html` in the current directory.
 
 * GitHub: [aspnet / Hosting / samples / GenericHostSample](https://github.com/aspnet/Hosting/tree/2.2.0/samples/GenericHostSample)
 
-## Code Analysis
+## Code Quality
 
+* Continuous Testing
+  * Scott Hanselman: [Command Line: Using dotnet watch test for continuous testing with .NET Core 1.0 and XUnit.net](https://www.hanselman.com/blog/command-line-using-dotnet-watch-test-for-continuous-testing-with-net-core-10-and-xunitnet)
+  * Steve Smith (Ardalis): [Automate Testing and Running Apps with dotnet watch](https://ardalis.com/automate-testing-and-running-apps-with-dotnet-watch/)
 * Microsoft: [Use code coverage for unit testing](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-code-coverage?tabs=linux)
 * GitHub: [coverlet-coverage / coverlet](https://github.com/coverlet-coverage/coverlet)
 * GitHub: [danielpalme / ReportGenerator](https://github.com/danielpalme/ReportGenerator)
