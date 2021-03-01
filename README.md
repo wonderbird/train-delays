@@ -31,6 +31,7 @@ in the badges section above, the textual description in this README.md file and 
    - rename the `.sln`, the contained projects and the root namespaces to match your new project
    - adapt the test entry in the `.github/workflow/dotnet.yml` file
    - adapt the environment variable in `tools/dupfinder.sh` and `tools/dupfinder.bat`, respectively
+   - adapt the test directory in the `.gitpod.yml` file
 
 3. If you have a [coveralls.io](https://coveralls.io) account, add the new project and replace the corresponding `wonderbird/dotnet-starter` entries above by your Github name and the name of this project.
 
