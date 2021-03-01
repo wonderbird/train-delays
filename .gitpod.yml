@@ -4,6 +4,8 @@ image:
 tasks:
   - init: dotnet restore && dotnet build --configuration Debug --no-restore
     command: dotnet watch -p ./RomanNumerals.Logic.Tests test
+  - openMode: split-right
+    command: mob status
 
 vscode:
   extensions:

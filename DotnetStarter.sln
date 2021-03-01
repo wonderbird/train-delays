@@ -13,7 +13,9 @@ ProjectSection(SolutionItems) = preProject
 	tools\dupfinder.bat = tools\dupfinder.bat
 	tools\dupfinder.sh = tools\dupfinder.sh
 	.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-	LICENSE = LICENSE
+	.gitpod.yml = .gitpod.yml
+	.gitpod.Dockerfile = .gitpod.Dockerfile
+    LICENSE = LICENSE
 EndProjectSection
 EndProject
 Global
