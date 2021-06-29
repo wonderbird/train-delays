@@ -10,7 +10,7 @@
 [![CodeScene Code Health](https://codescene.io/projects/13371/status-badges/code-health)](https://codescene.io/projects/13371/jobs/latest-successful/results)
 [![CodeScene System Mastery](https://codescene.io/projects/13371/status-badges/system-mastery)](https://codescene.io/projects/13371/jobs/latest-successful/results)
 
-This repository implements the [Roman Numerals Helper Kata as found on CodeWars](https://www.codewars.com/kata/51b66044bce5799a7f000003/train/csharp)
+This repository provides a starter template for new C# projects.
 
 ## Thanks
 
