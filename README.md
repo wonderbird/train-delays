@@ -17,7 +17,21 @@ This repository provides a starter template for new C# projects.
 Many thanks to [JetBrains](https://www.jetbrains.com/?from=dotnet-starter) who provide
 an [Open Source License](https://www.jetbrains.com/community/opensource/) for this project ❤️.
 
-# Development
+## Development
+
+### What is inside?
+
+**Attention:**
+
+The contained `.editorconfig` brings formatting configuration and static code analysis rules. Violating these rules will fail your build.
+You can delete or adapt this file to get more flexible rules.
+
+Additional folders, files and configuration:
+
+- DotnetStarter.Logic - is a DLL project for business logic
+- DotnetStarter.Logic.Tests - is the corresponding xUnit test project, configured with static code rules allowing underscores in test names (GlobalSuppressions.cs)
+- .github\dependabot.yml - configuration for the GitHub Dependabot.
+- .github\workflows\dotnet.yml - automatic builds using GitHub actions.
 
 ### Creating a New Project From this Template
 
