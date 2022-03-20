@@ -47,6 +47,7 @@ jobs:
   publish-reports:
     runs-on: ubuntu-latest
     name: Publish coverage reports
+    if: github.ref == 'refs/heads/main'
 
     needs: build-and-test
 
