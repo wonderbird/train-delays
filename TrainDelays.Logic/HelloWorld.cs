@@ -1,6 +1,4 @@
-using System;
-
-namespace DotnetStarter.Logic
+namespace TrainDelays.Logic
 {
     public class HelloWorld
     {

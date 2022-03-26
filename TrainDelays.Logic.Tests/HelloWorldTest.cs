@@ -1,7 +1,6 @@
-using System;
 using Xunit;
 
-namespace DotnetStarter.Logic.Tests
+namespace TrainDelays.Logic.Tests
 {
     public class HelloWorldTest
     {

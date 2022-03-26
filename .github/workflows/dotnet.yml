@@ -32,10 +32,16 @@ jobs:
         run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput='./TestResults/coverage.cobertura.xml' 
 
       - name: Generate coverage reports
-        run: reportgenerator "-reports:DotnetStarter.Logic.Tests/TestResults/*.xml" \
+        run: reportgenerator "-reports:TrainDelays.Logic.Tests/TestResults/*.xml" \
           "-targetdir:report" \
           "-reporttypes:Html;lcov" \
-          "-title:DotnetStarter"
+          "-title:Train Delays"
+
+      - name: Publish coverage report to coveralls.io
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: report/lcov.info
 
       - name: Attach coverage reports to build artifacts
         uses: actions/upload-artifact@v2
@@ -43,9 +49,12 @@ jobs:
           name: coverage-reports
           path: report
 
-  publish-reports:
+  publish-code-climate:
     runs-on: ubuntu-latest
-    name: Publish coverage reports
+    name: Publish Coverage to CodeClimate
+    
+    # This step may only run after merged to main, because it accesses the CC_TEST_REPORTER_ID secret
+    # This kind of secretes is disabled on pull requests and on non-main branches for security
     if: github.ref == 'refs/heads/main'
 
     needs: build-and-test
@@ -59,12 +68,6 @@ jobs:
         with:
           name: coverage-reports
           path: coverage-reports
-
-      - name: Publish coverage report to coveralls.io
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: coverage-reports/lcov.info
 
       - name: Publish coverage report to CodeClimate
         uses: paambaati/codeclimate-action@v2.7.5

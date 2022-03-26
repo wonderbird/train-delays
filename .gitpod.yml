@@ -3,7 +3,7 @@ image:
 
 tasks:
   - init: dotnet restore && dotnet build --configuration Debug --no-restore
-    command: dotnet watch -p ./DotnetStarter.Logic.Tests test
+    command: dotnet watch -p ./TrainDelays.Logic.Tests test
   - openMode: split-right
     command: mob status
 
