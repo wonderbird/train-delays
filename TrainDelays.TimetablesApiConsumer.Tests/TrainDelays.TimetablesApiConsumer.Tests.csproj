@@ -20,8 +20,4 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\TrainDelays.Logic\TrainDelays.Logic.csproj"/>
-    </ItemGroup>
-
 </Project>

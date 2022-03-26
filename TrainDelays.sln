@@ -20,7 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{7CF31C68-F
 		tools\dupfinder.xslt = tools\dupfinder.xslt
 		LICENSE = LICENSE
 		README.md = README.md
+		.netconfig = .netconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainDelays.TimetablesApiConsumer.Tests", "TrainDelays.TimetablesApiConsumer.Tests\TrainDelays.TimetablesApiConsumer.Tests.csproj", "{0185F3EA-8F27-490B-95C3-23A5E5681310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +59,18 @@ Global
 		{5EC6F230-F709-49F1-97A5-0482B48719E7}.Release|x64.Build.0 = Release|Any CPU
 		{5EC6F230-F709-49F1-97A5-0482B48719E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{5EC6F230-F709-49F1-97A5-0482B48719E7}.Release|x86.Build.0 = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|x64.Build.0 = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Debug|x86.Build.0 = Debug|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|x64.ActiveCfg = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|x64.Build.0 = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|x86.ActiveCfg = Release|Any CPU
+		{0185F3EA-8F27-490B-95C3-23A5E5681310}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

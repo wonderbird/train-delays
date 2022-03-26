@@ -19,7 +19,9 @@ an [Open Source License](https://www.jetbrains.com/community/opensource/) for th
 
 ### Quick-Start
 
-Click the [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/wonderbird/train-delays) badge (also above) to launch a web IDE.
+Click
+the [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/wonderbird/train-delays)
+badge (also above) to launch a web IDE.
 
 If that does not work for you or if you'd like to have the project on your local machine, then continue reading.
 
@@ -47,7 +49,7 @@ dotnet build
 dotnet test
 
 # If you like continuous testing then use the dotnet file watcher to trigger your tests
-dotnet watch -p ./TrainDelays.Logic.Tests test
+dotnet watch --project ./TrainDelays.Logic.Tests test
 
 # As an alternative, run the tests with coverage and produce a coverage report
 rm -r TrainDelays.Logic.Tests/TestResults && \
