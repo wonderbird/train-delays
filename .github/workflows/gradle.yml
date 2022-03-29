@@ -41,7 +41,7 @@ jobs:
     name: Publish reports
     runs-on: ubuntu-latest
 
-    # Coveralls repository token may only be used when running on the controlled main branch
+    # Coveralls and CodeClimate repository tokens may only be used when running on the controlled main branch
     # otherwise we run the risk of exposing the repository secret to a malicious attacker
     if: github.ref == 'refs/heads/main'
 
@@ -68,3 +68,11 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         with:
           arguments: coveralls
+
+      - name: Report Coverage to CodeClimate
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          JACOCO_SOURCE_PATH: "src/main/java"
+        with:
+          coverageLocations: build/reports/jacoco/test/jacocoTestReport.xml:jacoco
