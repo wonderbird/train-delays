@@ -1,5 +1,7 @@
 # Train Delays
 
+[![Build Status Badge](https://github.com/wonderbird/train-delays/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/wonderbird/train-delays/actions/workflows/gradle.yml?query=workflow%3A%22Java+CI+with+Gradle%22)
+
 Demo for querying some [APIs provided by Deutsche Bahn, Germany](https://developer.deutschebahn.com/).
 
 ## Thanks
