@@ -13,8 +13,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  build-and-test:
+    name: Build and test
     runs-on: ubuntu-latest
 
     steps:
@@ -26,12 +26,45 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Gradle
+      - name: Build and Test with Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: build
+          arguments: build jacocoTestReport
+
+      - name: Attach Coverage Reports as Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-reports
+          path: build/reports/jacoco/test
+
+  publish-reports:
+    name: Publish reports
+    runs-on: ubuntu-latest
+
+    # Coveralls repository token may only be used when running on the controlled main branch
+    # otherwise we run the risk of exposing the repository secret to a malicious attacker
+    if: github.ref == 'refs/heads/main'
+
+    needs: build-and-test
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download Coverage Reports
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-reports
+          path: build/reports/jacoco/test
 
       - name: Report Coverage to Coveralls
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         with:
-          arguments: jacocoTestReport coveralls
+          arguments: coveralls
