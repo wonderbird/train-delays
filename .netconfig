@@ -1,7 +1,0 @@
-[ReportGenerator]
-reporttype = Html
-reporttype = lcov
-targetdir = report
-title = Train Delays
-report = TrainDelays.Logic.Tests/TestResults/*.xml
-report = TrainDelays.TimetablesApiConsumer.Tests/TestResults/*.xml
