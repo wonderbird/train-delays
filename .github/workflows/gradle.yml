@@ -29,7 +29,7 @@ jobs:
       - name: Build and Test with Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-          arguments: build jacocoTestReport
+          arguments: clean build test jacocoTestReport
 
       - name: Attach Coverage Reports as Build Artifacts
         uses: actions/upload-artifact@v3
