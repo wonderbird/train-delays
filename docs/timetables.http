@@ -4,18 +4,23 @@
 #
 # - Register with the DB Open Data developer portal at
 #   https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData
+#
 # - Subscribe to the timetables API
 #
 # How to run the requests in this file
 #
-# - Open this file inside a JetBrains IDE (e.g. IntelliJ IDEA)
+# - Open this file inside a JetBrains IDE (e.g. IntelliJ IDEA) using the HTTP Client plugin
+#   (see https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html)
+#
 # - "Add environment file" and specify the following JSON:
 #   {
 #     "sandbox": {
 #       "auth_token": "your token from DB Open Data developer portal"
 #     }
 #   }
+#
 # - Attention: NEVER CHECK IN THIS FILE!
+#
 # - When running the requests below, choose the "sandbox" environment
 #
 # How to interpret the results?
