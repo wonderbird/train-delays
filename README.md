@@ -13,6 +13,8 @@ the train station Rösrath Stümpen. The user interface is the
 which requires an [IntelliJ IDEA Ultimate](https://www.jetbrains.com/products/compare/?product=idea&product=idea-ce)
 license.
 
+The current version is one step on the road to the [Product Vision](docs/product-vision.md).
+
 ## Thanks
 
 Many thanks to [JetBrains](https://www.jetbrains.com/?from=train-delays) who provide

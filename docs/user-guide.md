@@ -42,7 +42,7 @@ Never check the file `http-client.private.env.json` into source control.
 
 ## Usage
 
- - Open [docs/timetables.http](docs/timetables.http) file in the
+ - Open [docs/timetables.http](timetables.http) file in the
    [IntelliJ IDEA HTTP Client Plugin](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html)
 
  - Run the **Query all known changes for the station eva id** request
