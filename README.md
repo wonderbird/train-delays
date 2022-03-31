@@ -5,7 +5,13 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/test_coverage)](https://codeclimate.com/github/wonderbird/train-delays/test_coverage)
 
-Demo for querying some [APIs provided by Deutsche Bahn, Germany](https://developer.deutschebahn.com/).
+Find out when will the next train will leave the station Rösrath Stümpen?
+
+The [User Guide](docs/user-guide.md) describes how to find out the corrected departure time of the train RB25 from
+the train station Rösrath Stümpen. The user interface is the
+[IntelliJ IDEA HTTP Client Plugin](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html),
+which requires an [IntelliJ IDEA Ultimate](https://www.jetbrains.com/products/compare/?product=idea&product=idea-ce)
+license.
 
 ## Thanks
 
