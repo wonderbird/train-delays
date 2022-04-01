@@ -1,4 +1,9 @@
-# Train Delays User Guide - v0.0.1
+# HOWTO: Test the Timetable API
+
+This guide describes how to call the
+[Timetables - v1 API](https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData)
+using the
+[IntelliJ IDEA HTTP Client Plugin](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html).
 
 ## Prerequisites
 
@@ -24,9 +29,9 @@
 
 ### Configure the HTTP Client Plugin
 
-Attention:
-
-Never check the file `http-client.private.env.json` into source control.
+> ⚠️ Attention:
+>
+> Never check the file `http-client.private.env.json` into source control.
 
 - In the `docs` directory create a text file called `http-client.private.env.json` and copy-paste the following content:
   ```json
@@ -42,7 +47,7 @@ Never check the file `http-client.private.env.json` into source control.
 
 ## Usage
 
- - Open [docs/timetables.http](timetables.http) file in the
+ - Open [timetables.http](timetables.http) file in the
    [IntelliJ IDEA HTTP Client Plugin](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html)
 
  - Run the **Query all known changes for the station eva id** request

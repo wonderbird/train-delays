@@ -7,11 +7,8 @@
 
 Find out when will the next train will leave the station Rösrath Stümpen.
 
-The [User Guide](docs/user-guide.md) describes how to find out the corrected departure time of the train RB25 from
-the train station Rösrath Stümpen. The user interface is the
-[IntelliJ IDEA HTTP Client Plugin](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html),
-which requires an [IntelliJ IDEA Ultimate](https://www.jetbrains.com/products/compare/?product=idea&product=idea-ce)
-license.
+The [User Guide](docs/howto-test-the-timetabels-api.md) describes how to find out the corrected departure time of the train RB25 from
+the train station Rösrath Stümpen. The user interface is a console application written in Java.
 
 The current version is one step on the road to the [Product Vision](docs/product-vision.md).
 
