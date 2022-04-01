@@ -7,8 +7,8 @@
 
 Find out when will the next train will leave the station Rösrath Stümpen.
 
-The [User Guide](docs/howto-test-the-timetabels-api.md) describes how to find out the corrected departure time of the train RB25 from
-the train station Rösrath Stümpen. The user interface is a console application written in Java.
+The [User Guide](docs/howto-test-the-timetabels-api.md) describes how to find out the corrected departure time of the
+train RB25 from the train station Rösrath Stümpen. The user interface is a console application written in Java.
 
 The current version is one step on the road to the [Product Vision](docs/product-vision.md).
 
@@ -65,7 +65,7 @@ To detect duplicates I use the [CPD Copy Paste Detector](https://pmd.github.io/l
 tool from the [PMD Source Code Analyzer Project](https://pmd.github.io/latest/index.html).
 
 If you have installed PMD by download & unzip, replace `pmd` by `./run.sh`.
-The [homebrew pmd formula](https://formulae.brew.sh/formula/pmd) makes the `pmd` command globally available. 
+The [homebrew pmd formula](https://formulae.brew.sh/formula/pmd) makes the `pmd` command globally available.
 
 ```sh
 pmd cpd --minimum-tokens 50 --files src

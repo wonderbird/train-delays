@@ -1,9 +1,9 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-	id 'jacoco'
-	id 'com.github.kt3k.coveralls' version '2.12.0'
+    id 'org.springframework.boot' version '2.6.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.12.0'
 }
 
 group = 'systems.boos'
@@ -11,32 +11,34 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'au.com.dius.pact.consumer:java8:4.1.34'
-	testImplementation 'au.com.dius.pact.consumer:junit5:4.1.34'
-	testImplementation 'org.apache.commons:commons-collections4:4.4'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // adding the Jackson reference automatically allows processing application/xml response bodies
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.2'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'au.com.dius.pact.consumer:java8:4.1.34'
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.1.34'
+    testImplementation 'org.apache.commons:commons-collections4:4.4'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 jacocoTestReport {
-	reports {
-		xml.required = true // coveralls plugin depends on xml format report
-		html.required = true
-	}
+    reports {
+        xml.required = true // coveralls plugin depends on xml format report
+        html.required = true
+    }
 }
 
 // For coveralls to work in the GitHub action, you need to configure the COVERALLS_REPO_TOKEN secret in the
 // GitHub project settings.
 coveralls {
-	jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
+    jacocoReportPath 'build/reports/jacoco/test/jacocoTestReport.xml'
 }
