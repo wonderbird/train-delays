@@ -10,61 +10,59 @@ import au.com.dius.pact.core.model.annotations.Pact;
 import org.apache.commons.collections4.MapUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static au.com.dius.pact.consumer.dsl.Matchers.*;
+import static au.com.dius.pact.consumer.dsl.Matchers.timestamp;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(PactConsumerTestExt.class)
-public class TimetableConsumerPactTest {
+class TimetableConsumerPactTest {
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
-    RequestResponsePact getStationEva(PactDslWithProvider builder) {
+    RequestResponsePact findChanges(PactDslWithProvider builder) {
         return builder
-                .given("station with name Rösrath-Stümpen exists")
-                .uponReceiving("get eva id for station Rösrath-Stümpen")
+                .given("station with eva 8005143 exists")
+                .uponReceiving("fetch changes for station with eva 8005143")
                 .method("GET")
-                .path("/station/R%C3%B6srath-St%C3%BCmpen")
+                .path("/fchg/8005143")
                 .willRespondWith()
                 .status(200)
                 .headers(headers())
-                .body(new PactXmlBuilder("stations").build(root -> {
-                    root.eachLike("station", 2, mapOf(
-                            "name", string("Rösrath-Stümpen"),
-                            "eva", string("8005143"),
-                            "ds100", string("KRST"),
-                            "db", string("true"),
-                            "creationts", timestamp("yy-MM-dd HH:mm:ss.SSS")
-                    ));
-                }))
+                .body(new PactXmlBuilder("timetable")
+                        .build(root ->
+                                root.eachLike("s", 1, Collections.emptyMap(), timetableStop ->
+                                        timetableStop.appendElement("dp", mapOf("ct", timestamp("yyMMddHHmm", "2204012149")))
+                                )
+                        ))
                 .toPact();
     }
 
     @Test
-    @PactTestFor(pactMethod = "getStationEvaId")
-    void getStationEva_whenStationWithNameRoesrathStuempenExists(MockServer mockServer) {
-        Station expected = new Station();
-        expected.setEva("8005143");
-        expected.setName("Rösrath-Stümpen");
-        expected.setDs100("KRST");
-        expected.setDb(true);
-        expected.setCreationts("2020-01-01 00:00:00.000");
-
+    @PactTestFor(pactMethod = "findChanges")
+    void findChanges_whenStationWithEvaExists(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
 
-        Station actual = new StationService(restTemplate).getStation("Rösrath-Stümpen");
+        Timetable actual = new TimetablesService(restTemplate).fetchChanges();
 
-        assertEquals(expected, actual);
+        TimetableStop expected = new TimetableStop();
+        expected.setChangedTime("2204012149");
+
+        assertEquals(1, actual.getTimetableStops().size());
+        assertEquals(expected, actual.getTimetableStops().get(0));
     }
 
     private <T> Map<String, T> mapOf(String key, T value) {
         return MapUtils.putAll(new HashMap<>(), new Object[]{key, value});
+    }
+
+    private Map<String, Object> mapOf(String key1, Object value1, String key2, Object value2) {
+        return MapUtils.putAll(new HashMap<>(), new Object[]{key1, value1, key2, value2});
     }
 
     private Map<String, Object> mapOf(String key1, Object value1, String key2, Object value2, String key3, Object value3,
