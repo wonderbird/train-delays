@@ -5,7 +5,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,14 +18,11 @@ public class TimetablesService {
     }
 
     public Timetable fetchChanges() {
-        ParameterizedTypeReference<Timetable> responseType = new ParameterizedTypeReference<>() {
-        };
-
-        ResponseEntity<Timetable> exchange = restTemplate.exchange("/fchg/8005143",
+        return restTemplate.<Timetable>exchange("/fchg/8005143",
                 HttpMethod.GET,
                 getRequestEntity(),
-                responseType);
-        return exchange.getBody();
+                new ParameterizedTypeReference<>() {
+                }).getBody();
     }
 
     private HttpEntity<String> getRequestEntity() {
