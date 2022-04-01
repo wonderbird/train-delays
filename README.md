@@ -5,7 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/test_coverage)](https://codeclimate.com/github/wonderbird/train-delays/test_coverage)
 
-Find out when will the next train will leave the station Rösrath Stümpen?
+Find out when will the next train will leave the station Rösrath Stümpen.
 
 The [User Guide](docs/user-guide.md) describes how to find out the corrected departure time of the train RB25 from
 the train station Rösrath Stümpen. The user interface is the

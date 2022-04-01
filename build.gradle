@@ -16,8 +16,12 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'au.com.dius.pact.consumer:java8:4.1.34'
+	testImplementation 'au.com.dius.pact.consumer:junit5:4.1.34'
+	testImplementation 'org.apache.commons:commons-collections4:4.4'
 }
 
 tasks.named('test') {
