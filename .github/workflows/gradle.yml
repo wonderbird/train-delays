@@ -31,11 +31,13 @@ jobs:
         with:
           arguments: clean build test cucumber jacocoTestReport
 
-      - name: Attach Coverage Reports as Build Artifacts
+      - name: Attach Test Results as Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-reports
-          path: build/reports/jacoco/test
+          name: test-results
+          path: |
+            build/reports/jacoco/test
+            build/reports/tests
 
   publish-reports:
     name: Publish reports
@@ -56,11 +58,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Download Coverage Reports
+      - name: Download Test Results
         uses: actions/download-artifact@v3
         with:
-          name: coverage-reports
-          path: build/reports/jacoco/test
+          name: test-results
+          path: build/reports
 
       - name: Report Coverage to Coveralls
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
