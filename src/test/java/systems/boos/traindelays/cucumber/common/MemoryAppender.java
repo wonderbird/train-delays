@@ -1,4 +1,4 @@
-package systems.boos.traindelays;
+package systems.boos.traindelays.cucumber.common;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;

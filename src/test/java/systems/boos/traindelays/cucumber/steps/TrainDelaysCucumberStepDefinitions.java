@@ -1,4 +1,4 @@
-package systems.boos.traindelays;
+package systems.boos.traindelays.cucumber.steps;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -9,6 +9,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import systems.boos.traindelays.CommandLineInterface;
+import systems.boos.traindelays.cucumber.common.MemoryAppender;
 
 import java.util.List;
 

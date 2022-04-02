@@ -1,4 +1,4 @@
-package systems.boos.traindelays;
+package systems.boos.traindelays.cucumber.common;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

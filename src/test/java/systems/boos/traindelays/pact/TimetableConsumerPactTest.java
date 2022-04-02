@@ -1,4 +1,4 @@
-package systems.boos.traindelays;
+package systems.boos.traindelays.pact;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
+import systems.boos.traindelays.Timetable;
+import systems.boos.traindelays.TimetableStop;
+import systems.boos.traindelays.TimetablesService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
