@@ -16,8 +16,9 @@ import systems.boos.traindelays.Timetable;
 import systems.boos.traindelays.TimetableStop;
 import systems.boos.traindelays.TimetablesService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +49,7 @@ class TimetableConsumerPactTest {
 
     @Test
     @PactTestFor(pactMethod = "findChanges")
-    void findChanges_whenStationWithEvaExists(MockServer mockServer) throws ParseException {
+    void findChanges_whenStationWithEvaExists(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
@@ -56,7 +57,10 @@ class TimetableConsumerPactTest {
         Timetable actual = new TimetablesService(restTemplate).fetchChanges();
 
         TimetableStop expected = new TimetableStop();
-        expected.setChangedTime(new SimpleDateFormat("yyMMddHHmm").parse("2204012149"));
+        Instant expectedDeparture = LocalDateTime.parse("2022-04-01T21:49:00")
+                .atZone(ZoneId.of("Europe/Berlin"))
+                .toInstant();
+        expected.setChangedTime(expectedDeparture);
 
         assertEquals(1, actual.getTimetableStops().size());
         assertEquals(expected, actual.getTimetableStops().get(0));

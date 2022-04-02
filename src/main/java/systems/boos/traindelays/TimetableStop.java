@@ -3,20 +3,20 @@ package systems.boos.traindelays;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Objects;
 
 public class TimetableStop {
 
     @JacksonXmlProperty(isAttribute = true, localName = "ct")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyMMddHHmm", timezone = "Europe/Berlin")
-    private Date changedTime;
+    private Instant changedTime;
 
-    public Date getChangedTime() {
+    public Instant getChangedTime() {
         return changedTime;
     }
 
-    public void setChangedTime(Date changedTime) {
+    public void setChangedTime(Instant changedTime) {
         this.changedTime = changedTime;
     }
 
