@@ -20,14 +20,36 @@ dependencies {
     // adding the Jackson reference automatically allows processing application/xml response bodies
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "com.vaadin.external.google", module:"android-json"
+    }
     testImplementation 'au.com.dius.pact.consumer:java8:4.1.34'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.1.34'
     testImplementation 'org.apache.commons:commons-collections4:4.4'
+    testImplementation 'io.cucumber:cucumber-spring:7.2.3'
+    testImplementation 'io.cucumber:cucumber-java:7.2.3'
+    testImplementation 'io.cucumber:cucumber-junit:7.2.3'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            mainClass = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'systems.boos.traindelays', 'src/test/resources']
+        }
+    }
 }
 
 jacocoTestReport {
