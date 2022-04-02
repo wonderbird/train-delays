@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,7 @@ class TimetableConsumerPactTest {
 
     @Test
     @PactTestFor(pactMethod = "findChanges")
-    void findChanges_whenStationWithEvaExists(MockServer mockServer) {
+    void findChanges_whenStationWithEvaExists(MockServer mockServer) throws ParseException {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
@@ -51,7 +53,7 @@ class TimetableConsumerPactTest {
         Timetable actual = new TimetablesService(restTemplate).fetchChanges();
 
         TimetableStop expected = new TimetableStop();
-        expected.setChangedTime("2204012149");
+        expected.setChangedTime(new SimpleDateFormat("yyMMddHHmm").parse("2204012149"));
 
         assertEquals(1, actual.getTimetableStops().size());
         assertEquals(expected, actual.getTimetableStops().get(0));

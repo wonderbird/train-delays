@@ -1,17 +1,22 @@
 package systems.boos.traindelays;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import java.util.Date;
+import java.util.Objects;
 
 public class TimetableStop {
 
     @JacksonXmlProperty(isAttribute = true, localName = "ct")
-    private String changedTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyMMddHHmm", timezone = "Europe/Berlin")
+    private Date changedTime;
 
-    public String getChangedTime() {
+    public Date getChangedTime() {
         return changedTime;
     }
 
-    public void setChangedTime(String changedTime) {
+    public void setChangedTime(Date changedTime) {
         this.changedTime = changedTime;
     }
 
@@ -29,7 +34,7 @@ public class TimetableStop {
 
         TimetableStop that = (TimetableStop) o;
 
-        return changedTime != null ? changedTime.equals(that.changedTime) : that.changedTime == null;
+        return Objects.equals(changedTime, that.changedTime);
     }
 
     @Override
