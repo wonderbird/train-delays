@@ -17,8 +17,8 @@ import systems.boos.traindelays.TimetableStop;
 import systems.boos.traindelays.TimetablesService;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 class TimetableConsumerPactTest {
+    Instant arbitraryInstant = Instant.parse("2022-04-01T19:49:00Z");
+
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
     RequestResponsePact findChanges(PactDslWithProvider builder) {
+        String apiDateTimePattern = "yyMMddHHmm";
+        String apiResponseChangedTime = arbitraryInstant.atZone(ZoneId.of("Europe/Berlin"))
+                .format(DateTimeFormatter.ofPattern(apiDateTimePattern));
+
         return builder
                 .given("station with eva 8005143 exists")
                 .uponReceiving("fetch changes for station with eva 8005143")
@@ -41,7 +47,7 @@ class TimetableConsumerPactTest {
                 .body(new PactXmlBuilder("timetable")
                         .build(root ->
                                 root.eachLike("s", 1, Collections.emptyMap(), timetableStop ->
-                                        timetableStop.appendElement("dp", mapOf("ct", timestamp("yyMMddHHmm", "2204012149")))
+                                        timetableStop.appendElement("dp", mapOf("ct", timestamp(apiDateTimePattern, apiResponseChangedTime)))
                                 )
                         ))
                 .toPact();
@@ -57,10 +63,7 @@ class TimetableConsumerPactTest {
         Timetable actual = new TimetablesService(restTemplate).fetchChanges();
 
         TimetableStop expected = new TimetableStop();
-        Instant expectedDeparture = LocalDateTime.parse("2022-04-01T21:49:00")
-                .atZone(ZoneId.of("Europe/Berlin"))
-                .toInstant();
-        expected.setChangedTime(expectedDeparture);
+        expected.setChangedTime(arbitraryInstant);
 
         assertEquals(1, actual.getTimetableStops().size());
         assertEquals(expected, actual.getTimetableStops().get(0));
