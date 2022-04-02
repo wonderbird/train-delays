@@ -32,6 +32,7 @@ jobs:
           arguments: clean build test cucumber jacocoTestReport
 
       - name: Attach Test Results as Build Artifacts
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results
