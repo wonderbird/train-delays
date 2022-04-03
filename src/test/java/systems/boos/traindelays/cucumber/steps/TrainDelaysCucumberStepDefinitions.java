@@ -22,6 +22,8 @@ public class TrainDelaysCucumberStepDefinitions {
 
     private static final String LOGGER_NAME = "systems.boos.traindelays";
 
+    // Cucumber's mechanism of wiring is not known to IntelliJ
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
     private CommandLineInterface cli;
 
@@ -48,13 +50,13 @@ public class TrainDelaysCucumberStepDefinitions {
         cli.run();
     }
 
-    @Then("^I should see scheduled arrival time for the next train$")
-    public void i_should_see_the_train_delays() {
-        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to arrive at ", Level.INFO);
+    @Then("I should see {string} as scheduled departure time for the next train")
+    public void i_should_see_the_train_delays(String expectedDepartureTime) {
+        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
 
-        assertEquals(1, events.size());
+        assertEquals(1, events.size(), "Expected exactly one matching log message");
 
-        String actualTime = (String) events.get(0).getArgumentArray()[0];
-        assertThat(actualTime, matchesPattern("[0-9]{2}:[0-9]{2}$"));
+        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
+        assertEquals(actualDepartureTime, expectedDepartureTime);
     }
 }

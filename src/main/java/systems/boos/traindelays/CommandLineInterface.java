@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class CommandLineInterface {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineInterface.class);
 
-    public void run(String... args) {
-        logger.info("Next train is scheduled to arrive at {}", "00:00");
+    public void run() {
+        logger.info("Next train is scheduled to leave at {}", "00:00");
     }
 }
