@@ -1,5 +1,6 @@
 ### private secret configuration for the http-client ###
 http-client.private.env.json
+env*.local
 
 ### MacOS filesystem helpers ###
 .DS_Store
