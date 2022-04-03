@@ -1,0 +1,28 @@
+# Train Delays User Guide
+
+## Prerequisites
+
+### Subscribe to the Deutsche Bahn Open Data Timetables v1 API
+
+- Register a free account for [Open API-Portal](https://developer.deutschebahn.com/store/site/pages/home.jag)
+  of Deutsche Bahn, Germany.
+
+- On the [My Subscriptions Tab](https://developer.deutschebahn.com/store/site/pages/subscriptions.jag)
+  generate a key for the production environment.
+
+- On the
+  [Timetables - v1 API page](https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData)
+    - Select `DefaultApplication` in the `Application` dropdown
+    - Click `Subscribe`
+
+- In the checked out repository create a file named `env.production.local` with your API key:
+
+  ```sh
+  export API_KEY=<your API key>
+  ```
+
+## Run the Application
+
+```sh
+source env.production.local && ./gradlew bootRun
+```

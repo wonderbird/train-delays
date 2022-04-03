@@ -32,6 +32,6 @@ public class TimetablesService {
     }
 
     private String generateAuthToken() {
-        return "Bearer " + System.getenv("TRAIN_DELAYS_API_KEY");
+        return "Bearer " + System.getenv("API_KEY");
     }
 }
