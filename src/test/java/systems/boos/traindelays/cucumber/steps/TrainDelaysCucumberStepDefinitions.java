@@ -4,9 +4,11 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.BeforeAll;
 import org.mockserver.integration.ClientAndServer;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class TrainDelaysCucumberStepDefinitions {
     private CommandLineInterface cli;
 
     @Before
-    public static void setupLogger() {
+    public void setupLogger() {
         Logger logger = (Logger) LoggerFactory.getLogger(LOGGER_NAME);
         memoryAppender = new MemoryAppender();
         memoryAppender.start();
@@ -39,29 +41,29 @@ public class TrainDelaysCucumberStepDefinitions {
         memoryAppender.start();
     }
 
-    @Before
-    public void startMockServer() {
-        mockServer = ClientAndServer.startClientAndServer(8085);
-    }
-
-    @After
-    public void stopMockServer() {
-        mockServer.stop();
-    }
-
     @After
     public void resetAndStopLogger() {
         memoryAppender.reset();
         memoryAppender.stop();
     }
 
+    @BeforeAll
+    public static void startMockServer() {
+        mockServer = ClientAndServer.startClientAndServer(9000);
+        configureMockServer();
+    }
+
+    @AfterAll
+    public static void stopMockServer() {
+        mockServer.stop();
+    }
+
     @When("^I run the application$")
     public void i_run_the_application() {
-        configureMockServer();
         cli.run();
     }
 
-    private void configureMockServer() {
+    private static void configureMockServer() {
         mockServer
                 .when(
                         request()
@@ -75,7 +77,7 @@ public class TrainDelaysCucumberStepDefinitions {
                                 .withBody("""
                                         <timetable>
                                         <s>
-                                            <dp ct="2204020000" />
+                                            <dp ct="2204022359" />
                                         </s>
                                         </timetable>""")
                 );

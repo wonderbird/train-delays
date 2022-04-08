@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class TimetablesServiceConfig {
 
     @Bean
-    RestTemplate timetablesRestTemplate(@Value("${provider.port:8085}") int port) {
+    RestTemplate timetablesRestTemplate(@Value("${provider.port:9000}") int port) {
         return new RestTemplateBuilder()
                 .rootUri(String.format("http://localhost:%d/timetables/v1", port))
                 .build();

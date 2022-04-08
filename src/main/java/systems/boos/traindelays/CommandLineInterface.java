@@ -5,11 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class CommandLineInterface {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineInterface.class);
 
     private final TimetablesService timetablesService;
+    private static final ZoneId berlin = ZoneId.of("Europe/Berlin");
+    private static final DateTimeFormatter hourMinute = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public CommandLineInterface(TimetablesService timetablesService) {
@@ -17,7 +22,8 @@ public class CommandLineInterface {
     }
 
     public void run() {
-        // TODO Timetable timetable = timetablesService.fetchChanges();
-        logger.info("Next train is scheduled to leave at {}", "00:00");
+        Timetable timetable = timetablesService.fetchChanges();
+        String changedTimeString = timetable.getTimetableStops().get(0).getChangedTime().atZone(berlin).format(hourMinute);
+        logger.info("Next train is scheduled to leave at {}", changedTimeString);
     }
 }
