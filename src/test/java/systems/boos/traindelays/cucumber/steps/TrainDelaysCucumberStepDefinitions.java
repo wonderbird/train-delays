@@ -6,6 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.BeforeAll;
@@ -15,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import systems.boos.traindelays.CommandLineInterface;
 import systems.boos.traindelays.cucumber.common.MemoryAppender;
 
+import java.time.Instant;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +55,10 @@ public class TrainDelaysCucumberStepDefinitions {
     @BeforeAll
     public static void startMockServer() {
         mockServer = ClientAndServer.startClientAndServer(9000);
-        configureMockServer();
+
+        // TODO Clarify why configureMockServer() needs to be called twice
+        // If this is not done, then the cucumber BeforeAll hook will fail and report a status 404
+        configureMockServer("0001010000");
     }
 
     @AfterAll
@@ -58,12 +66,33 @@ public class TrainDelaysCucumberStepDefinitions {
         mockServer.stop();
     }
 
+    @Given("The next train is expected to leave at {string}")
+    public void theNextTrainIsExpectedToLeaveAt(String expectedDepartureTime) {
+        String formattedDepartureTime = Instant.now()
+                .atZone(ZoneId.of("Europe/Berlin"))
+                .with(LocalTime.parse(expectedDepartureTime))
+                .format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
+
+        configureMockServer(formattedDepartureTime);
+    }
+
     @When("^I run the application$")
     public void i_run_the_application() {
         cli.run();
     }
 
-    private static void configureMockServer() {
+    @Then("I should see {string} as scheduled departure time for the next train")
+    public void i_should_see_the_train_delays(String expectedDepartureTime) {
+        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
+
+        assertEquals(1, events.size(), "Expected exactly one matching log message");
+
+        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
+        assertEquals(expectedDepartureTime, actualDepartureTime);
+    }
+
+    private static void configureMockServer(String formattedDepartureTime) {
+        mockServer.reset();
         mockServer
                 .when(
                         request()
@@ -74,22 +103,12 @@ public class TrainDelaysCucumberStepDefinitions {
                         response()
                                 .withStatusCode(200)
                                 .withHeader("Content-Type", "application/xml")
-                                .withBody("""
+                                .withBody(String.format("""
                                         <timetable>
                                         <s>
-                                            <dp ct="2204022359" />
+                                            <dp ct="%s" />
                                         </s>
-                                        </timetable>""")
+                                        </timetable>""", formattedDepartureTime))
                 );
-    }
-
-    @Then("I should see {string} as scheduled departure time for the next train")
-    public void i_should_see_the_train_delays(String expectedDepartureTime) {
-        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
-
-        assertEquals(1, events.size(), "Expected exactly one matching log message");
-
-        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
-        assertEquals(actualDepartureTime, expectedDepartureTime);
     }
 }
