@@ -15,11 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import systems.boos.traindelays.CommandLineInterface;
 import systems.boos.traindelays.cucumber.common.MemoryAppender;
+import systems.boos.traindelays.cucumber.common.TimetableApiResponses;
 
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,7 +55,7 @@ public class TrainDelaysCucumberStepDefinitions {
 
         // TODO Clarify why configureMockServer() needs to be called twice
         // If this is not done, then the cucumber BeforeAll hook will fail and report a status 404
-        configureMockServer("0001010000");
+        configureMockServerWithExpectedDepartureTime("00:00");
     }
 
     @AfterAll
@@ -68,12 +65,12 @@ public class TrainDelaysCucumberStepDefinitions {
 
     @Given("The next train is expected to leave at {string}")
     public void theNextTrainIsExpectedToLeaveAt(String expectedDepartureTime) {
-        String formattedDepartureTime = Instant.now()
-                .atZone(ZoneId.of("Europe/Berlin"))
-                .with(LocalTime.parse(expectedDepartureTime))
-                .format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
+        configureMockServerWithExpectedDepartureTime(expectedDepartureTime);
+    }
 
-        configureMockServer(formattedDepartureTime);
+    @Given("The mock service returns a recorded API response")
+    public void theMockServiceReturnsARecordedAPIResponse() {
+        configureMockServerWithResponse(TimetableApiResponses.getRecordedResponse());
     }
 
     @When("^I run the application$")
@@ -91,7 +88,12 @@ public class TrainDelaysCucumberStepDefinitions {
         assertEquals(expectedDepartureTime, actualDepartureTime);
     }
 
-    private static void configureMockServer(String formattedDepartureTime) {
+    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime) {
+        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime);
+        configureMockServerWithResponse(responseBody);
+    }
+
+    private static void configureMockServerWithResponse(String responseBody) {
         mockServer.reset();
         mockServer
                 .when(
@@ -103,12 +105,7 @@ public class TrainDelaysCucumberStepDefinitions {
                         response()
                                 .withStatusCode(200)
                                 .withHeader("Content-Type", "application/xml")
-                                .withBody(String.format("""
-                                        <timetable>
-                                        <s>
-                                            <dp ct="%s" />
-                                        </s>
-                                        </timetable>""", formattedDepartureTime))
+                                .withBody(responseBody)
                 );
     }
 }
