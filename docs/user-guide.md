@@ -15,14 +15,8 @@
     - Select `DefaultApplication` in the `Application` dropdown
     - Click `Subscribe`
 
-- In the checked out repository create a file named `env.production.local` with your API key:
-
-  ```sh
-  export API_KEY=<your API key>
-  ```
-
 ## Run the Application
 
 ```sh
-source env.production.local && ./gradlew bootRun
+API_KEY="<YOUR API KEY>" ./gradlew bootRun
 ```
