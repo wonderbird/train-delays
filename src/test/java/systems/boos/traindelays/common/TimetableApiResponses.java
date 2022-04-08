@@ -1,4 +1,4 @@
-package systems.boos.traindelays.cucumber.common;
+package systems.boos.traindelays.common;
 
 import java.time.Instant;
 import java.time.LocalTime;
