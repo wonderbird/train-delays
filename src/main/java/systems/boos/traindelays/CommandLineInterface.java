@@ -23,7 +23,7 @@ public class CommandLineInterface {
 
     public void run() {
         Timetable timetable = timetablesService.fetchChanges();
-        String changedTimeString = timetable.getTimetableStops().get(0).getChangedTime().atZone(berlin).format(hourMinute);
+        String changedTimeString = timetable.getTimetableStops().get(0).getDepartures().get(0).getChangedTime().atZone(berlin).format(hourMinute);
         logger.info("Next train is scheduled to leave at {}", changedTimeString);
     }
 }

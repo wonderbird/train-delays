@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
+import systems.boos.traindelays.Event;
 import systems.boos.traindelays.Timetable;
-import systems.boos.traindelays.TimetableStop;
 import systems.boos.traindelays.TimetablesService;
 
 import java.time.Instant;
@@ -62,11 +62,11 @@ class TimetableConsumerPactTest {
 
         Timetable actual = new TimetablesService(restTemplate).fetchChanges();
 
-        TimetableStop expected = new TimetableStop();
+        Event expected = new Event();
         expected.setChangedTime(arbitraryInstant);
 
         assertEquals(1, actual.getTimetableStops().size());
-        assertEquals(expected, actual.getTimetableStops().get(0));
+        assertEquals(expected, actual.getTimetableStops().get(0).getDepartures().get(0));
     }
 
     private <T> Map<String, T> mapOf(String key, T value) {
