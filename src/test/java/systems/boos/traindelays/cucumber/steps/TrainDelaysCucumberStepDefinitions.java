@@ -1,7 +1,6 @@
 package systems.boos.traindelays.cucumber.steps;
 
 import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
@@ -11,7 +10,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.cucumber.java.BeforeAll;
 import org.mockserver.integration.ClientAndServer;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import systems.boos.traindelays.CommandLineInterface;
 import systems.boos.traindelays.common.MemoryAppender;
@@ -25,7 +23,6 @@ import static org.mockserver.model.HttpResponse.response;
 
 public class TrainDelaysCucumberStepDefinitions {
 
-    private static final String LOGGER_NAME = "systems.boos.traindelays";
     private static ClientAndServer mockServer;
     private static MemoryAppender memoryAppender;
     // Cucumber's mechanism of wiring is not known to IntelliJ. Thus, we suppress the warning issued by IntelliJ.
@@ -35,12 +32,7 @@ public class TrainDelaysCucumberStepDefinitions {
 
     @Before
     public void setupLogger() {
-        Logger logger = (Logger) LoggerFactory.getLogger(LOGGER_NAME);
-        memoryAppender = new MemoryAppender();
-        memoryAppender.start();
-        logger.setLevel(Level.DEBUG);
-        logger.addAppender(memoryAppender);
-        memoryAppender.start();
+        memoryAppender = MemoryAppender.startMemoryAppender();
     }
 
     @After

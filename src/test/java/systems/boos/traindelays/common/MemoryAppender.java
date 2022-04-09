@@ -1,8 +1,10 @@
 package systems.boos.traindelays.common;
 
 import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.stream.Collectors;
  * Convenient appender to be able to check slf4j invocations.
  *
  * For usage instructions, see https://www.baeldung.com/junit-asserting-logs
+ *
+ * The method {@link #startMemoryAppender()} creates the appender and inserts it into the logging framework.
  *
  * Adopted from https://github.com/eugenp/tutorials/blob/master/testing-modules/testing-assertions/src/test/java/com/baeldung/junit/log/MemoryAppender.java
  *
@@ -40,6 +44,22 @@ import java.util.stream.Collectors;
  * SOFTWARE.
  */
 public class MemoryAppender extends ListAppender<ILoggingEvent> {
+
+    private static final String LOGGER_NAME = "systems.boos.traindelays";
+
+    /**
+     * Create a MemoryAppender and insert it into the logging framework.
+     */
+    public static MemoryAppender startMemoryAppender() {
+        Logger logger = (Logger) LoggerFactory.getLogger(LOGGER_NAME);
+        logger.setLevel(Level.DEBUG);
+
+        MemoryAppender memoryAppender = new MemoryAppender();
+        logger.addAppender(memoryAppender);
+        memoryAppender.start();
+
+        return memoryAppender;
+    }
 
     /**
      * Clear the list of logged events.
