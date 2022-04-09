@@ -1,5 +1,6 @@
 package systems.boos.traindelays.common;
 
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -15,11 +16,13 @@ public class TimetableApiResponses {
      * The encoded date will be the current day.
      *
      * @param expectedDepartureTime Time of expected departure as string, e.g. "10:00" or "15:42".
+     * @param clock                 Clock to use for the current time. This clock can either be
+     *                              Clock.systemDefaultZone() or a preconfigured clock for test purpose.
      *
      * @return API response body in XML format.
      */
-    public static String createResponseWithDepartureTime(String expectedDepartureTime) {
-        String formattedDepartureTime = Instant.now()
+    public static String createResponseWithDepartureTime(String expectedDepartureTime, Clock clock) {
+        String formattedDepartureTime = Instant.now(clock)
                 .atZone(ZoneId.of("Europe/Berlin"))
                 .with(LocalTime.parse(expectedDepartureTime))
                 .format(DateTimeFormatter.ofPattern("yyMMddHHmm"));

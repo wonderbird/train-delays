@@ -15,6 +15,9 @@ import systems.boos.traindelays.CommandLineInterface;
 import systems.boos.traindelays.common.MemoryAppender;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +28,8 @@ public class TrainDelaysCucumberStepDefinitions {
 
     private static ClientAndServer mockServer;
     private static MemoryAppender memoryAppender;
+    private Clock clock;
+
     // Cucumber's mechanism of wiring is not known to IntelliJ. Thus, we suppress the warning issued by IntelliJ.
     @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
@@ -47,7 +52,7 @@ public class TrainDelaysCucumberStepDefinitions {
 
         // TODO Clarify why configureMockServer() needs to be called twice
         // If this is not done, then the cucumber BeforeAll hook will fail and report a status 404
-        configureMockServerWithExpectedDepartureTime("00:00");
+        configureMockServerWithExpectedDepartureTime("00:00", Clock.systemDefaultZone());
     }
 
     @AfterAll
@@ -55,14 +60,16 @@ public class TrainDelaysCucumberStepDefinitions {
         mockServer.stop();
     }
 
-    @Given("The next train is expected to leave at {string}")
-    public void theNextTrainIsExpectedToLeaveAt(String expectedDepartureTime) {
-        configureMockServerWithExpectedDepartureTime(expectedDepartureTime);
+    @Given("^Today is April 9, 2022 at 08:30 am$")
+    public void todayIs20200409At0830Am() {
+        String nowString = "2022-04-09T08:30:00+02:00";
+        clock = Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
+        cli.setClock(clock);
     }
 
-    @Given("The mock service returns a recorded API response")
-    public void theMockServiceReturnsARecordedAPIResponse() {
-        configureMockServerWithResponse(TimetableApiResponses.getRecordedResponse());
+    @Given("The next train is expected to leave at {string}")
+    public void theNextTrainIsExpectedToLeaveAt(String expectedDepartureTime) {
+        configureMockServerWithExpectedDepartureTime(expectedDepartureTime, clock);
     }
 
     @When("^I run the application$")
@@ -80,8 +87,8 @@ public class TrainDelaysCucumberStepDefinitions {
         assertEquals(expectedDepartureTime, actualDepartureTime);
     }
 
-    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime) {
-        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime);
+    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime, Clock clock) {
+        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime, clock);
         configureMockServerWithResponse(responseBody);
     }
 

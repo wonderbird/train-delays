@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import systems.boos.traindelays.model.Timetable;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
+import java.time.Clock;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -25,7 +27,7 @@ class DeserializeTimetableApiResponseBodyTest {
         XmlMapper mapper = new XmlMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        String xmlAsString = TimetableApiResponses.createResponseWithDepartureTime("00:00");
+        String xmlAsString = TimetableApiResponses.createResponseWithDepartureTime("00:00", Clock.systemDefaultZone());
 
         Timetable timetable = mapper.readValue(xmlAsString, Timetable.class);
 
