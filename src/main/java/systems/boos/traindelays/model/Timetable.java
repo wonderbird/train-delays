@@ -9,6 +9,12 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Timetable {
+    @Override
+    public String toString() {
+        return "Timetable{" +
+                "timetableStops=" + timetableStops +
+                '}';
+    }
 
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "s")

@@ -24,4 +24,12 @@ public class TimetableStop {
     public void setDepartures(List<Event> departures) {
         this.departures = departures;
     }
+
+    @Override
+    public String toString() {
+        return "TimetableStop{" +
+                "departures=" + departures +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }
