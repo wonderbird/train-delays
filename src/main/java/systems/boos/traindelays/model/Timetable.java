@@ -1,4 +1,4 @@
-package systems.boos.traindelays;
+package systems.boos.traindelays.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;

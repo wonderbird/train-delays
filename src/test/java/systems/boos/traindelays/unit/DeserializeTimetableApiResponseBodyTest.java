@@ -5,7 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import systems.boos.traindelays.Timetable;
+import systems.boos.traindelays.model.Timetable;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
 class DeserializeTimetableApiResponseBodyTest {

@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import systems.boos.traindelays.model.Timetable;
 
 @Service
 public class TimetablesService {
