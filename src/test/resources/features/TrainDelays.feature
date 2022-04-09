@@ -8,8 +8,3 @@ Feature: Train Delays
     | expected departure time |
     | 23:59 |
     | 09:00 |
-
-  Scenario: Replay recorded API response
-    Given The mock service returns a recorded API response
-    When I run the application
-    Then I should see "22:11" as scheduled departure time for the next train

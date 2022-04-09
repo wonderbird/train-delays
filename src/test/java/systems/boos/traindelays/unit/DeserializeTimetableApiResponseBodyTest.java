@@ -8,15 +8,29 @@ import org.junit.jupiter.api.Test;
 import systems.boos.traindelays.model.Timetable;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class DeserializeTimetableApiResponseBodyTest {
+
+    /**
+     * Regression test to ensure that unprocessed XML properties do not cause exceptions.
+     *
+     * The model classes do not map every XML element to fields. As a consequence, the
+     * model classes specify `@JsonIgnoreProperties(ignoreUnknown = true)`. Otherwise
+     * Jackson would throw a JsonProcessingException while parsing an API response body.
+     */
     @Test
     void DeserializeTimetableApiResponseBody() throws JsonProcessingException {
         XmlMapper mapper = new XmlMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        String xmlAsString = TimetableApiResponses.getRecordedResponse();
+        String xmlAsString = TimetableApiResponses.createResponseWithDepartureTime("00:00");
 
         Timetable timetable = mapper.readValue(xmlAsString, Timetable.class);
-        Assertions.assertNotNull(timetable);
+
+        assertNotNull(timetable, "timetable");
+        assertEquals(1, timetable.getTimetableStops().size(), "number of timetable stops");
+        assertEquals(1, timetable.getTimetableStops().get(0).getDepartures().size(), "number of departure events");
     }
 }

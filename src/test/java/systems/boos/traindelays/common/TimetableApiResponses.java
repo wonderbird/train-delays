@@ -5,7 +5,19 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Recorded timetable API responses.
+ */
 public class TimetableApiResponses {
+    /**
+     * Customize the departure time of a recorded response.
+     *
+     * The encoded date will be the current day.
+     *
+     * @param expectedDepartureTime Time of expected departure as string, e.g. "10:00" or "15:42".
+     *
+     * @return API response body in XML format.
+     */
     public static String createResponseWithDepartureTime(String expectedDepartureTime) {
         String formattedDepartureTime = Instant.now()
                 .atZone(ZoneId.of("Europe/Berlin"))
@@ -13,14 +25,18 @@ public class TimetableApiResponses {
                 .format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
 
         return String.format("""
-                        <timetable>
-                        <s>
-                            <dp ct="%s" />
-                        </s>
+                        <timetable station="R&#246;srath-St&#252;mpen" eva="8005143">
+
+                            <s id="9185143715788257673-2204022151-6" eva="8005143">
+                                <dp ct="%s" l="25"/>
+                            </s>
                         </timetable>""",
                 formattedDepartureTime);
     }
 
+    /**
+     * This response has been recorded from the production timetable API.
+     */
     public static String getRecordedResponse() {
         return """
                 <timetable station="R&#246;srath-St&#252;mpen" eva="8005143">
