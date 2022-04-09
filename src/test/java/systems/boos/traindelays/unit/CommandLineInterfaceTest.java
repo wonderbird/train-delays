@@ -22,6 +22,8 @@ import static org.mockito.Mockito.*;
 
 class CommandLineInterfaceTest {
     private MemoryAppender memoryAppender;
+    private final String scheduleMessagePrefix = "Next train is scheduled to leave at ";
+
 
     @BeforeEach
     public void setupLogger() {
@@ -36,62 +38,31 @@ class CommandLineInterfaceTest {
 
     @Test
     void Run_SingleTimetableStopInResponse_LogsCorrespondingDepartureTime() {
-        // GIVEN it is 7:00
-        String currentTime = "07:00";
-        String nowString = String.format("2022-04-09T%s:00+02:00", currentTime);
-        Clock clock = Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
+        Clock clock = givenItIs("07:00");
+        String expectedDeparture = "08:00";
 
-        // AND the timetables service expects the next train to leave at 8:00
-        String expectedDepartureTime = "08:00";
-        String changedTimeString = String.format("2022-04-09T%s:00+02:00", expectedDepartureTime);
-        Instant changedTime = Instant.parse(changedTimeString);
+        Timetable timetable = new Timetable();
+        timetable.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
 
-        Event departure = new Event();
-        departure.setChangedTime(changedTime);
-
-        TimetableStop stop = new TimetableStop();
-        stop.setDepartures(List.of(departure));
-
-        Timetable response = new Timetable();
-        response.setTimetableStops(List.of(stop));
-
-        TimetablesService serviceStub = mock(TimetablesService.class);
-        when(serviceStub.fetchChanges()).thenReturn(response);
+        TimetablesService service = mock(TimetablesService.class);
+        when(service.fetchChanges()).thenReturn(timetable);
 
         // WHEN I run the command line interface
-        CommandLineInterface sut = new CommandLineInterface(serviceStub);
+        CommandLineInterface sut = new CommandLineInterface(service);
         sut.setClock(clock);
         sut.run();
 
-        // THEN There is one log entry
-        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
-        assertEquals(1, events.size(), "number of log events");
-
-        // AND the expected departure time is logged
-        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
-        assertEquals(expectedDepartureTime, actualDepartureTime);
+        // THEN There is one log entry with the expected departure time
+        assertLogEntryWithDeparture(expectedDeparture);
     }
 
     @Test
     void Run_SinglePastTimetableStopInResponse_DoesNotLogDepartureTime() {
-        // GIVEN it is 10:00
-        String currentTime = "10:00";
-        String nowString = String.format("2022-04-09T%s:00+02:00", currentTime);
-        Clock clock = Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
-
-        // AND the timetables service only returns a past departure at 8:00
-        String expectedDepartureTime = "08:00";
-        String changedTimeString = String.format("2022-04-09T%s:00+02:00", expectedDepartureTime);
-        Instant changedTime = Instant.parse(changedTimeString);
-
-        Event departure = new Event();
-        departure.setChangedTime(changedTime);
-
-        TimetableStop stop = new TimetableStop();
-        stop.setDepartures(List.of(departure));
+        Clock clock = givenItIs("10:00");
+        String expectedDeparture = "08:00";
 
         Timetable response = new Timetable();
-        response.setTimetableStops(List.of(stop));
+        response.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
 
         TimetablesService serviceStub = mock(TimetablesService.class);
         when(serviceStub.fetchChanges()).thenReturn(response);
@@ -102,11 +73,37 @@ class CommandLineInterfaceTest {
         sut.run();
 
         // THEN no next departure is logged
-        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
+        List<ILoggingEvent> events = memoryAppender.search(scheduleMessagePrefix, Level.INFO);
         assertEquals(0, events.size(), "number of scheduled departure log events");
 
         // AND a message about no future departures is logged
         events = memoryAppender.search("No future train departures available", Level.WARN);
         assertEquals(1, events.size(), "number of warning log events");
+    }
+
+    private Clock givenItIs(String time) {
+        String nowString = String.format("2022-04-09T%s:00+02:00", time);
+        return Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
+    }
+
+    private TimetableStop stopWithDeparture(String expectedDepartureTime) {
+        String changedTimeString = String.format("2022-04-09T%s:00+02:00", expectedDepartureTime);
+        Instant changedTime = Instant.parse(changedTimeString);
+
+        Event departure = new Event();
+        departure.setChangedTime(changedTime);
+
+        TimetableStop stop = new TimetableStop();
+        stop.setDepartures(List.of(departure));
+        return stop;
+    }
+
+    private void assertLogEntryWithDeparture(String expectedDepartureTime) {
+        List<ILoggingEvent> events = memoryAppender.search(scheduleMessagePrefix, Level.INFO);
+        assertEquals(1, events.size(), "number of log events");
+
+        // AND the expected departure time is logged
+        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
+        assertEquals(expectedDepartureTime, actualDepartureTime);
     }
 }
