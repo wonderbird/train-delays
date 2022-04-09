@@ -14,7 +14,7 @@ import org.mockserver.integration.ClientAndServer;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import systems.boos.traindelays.CommandLineInterface;
-import systems.boos.traindelays.cucumber.common.MemoryAppender;
+import systems.boos.traindelays.common.MemoryAppender;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
 import java.util.List;
