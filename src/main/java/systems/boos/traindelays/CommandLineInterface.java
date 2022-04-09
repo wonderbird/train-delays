@@ -11,6 +11,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Optional;
 
 @Component
@@ -30,7 +31,11 @@ public class CommandLineInterface {
     public void run() {
         Timetable timetable = timetablesService.fetchChanges();
         Instant now = Instant.now(clock);
-        Optional<TimetableStop> first = timetable.getTimetableStops().stream().filter(stop -> stop.getDepartures().get(0).getChangedTime().isAfter(now)).findFirst();
+        Optional<TimetableStop> first = timetable.getTimetableStops().stream()
+                .filter(stop -> !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null)
+                .sorted(Comparator.comparing(s -> s.getDepartures().get(0).getChangedTime()))
+                .filter(stop -> stop.getDepartures().get(0).getChangedTime().isAfter(now))
+                .findFirst();
         if (first.isPresent()) {
             String changedTimeString = first.get().getDepartures().get(0).getChangedTime().atZone(berlin).format(hourMinute);
             logger.info("Next train is scheduled to leave at {}", changedTimeString);

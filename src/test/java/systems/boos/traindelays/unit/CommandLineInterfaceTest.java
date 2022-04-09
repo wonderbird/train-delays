@@ -57,6 +57,67 @@ class CommandLineInterfaceTest {
     }
 
     @Test
+    void Run_UnsortedTimetableStopsInResponse_LogsNearestNextDepartureTime() {
+        Clock clock = givenItIs("07:00");
+        String expectedDeparture = "08:00";
+
+        Timetable timetable = new Timetable();
+        timetable.setTimetableStops(List.of(
+                stopWithDeparture("09:30"),
+                stopWithDeparture(expectedDeparture)));
+
+        TimetablesService service = mock(TimetablesService.class);
+        when(service.fetchChanges()).thenReturn(timetable);
+
+        // WHEN I run the command line interface
+        CommandLineInterface sut = new CommandLineInterface(service);
+        sut.setClock(clock);
+        sut.run();
+
+        // THEN There is one log entry with the expected departure time
+        assertLogEntryWithDeparture(expectedDeparture);
+    }
+
+    // SonarLint complains about a missing assert statement.
+    // However, this test is intended to ensure that no exception is thrown.
+    @SuppressWarnings("java:S2699")
+    @Test
+    void Run_TimetableStopWithoutDepartureEventInResponse_DoesNotThrow() {
+        Timetable timetable = new Timetable();
+        timetable.setTimetableStops(List.of(new TimetableStop()));
+
+        TimetablesService service = mock(TimetablesService.class);
+        when(service.fetchChanges()).thenReturn(timetable);
+
+        // WHEN I run the command line interface
+        CommandLineInterface sut = new CommandLineInterface(service);
+        sut.run();
+
+        // THEN No exception is thrown
+    }
+
+    // SonarLint complains about a missing assert statement.
+    // However, this test is intended to ensure that no exception is thrown.
+    @SuppressWarnings("java:S2699")
+    @Test
+    void Run_TimetableStopWithDepartureEventWithoutChangedTimeInResponse_DoesNotThrow() {
+        TimetableStop timetableStop = new TimetableStop();
+        timetableStop.setDepartures(List.of(new Event()));
+
+        Timetable timetable = new Timetable();
+        timetable.setTimetableStops(List.of(timetableStop));
+
+        TimetablesService service = mock(TimetablesService.class);
+        when(service.fetchChanges()).thenReturn(timetable);
+
+        // WHEN I run the command line interface
+        CommandLineInterface sut = new CommandLineInterface(service);
+        sut.run();
+
+        // THEN No exception is thrown
+    }
+
+    @Test
     void Run_SinglePastTimetableStopInResponse_DoesNotLogDepartureTime() {
         Clock clock = givenItIs("10:00");
         String expectedDeparture = "08:00";
