@@ -22,6 +22,7 @@ public class CommandLineInterface {
         this.timetablesService = timetablesService;
     }
 
+    // TODO test boundary conditions: service exceptions, no timetable stop / departure etc.
     public void run() {
         Timetable timetable = timetablesService.fetchChanges();
         String changedTimeString = timetable.getTimetableStops().get(0).getDepartures().get(0).getChangedTime().atZone(berlin).format(hourMinute);
