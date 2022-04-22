@@ -138,12 +138,10 @@ class CommandLineInterfaceTest {
         sut.run();
 
         // THEN no next departure is logged
-        List<ILoggingEvent> events = memoryAppender.search(scheduleMessagePrefix, Level.INFO);
-        assertEquals(0, events.size(), "number of scheduled departure log events");
+        assertNoLogEntry(scheduleMessagePrefix, Level.INFO);
 
         // AND a message about no future departures is logged
-        events = memoryAppender.search("No future train departures available", Level.WARN);
-        assertEquals(1, events.size(), "number of warning log events");
+        assertSingleLogEntry("No future train departures available", Level.WARN);
     }
 
     @Test
@@ -156,8 +154,7 @@ class CommandLineInterfaceTest {
         sut.run();
 
         // THEN a message about a server side error is logged
-        List<ILoggingEvent> events = memoryAppender.search("The Deutsche Bahn OpenAPI Portal reported an error", Level.ERROR);
-        assertEquals(1, events.size(), "number of error log events");
+        assertSingleLogEntry("The Deutsche Bahn OpenAPI Portal reported an error", Level.ERROR);
     }
 
     private Clock givenItIs(String time) {
@@ -179,10 +176,23 @@ class CommandLineInterfaceTest {
 
     private void assertLogEntryWithDeparture(String expectedDepartureTime) {
         List<ILoggingEvent> events = memoryAppender.search(scheduleMessagePrefix, Level.INFO);
-        assertEquals(1, events.size(), "number of log events");
+        assertEquals(1, events.size(), "departure time should be logged once");
 
         // AND the expected departure time is logged
         String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
         assertEquals(expectedDepartureTime, actualDepartureTime);
+    }
+
+    private void assertNumberOfLogEntries(String substring, Level level, int expectedOccurrences, String message) {
+        List<ILoggingEvent> events = memoryAppender.search(substring, level);
+        assertEquals(expectedOccurrences, events.size(), message);
+    }
+
+    private void assertNoLogEntry(String substring, Level level) {
+        assertNumberOfLogEntries(substring, level, 0, "message should not be logged");
+    }
+
+    private void assertSingleLogEntry(String substring, Level level) {
+        assertNumberOfLogEntries(substring, level, 1, "message should be logged once");
     }
 }
