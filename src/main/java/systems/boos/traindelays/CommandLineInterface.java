@@ -29,6 +29,7 @@ public class CommandLineInterface {
     }
 
     // TODO test boundary conditions: no timetable stop / departure etc., (done) service exceptions
+    // TODO simplify CommandLineInterface.Run()
     public void run() {
         try {
             Timetable timetable = timetablesService.fetchChanges();
