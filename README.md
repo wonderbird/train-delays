@@ -31,19 +31,24 @@ an [Open Source License](https://www.jetbrains.com/community/opensource/) for th
 
 ... check code metrics using [metrix++](https://github.com/metrixplusplus/metrixplusplus)
 
+- Configure the location of the cloned metrix++ scripts
+  ```sh
+  export METRIXPP=/path/to/metrixplusplus
+  ```
+
 - Collect metrics
   ```sh
-  metrix++ collect --std.code.complexity.cyclomatic --std.code.lines.code --std.code.todo.comments --std.code.maintindex.simple -- .
+  python "$METRIXPP/metrix++.py" collect --std.code.complexity.cyclomatic --std.code.lines.code --std.code.todo.comments --std.code.maintindex.simple -- .
   ```
 
 - Get an overview
   ```sh
-  metrix++ view --db-file=./metrixpp.db
+  python "$METRIXPP/metrix++.py" view --db-file=./metrixpp.db
   ```
 
 - Apply thresholds
   ```sh
-  metrix++ limit --db-file=./metrixpp.db --max-limit=std.code.complexity:cyclomatic:5 --max-limit=std.code.lines:code:25:function --max-limit=std.code.todo:comments:0 --max-limit=std.code.mi:simple:1
+  python "$METRIXPP/metrix++.py" limit --db-file=./metrixpp.db --max-limit=std.code.complexity:cyclomatic:5 --max-limit=std.code.lines:code:25:function --max-limit=std.code.todo:comments:0 --max-limit=std.code.mi:simple:1
   ```
 
 At the time of writing, I want to stay below the following thresholds:
@@ -55,7 +60,7 @@ At the time of writing, I want to stay below the following thresholds:
 --max-limit=std.code.mi:simple:1
 ```
 
-I allow generated files to exceed these thresholds.
+I allow only the `TimetableApiResponses.getRecordedResponse()` method to exceed the lines of code threshold.
 
 Finally, remove all code duplication. The next section describes how to detect code duplication.
 
