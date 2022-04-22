@@ -5,6 +5,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 import systems.boos.traindelays.CommandLineInterface;
 import systems.boos.traindelays.TimetablesService;
 import systems.boos.traindelays.common.MemoryAppender;
@@ -18,7 +19,8 @@ import java.time.ZoneId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CommandLineInterfaceTest {
     private MemoryAppender memoryAppender;
@@ -80,6 +82,7 @@ class CommandLineInterfaceTest {
 
     // SonarLint complains about a missing assert statement.
     // However, this test is intended to ensure that no exception is thrown.
+    // Thus, an assert statement is not required.
     @SuppressWarnings("java:S2699")
     @Test
     void Run_TimetableStopWithoutDepartureEventInResponse_DoesNotThrow() {
@@ -98,6 +101,7 @@ class CommandLineInterfaceTest {
 
     // SonarLint complains about a missing assert statement.
     // However, this test is intended to ensure that no exception is thrown.
+    // Thus, an assert statement is not required.
     @SuppressWarnings("java:S2699")
     @Test
     void Run_TimetableStopWithDepartureEventWithoutChangedTimeInResponse_DoesNotThrow() {
@@ -140,6 +144,20 @@ class CommandLineInterfaceTest {
         // AND a message about no future departures is logged
         events = memoryAppender.search("No future train departures available", Level.WARN);
         assertEquals(1, events.size(), "number of warning log events");
+    }
+
+    @Test
+    void Run_TimeTableServiceThrowsException_ReportsServerSideError() {
+        TimetablesService service = mock(TimetablesService.class);
+        when(service.fetchChanges()).thenThrow(new RestClientException("Test exception"));
+
+        // WHEN I run the command line interface
+        CommandLineInterface sut = new CommandLineInterface(service);
+        sut.run();
+
+        // THEN a message about a server side error is logged
+        List<ILoggingEvent> events = memoryAppender.search("The Deutsche Bahn OpenAPI Portal reported an error", Level.ERROR);
+        assertEquals(1, events.size(), "number of error log events");
     }
 
     private Clock givenItIs(String time) {
