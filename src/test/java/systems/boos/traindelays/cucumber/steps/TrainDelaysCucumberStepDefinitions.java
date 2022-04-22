@@ -5,10 +5,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.java.BeforeAll;
 import org.mockserver.integration.ClientAndServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import systems.boos.traindelays.CommandLineInterface;
@@ -50,8 +50,7 @@ public class TrainDelaysCucumberStepDefinitions {
     public static void startMockServer() {
         mockServer = ClientAndServer.startClientAndServer(9000);
 
-        // TODO Clarify why configureMockServer() needs to be called twice
-        // If this is not done, then the cucumber BeforeAll hook will fail and report a status 404
+        // If configureMockServer() is not called twice, the cucumber BeforeAll hook will fail and report a status 404
         configureMockServerWithExpectedDepartureTime("00:00", Clock.systemDefaultZone());
     }
 
