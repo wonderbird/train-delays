@@ -38,96 +38,13 @@ class CommandLineInterfaceTest {
         memoryAppender.stop();
     }
 
-    @Test
-    void Run_SingleTimetableStopInResponse_LogsCorrespondingDepartureTime() {
-        Clock clock = givenItIs("07:00");
-        String expectedDeparture = "08:00";
-
-        Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
-
-        TimetablesService service = mock(TimetablesService.class);
-        when(service.fetchChanges()).thenReturn(timetable);
-
-        // WHEN I run the command line interface
-        CommandLineInterface sut = new CommandLineInterface(service);
-        sut.setClock(clock);
-        sut.run();
-
-        // THEN There is one log entry with the expected departure time
-        assertLogEntryWithDeparture(expectedDeparture);
-    }
-
-    @Test
-    void Run_UnsortedTimetableStopsInResponse_LogsNearestNextDepartureTime() {
-        Clock clock = givenItIs("07:00");
-        String expectedDeparture = "08:00";
-
-        Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(
-                stopWithDeparture("09:30"),
-                stopWithDeparture(expectedDeparture)));
-
-        TimetablesService service = mock(TimetablesService.class);
-        when(service.fetchChanges()).thenReturn(timetable);
-
-        // WHEN I run the command line interface
-        CommandLineInterface sut = new CommandLineInterface(service);
-        sut.setClock(clock);
-        sut.run();
-
-        // THEN There is one log entry with the expected departure time
-        assertLogEntryWithDeparture(expectedDeparture);
-    }
-
-    // SonarLint complains about a missing assert statement.
-    // However, this test is intended to ensure that no exception is thrown.
-    // Thus, an assert statement is not required.
-    @SuppressWarnings("java:S2699")
-    @Test
-    void Run_TimetableStopWithoutDepartureEventInResponse_DoesNotThrow() {
-        Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(new TimetableStop()));
-
-        TimetablesService service = mock(TimetablesService.class);
-        when(service.fetchChanges()).thenReturn(timetable);
-
-        // WHEN I run the command line interface
-        CommandLineInterface sut = new CommandLineInterface(service);
-        sut.run();
-
-        // THEN No exception is thrown
-    }
-
-    // SonarLint complains about a missing assert statement.
-    // However, this test is intended to ensure that no exception is thrown.
-    // Thus, an assert statement is not required.
-    @SuppressWarnings("java:S2699")
-    @Test
-    void Run_TimetableStopWithDepartureEventWithoutChangedTimeInResponse_DoesNotThrow() {
-        TimetableStop timetableStop = new TimetableStop();
-        timetableStop.setDepartures(List.of(new Event()));
-
-        Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(timetableStop));
-
-        TimetablesService service = mock(TimetablesService.class);
-        when(service.fetchChanges()).thenReturn(timetable);
-
-        // WHEN I run the command line interface
-        CommandLineInterface sut = new CommandLineInterface(service);
-        sut.run();
-
-        // THEN No exception is thrown
-    }
-
+    // TODO change this test so that it uses a stub for the Timetable
     @Test
     void Run_SinglePastTimetableStopInResponse_DoesNotLogDepartureTime() {
         Clock clock = givenItIs("10:00");
-        String expectedDeparture = "08:00";
 
         Timetable response = new Timetable();
-        response.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
+        response.setTimetableStops(List.of(stopWithDeparture("08:00")));
 
         TimetablesService serviceStub = mock(TimetablesService.class);
         when(serviceStub.fetchChanges()).thenReturn(response);
@@ -162,6 +79,7 @@ class CommandLineInterfaceTest {
         return Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
     }
 
+    // TODO move stopWithDeparture to TimetableTest
     private TimetableStop stopWithDeparture(String expectedDepartureTime) {
         String changedTimeString = String.format("2022-04-09T%s:00+02:00", expectedDepartureTime);
         Instant changedTime = Instant.parse(changedTimeString);

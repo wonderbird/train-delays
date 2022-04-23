@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import systems.boos.traindelays.model.Timetable;
-import systems.boos.traindelays.model.TimetableStop;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.Optional;
 
 @Component
@@ -28,25 +26,22 @@ public class CommandLineInterface {
         this.timetablesService = timetablesService;
     }
 
-    // TODO test boundary conditions: no timetable stop / departure etc., (done) service exceptions
-    // TODO simplify CommandLineInterface.Run()
     public void run() {
         try {
             Timetable timetable = timetablesService.fetchChanges();
-            Instant now = Instant.now(clock);
-            Optional<TimetableStop> first = timetable.getTimetableStops().stream()
-                    .filter(stop -> !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null)
-                    .sorted(Comparator.comparing(s -> s.getDepartures().get(0).getChangedTime()))
-                    .filter(stop -> stop.getDepartures().get(0).getChangedTime().isAfter(now))
-                    .findFirst();
-            if (first.isPresent()) {
-                String changedTimeString = first.get().getDepartures().get(0).getChangedTime().atZone(berlin).format(hourMinute);
-                logger.info("Next train is scheduled to leave at {}", changedTimeString);
-            } else {
-                logger.warn("No future train departures available");
-            }
+            Optional<Instant> nextDeparture = timetable.findFirstDepartureAfter(Instant.now(clock));
+            logNextDeparture(nextDeparture);
         } catch (RestClientException e) {
             logger.error("The Deutsche Bahn OpenAPI Portal reported an error: {}", e.getMessage());
+        }
+    }
+
+    private void logNextDeparture(Optional<Instant> nextDeparture) {
+        if (nextDeparture.isPresent()) {
+            String changedTimeString = nextDeparture.get().atZone(berlin).format(hourMinute);
+            logger.info("Next train is scheduled to leave at {}", changedTimeString);
+        } else {
+            logger.warn("No future train departures available");
         }
     }
 
