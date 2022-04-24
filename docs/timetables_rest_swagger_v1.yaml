@@ -7,25 +7,25 @@ info:
   contact:
     email: dbopendata@deutschebahn.com
 schemes:
-- http
-- https
+  - http
+  - https
 consumes:
-- application/xhtml+xml
-- application/xml
-- text/html
+  - application/xhtml+xml
+  - application/xml
+  - text/html
 produces:
-- application/xml
+  - application/xml
 paths:
   /station/{pattern}:
     get:
       description: This public interface allows access to information about a station.
       parameters:
-      - name: pattern
-        in: path
-        type: string
-        required: true
-        description: can be a station name (prefix), eva number, ds100/rl100 code, wildcard (*); doesn't seem to work with Umlauten in station name (prefix)
-        default: BLS
+        - name: pattern
+          in: path
+          type: string
+          required: true
+          description: can be a station name (prefix), eva number, ds100/rl100 code, wildcard (*); doesn't seem to work with Umlauten in station name (prefix)
+          default: BLS
       responses:
         200:
           description: successful operation
@@ -42,28 +42,28 @@ paths:
         
         Planned data is generated many hours in advance and is static, i.e. it does never change. It should be cached by web caches.public interface allows access to information about a station.
       parameters:
-      - name: evaNo
-        in: path
-        type: string
-        required: true
-        description: Station EVA-number.
-      - name: date
-        in: path
-        type: string
-        required: true
-        description: Date in format YYMMDD.
-      - name: hour
-        in: path
-        type: string
-        required: true
-        description: Hour in format HH.
+        - name: evaNo
+          in: path
+          type: string
+          required: true
+          description: Station EVA-number.
+        - name: date
+          in: path
+          type: string
+          required: true
+          description: Date in format YYMMDD.
+        - name: hour
+          in: path
+          type: string
+          required: true
+          description: Hour in format HH.
       responses:
         200:
           description: successful operation
           schema:
             $ref: '#/definitions/timetable'
         404:
-          description: resource not found          
+          description: resource not found
   /timetable/fchg/{evaNo}:
     get:
       description: |
@@ -75,11 +75,11 @@ paths:
         
         Full changes are updated every 30s and should be cached for that period by web caches.
       parameters:
-      - name: evaNo
-        in: path
-        type: string
-        required: true
-        description: Station EVA-number.
+        - name: evaNo
+          in: path
+          type: string
+          required: true
+          description: Station EVA-number.
       responses:
         200:
           description: successful operation
@@ -96,11 +96,11 @@ paths:
         
         Recent changes are updated every 30s as well and should be cached for that period by web caches.
       parameters:
-      - name: evaNo
-        in: path
-        type: string
-        required: true
-        description: Station EVA-number.
+        - name: evaNo
+          in: path
+          type: string
+          required: true
+          description: Station EVA-number.
       responses:
         200:
           description: successful operation
@@ -113,7 +113,7 @@ definitions:
     description: A wrapper that represents multiple StationData objects.
     type: object
     required:
-    - station
+      - station
     properties:
       station:
         description: List of stations with additional data.
@@ -124,9 +124,9 @@ definitions:
     description: A transport object which keep data for a station.
     type: object
     required:
-    - eva
-    - ds100
-    - name
+      - eva
+      - ds100
+      - name
     properties:
       p:
         type: string
@@ -578,7 +578,7 @@ definitions:
     properties:
       ts:
         description: Timestamp. The time, in ten digit 'YYMMddHHmm' format, e.g. '1404011437' for 14:37 on April the 1st of 2014.
-        type: string        
+        type: string
         xml:
           attribute: true
       ar:
