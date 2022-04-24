@@ -12,13 +12,12 @@ import java.time.format.DateTimeFormatter;
 public class TimetableApiResponses {
     /**
      * Customize the departure time of a recorded response.
-     *
+     * <p>
      * The encoded date will be the current day.
      *
      * @param expectedDepartureTime Time of expected departure as string, e.g. "10:00" or "15:42".
      * @param clock                 Clock to use for the current time. This clock can either be
      *                              Clock.systemDefaultZone() or a preconfigured clock for test purpose.
-     *
      * @return API response body in XML format.
      */
     public static String createResponseWithDepartureTime(String expectedDepartureTime, Clock clock) {

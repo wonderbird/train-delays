@@ -3,10 +3,9 @@ package systems.boos.traindelays.unit;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import systems.boos.traindelays.model.Timetable;
 import systems.boos.traindelays.common.TimetableApiResponses;
+import systems.boos.traindelays.model.Timetable;
 
 import java.time.Clock;
 
@@ -17,7 +16,7 @@ class DeserializeTimetableApiResponseBodyTest {
 
     /**
      * Regression test to ensure that unprocessed XML properties do not cause exceptions.
-     *
+     * <p>
      * The model classes do not map every XML element to fields. As a consequence, the
      * model classes specify `@JsonIgnoreProperties(ignoreUnknown = true)`. Otherwise
      * Jackson would throw a JsonProcessingException while parsing an API response body.

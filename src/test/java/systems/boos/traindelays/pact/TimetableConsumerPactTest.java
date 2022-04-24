@@ -12,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
+import systems.boos.traindelays.TimetablesService;
 import systems.boos.traindelays.model.Event;
 import systems.boos.traindelays.model.Timetable;
-import systems.boos.traindelays.TimetablesService;
 
 import java.time.Instant;
 import java.time.ZoneId;

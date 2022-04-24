@@ -11,6 +11,14 @@ import java.util.Optional;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Timetable {
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "s")
+    private List<TimetableStop> timetableStops = new ArrayList<>();
+
+    private static boolean isChangedTimePresentInFirstDeparture(TimetableStop stop) {
+        return !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null;
+    }
+
     @Override
     public String toString() {
         return "Timetable{" +
@@ -18,20 +26,12 @@ public class Timetable {
                 '}';
     }
 
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "s")
-    private List<TimetableStop> timetableStops = new ArrayList<>();
-
     public List<TimetableStop> getTimetableStops() {
         return timetableStops;
     }
 
     public void setTimetableStops(List<TimetableStop> timetableStops) {
         this.timetableStops = timetableStops;
-    }
-
-    private static boolean isChangedTimePresentInFirstDeparture(TimetableStop stop) {
-        return !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null;
     }
 
     public Optional<Instant> findFirstDepartureAfter(Instant after) {

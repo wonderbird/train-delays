@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 class TrainDelaysApplicationTests {
 
-	@Autowired
-	private TrainDelaysApplication trainDelaysApplication;
+    @Autowired
+    private TrainDelaysApplication trainDelaysApplication;
 
-	@Test
-	void contextLoads() {
-		assertNotNull(trainDelaysApplication);
-	}
+    @Test
+    void contextLoads() {
+        assertNotNull(trainDelaysApplication);
+    }
 
 }

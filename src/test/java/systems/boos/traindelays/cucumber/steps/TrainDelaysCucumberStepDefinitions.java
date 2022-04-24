@@ -35,17 +35,6 @@ public class TrainDelaysCucumberStepDefinitions {
     @Autowired
     private CommandLineInterface cli;
 
-    @Before
-    public void setupLogger() {
-        memoryAppender = MemoryAppender.startMemoryAppender();
-    }
-
-    @After
-    public void resetAndStopLogger() {
-        memoryAppender.reset();
-        memoryAppender.stop();
-    }
-
     @BeforeAll
     public static void startMockServer() {
         mockServer = ClientAndServer.startClientAndServer(9000);
@@ -57,6 +46,38 @@ public class TrainDelaysCucumberStepDefinitions {
     @AfterAll
     public static void stopMockServer() {
         mockServer.stop();
+    }
+
+    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime, Clock clock) {
+        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime, clock);
+        configureMockServerWithResponse(responseBody);
+    }
+
+    private static void configureMockServerWithResponse(String responseBody) {
+        mockServer.reset();
+        mockServer
+                .when(
+                        request()
+                                .withMethod("GET")
+                                .withPath("/timetables/v1/fchg/8005143")
+                )
+                .respond(
+                        response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/xml")
+                                .withBody(responseBody)
+                );
+    }
+
+    @Before
+    public void setupLogger() {
+        memoryAppender = MemoryAppender.startMemoryAppender();
+    }
+
+    @After
+    public void resetAndStopLogger() {
+        memoryAppender.reset();
+        memoryAppender.stop();
     }
 
     @Given("^Today is April 9, 2022 at 08:30 am$")
@@ -84,26 +105,5 @@ public class TrainDelaysCucumberStepDefinitions {
 
         String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
         assertEquals(expectedDepartureTime, actualDepartureTime);
-    }
-
-    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime, Clock clock) {
-        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime, clock);
-        configureMockServerWithResponse(responseBody);
-    }
-
-    private static void configureMockServerWithResponse(String responseBody) {
-        mockServer.reset();
-        mockServer
-                .when(
-                        request()
-                                .withMethod("GET")
-                                .withPath("/timetables/v1/fchg/8005143")
-                )
-                .respond(
-                        response()
-                                .withStatusCode(200)
-                                .withHeader("Content-Type", "application/xml")
-                                .withBody(responseBody)
-                );
     }
 }

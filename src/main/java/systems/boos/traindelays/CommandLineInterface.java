@@ -16,9 +16,9 @@ import java.util.Optional;
 @Component
 public class CommandLineInterface {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineInterface.class);
-    private final TimetablesService timetablesService;
     private static final ZoneId berlin = ZoneId.of("Europe/Berlin");
     private static final DateTimeFormatter hourMinute = DateTimeFormatter.ofPattern("HH:mm");
+    private final TimetablesService timetablesService;
     private Clock clock = Clock.systemDefaultZone();
 
     @Autowired
