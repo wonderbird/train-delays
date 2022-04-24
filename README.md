@@ -53,7 +53,7 @@ an [Open Source License](https://www.jetbrains.com/community/opensource/) for th
 
 At the time of writing, I want to stay below the following thresholds:
 
-```sh
+```
 --max-limit=std.code.complexity:cyclomatic:5
 --max-limit=std.code.lines:code:25:function
 --max-limit=std.code.todo:comments:0
