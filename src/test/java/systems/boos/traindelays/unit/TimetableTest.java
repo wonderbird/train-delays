@@ -12,7 +12,28 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+// For this test class, the actualDeparture optional does not need to be checked. All tests accessing
+// actualDeparture.get() rely on the Optional having a value. If the Optional is empty, the test should
+// fail.
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 class TimetableTest {
+
+    private final Instant time7am = timeToInstant("07:00");
+
+    private static TimetableStop stopWithDeparture(Instant changedTime) {
+        Event departure = new Event();
+        departure.setChangedTime(changedTime);
+
+        TimetableStop stop = new TimetableStop();
+        stop.setDepartures(List.of(departure));
+        return stop;
+    }
+
+    private static Instant timeToInstant(String timeString) {
+        String changedTimeString = String.format("2022-04-09T%s:00+02:00", timeString);
+        return Instant.parse(changedTimeString);
+    }
+
     @Test
     void findFirstDepartureAfter_SingleTimetableStop_ReturnsDeparture() {
         Instant expectedDeparture = timeToInstant("08:00");
@@ -20,7 +41,7 @@ class TimetableTest {
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
 
-        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(timeToInstant("07:00"));
+        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
         assertEquals(expectedDeparture, actualDeparture.get());
     }
@@ -34,7 +55,7 @@ class TimetableTest {
                 stopWithDeparture(timeToInstant("09:30")),
                 stopWithDeparture(expectedDeparture)));
 
-        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(timeToInstant("07:00"));
+        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
         assertEquals(expectedDeparture, actualDeparture.get());
     }
@@ -44,7 +65,7 @@ class TimetableTest {
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(List.of(stopWithDeparture(timeToInstant("06:00"))));
 
-        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(timeToInstant("07:00"));
+        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
         assertTrue(actualDeparture.isEmpty());
     }
@@ -54,7 +75,7 @@ class TimetableTest {
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(List.of(new TimetableStop()));
 
-        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(timeToInstant("07:00"));
+        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
         assertTrue(actualDeparture.isEmpty());
     }
@@ -67,23 +88,8 @@ class TimetableTest {
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(List.of(timetableStop));
 
-        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(timeToInstant("07:00"));
+        Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
         assertTrue(actualDeparture.isEmpty());
-    }
-
-    private TimetableStop stopWithDeparture(Instant changedTime) {
-
-        Event departure = new Event();
-        departure.setChangedTime(changedTime);
-
-        TimetableStop stop = new TimetableStop();
-        stop.setDepartures(List.of(departure));
-        return stop;
-    }
-
-    private Instant timeToInstant(String timeString) {
-        String changedTimeString = String.format("2022-04-09T%s:00+02:00", timeString);
-        return Instant.parse(changedTimeString);
     }
 }
