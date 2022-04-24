@@ -30,10 +30,13 @@ public class Timetable {
         this.timetableStops = timetableStops;
     }
 
-    // TODO test boundary conditions: no timetable stop / departure etc., (done) service exceptions
+    private static boolean isChangedTimePresentInFirstDeparture(TimetableStop stop) {
+        return !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null;
+    }
+
     public Optional<Instant> findFirstDepartureAfter(Instant after) {
         return getTimetableStops().stream()
-                .filter(stop -> !stop.getDepartures().isEmpty() && stop.getDepartures().get(0).getChangedTime() != null)
+                .filter(Timetable::isChangedTimePresentInFirstDeparture)
                 .map(stop -> stop.getDepartures().get(0).getChangedTime())
                 .sorted()
                 .filter(departure -> departure.isAfter(after))
