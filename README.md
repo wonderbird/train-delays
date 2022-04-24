@@ -7,7 +7,7 @@
 
 Find out when will the next train will leave the station Rösrath Stümpen.
 
-The [User Guide](docs/howto-test-the-timetabels-api.md) describes how to find out the corrected departure time of the
+The [User Guide](docs/user-guide.md) describes how to find out the corrected departure time of the
 train RB25 from the train station Rösrath Stümpen. The user interface is a console application written in Java.
 
 The current version is one step on the road to the [Product Vision](docs/product-vision.md).
@@ -59,8 +59,6 @@ At the time of writing, I want to stay below the following thresholds:
 --max-limit=std.code.todo:comments:0
 --max-limit=std.code.mi:simple:1
 ```
-
-I allow only the `TimetableApiResponses.getRecordedResponse()` method to exceed the lines of code threshold.
 
 Finally, remove all code duplication. The next section describes how to detect code duplication.
 
