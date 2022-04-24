@@ -15,8 +15,8 @@ one for free:
 
 - On the
   [Timetables - v1 API page](https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData)
-  - Select `DefaultApplication` in the `Application` dropdown
-    - Click `Subscribe`
+    - Select `DefaultApplication` in the `Application` dropdown
+        - Click `Subscribe`
 
 ## Run the Application
 
