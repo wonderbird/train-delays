@@ -1,0 +1,90 @@
+= Architecture
+
+:toc:
+
+== Acknowledgements
+
+This documentation is based on the https://docs.arc42.org[arc42] template.
+Many thanks to all contributors for your valuable work.
+
+== 1 Introduction and Goals
+
+Commuters using the Deutsche Bahn frequently face train delays and cancellations.
+Knowing the expected train delay or cancellation upfront allows to find alternative means of transportation so that the commuters reach their destination relaxed and on time.
+
+The Train Delays system provides an easy mechanism to see train delays or cancellations early.
+
+The link:product-vision.md[Product Vision] shows the long term goal for Train Delays.
+
+=== 1.1 Requirements Overview
+
+At the moment, there is only one central functional requirement:
+
+[cols="1,2,5"]
+|===
+| F1
+| Show expected next departure
+| The Train Delays application shows the expected departure time of the next train leaving the station Rösrath-Stümpen.
+|===
+
+=== 1.2 Quality Goals
+
+The following table shows the quality goals of Train Delays.
+The order of the goals represents their priority roughly.
+
+[cols="1,2"]
+|===
+|Low effort maintenance (Testability)
+|The risk that contributions break the system shall be low. In addition, it shall be easy for the maintainers to upgrade dependencies without breaking the system.
+
+|Low-cost operation (Resource Utilization)
+|Installing and running the system shall be very cheap. This allows the maintainers to provide the service for free while not having to pay too much for operations.
+
+|Easy to use (Learnability)
+|Users shall quickly be able to use the features of the system without error.
+
+|Easy for contributors to contribute (Modifiability)
+|It shall be easy for GitHub users to propose changes in form of pull requests.
+|===
+
+=== 2 Constraints
+
+The following constraints apply for the Train Delays system:
+
+[%header,cols="1,2"]
+|===
+|Constraint |Description and Background
+|Open source license
+|All parts of the system shall satisfy an open source license. The reason behind this is, that the system shall invite contributors. In addition the code and concepts shall act as learning reference for the public.
+
+|Common technologies
+|The technologies used shall be widely known. This ensures that many other developers can understand the system. It also reduces the risk of complicated dependency updates and thereby simplifies maintenance.
+|===
+
+== 3 Context and Scope
+
+=== 3.1 Business Context
+
+[plantuml,target="business-context.svg",format="svg"]
+....
+@startuml
+left to right direction
+
+actor "User" as user
+
+component "Train Delays" as td
+node "Deutsche Bahn Germany\nOpen API Portal" as db
+
+user -- td: check expected departure
+td -- db: fetch expected departure time
+@enduml
+....
+
+[%header,cols="1,2"]
+|===
+|Entity |Description
+|User |The user is the commuter who wants to see the expected train delay or cancellation.
+
+|Deutsche Bahn Germany Open API Portal
+|This API portal is operated by Deutsche Bahn Germany. It provides the timetable data used by Train Delays.
+|===
