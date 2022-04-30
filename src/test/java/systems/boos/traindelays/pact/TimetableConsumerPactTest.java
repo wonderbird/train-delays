@@ -36,7 +36,6 @@ class TimetableConsumerPactTest {
         String apiResponseChangedTime = arbitraryInstant.atZone(ZoneId.of("Europe/Berlin"))
                 .format(DateTimeFormatter.ofPattern(apiDateTimePattern));
 
-        // TODO: migrate to PactV4 - see https://github.com/pact-foundation/pact-jvm/issues/1488
         return builder
                 .usingLegacyDsl()
                 .given("station with eva 8005143 exists")
