@@ -1,11 +1,11 @@
 package systems.boos.traindelays.pact;
 
 import au.com.dius.pact.consumer.MockServer;
-import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
+import au.com.dius.pact.consumer.dsl.PactBuilder;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.consumer.xml.PactXmlBuilder;
-import au.com.dius.pact.core.model.RequestResponsePact;
+import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
 import org.apache.commons.collections4.MapUtils;
 import org.junit.jupiter.api.Test;
@@ -31,12 +31,14 @@ class TimetableConsumerPactTest {
     Instant arbitraryInstant = Instant.parse("2022-04-01T19:49:00Z");
 
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
-    RequestResponsePact findChanges(PactDslWithProvider builder) {
+    V4Pact findChanges(PactBuilder builder) {
         String apiDateTimePattern = "yyMMddHHmm";
         String apiResponseChangedTime = arbitraryInstant.atZone(ZoneId.of("Europe/Berlin"))
                 .format(DateTimeFormatter.ofPattern(apiDateTimePattern));
 
+        // TODO: migrate to PactV4 - see https://github.com/pact-foundation/pact-jvm/issues/1488
         return builder
+                .usingLegacyDsl()
                 .given("station with eva 8005143 exists")
                 .uponReceiving("fetch changes for station with eva 8005143")
                 .method("GET")
@@ -50,7 +52,7 @@ class TimetableConsumerPactTest {
                                         timetableStop.appendElement("dp", mapOf("ct", timestamp(apiDateTimePattern, apiResponseChangedTime)))
                                 )
                         ))
-                .toPact();
+                .toPact(V4Pact.class);
     }
 
     @Test
