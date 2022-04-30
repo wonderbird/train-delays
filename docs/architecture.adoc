@@ -5,6 +5,7 @@
 == Acknowledgements
 
 This documentation is based on the https://docs.arc42.org[arc42] template.
+The examples provided there and in https://www.dokchess.de/["DokChess als Beispiel für arc42"] act as templates for some sections.
 Many thanks to all contributors for your valuable work.
 
 == 1 Introduction and Goals
@@ -55,7 +56,7 @@ The following constraints apply for the Train Delays system:
 |===
 |Constraint |Description and Background
 |Open source license
-|All parts of the system shall satisfy an open source license. The reason behind this is, that the system shall invite contributors. In addition the code and concepts shall act as learning reference for the public.
+|All parts of the system shall satisfy an open source license. The reason behind this is, that the system shall invite contributors. In addition, the code and concepts shall act as learning reference for the public.
 
 |Common technologies
 |The technologies used shall be widely known. This ensures that many other developers can understand the system. It also reduces the risk of complicated dependency updates and thereby simplifies maintenance.
@@ -83,8 +84,67 @@ td -- db: fetch expected departure time
 [%header,cols="1,2"]
 |===
 |Entity |Description
+
 |User |The user is the commuter who wants to see the expected train delay or cancellation.
 
 |Deutsche Bahn Germany Open API Portal
 |This API portal is operated by Deutsche Bahn Germany. It provides the timetable data used by Train Delays.
+|===
+
+=== 3.2 Technical Context
+
+[plantuml,target="technical-context.svg",format="svg"]
+....
+@startuml
+left to right direction
+node "Web Browser" as browser
+component "Train Delays" as td
+node "Deutsche Bahn Germany\nOpen API Portal" as db
+
+browser -- td: HTTPS
+td -- db: HTTPS
+@enduml
+....
+
+[%header,cols="1,2"]
+|===
+|Entity |Description
+
+|Web Browser
+|The user opens the Train Delays application in the browser which retrieves the displayed page from the Train Delays system.
+
+|Deutsche Bahn Germany Open API Portal
+|Train Delays calls the APIs of the Deutsche Bahn Germany Open API Portal.
+|===
+
+== 4 Solution Strategy
+
+=== 4.1 Guiding Principles and Architectural Approach
+
+The following table relates the quality goals introduced in <<1.2 Quality Goals>>:
+
+[cols="1,2a"]
+|===
+|Quality Goal |Architectural Approach Supporting the Goal
+
+|Low effort maintenance (Testability)
+|
+* Test coverage is high
+** For all features the happy path is tested by integration tests.
+** Boundary conditions and unhappy paths are tested - usually by unit tests.
+** Compatibility with the Deutsche Bahn Open API is tested using consumer driven API testing (https://pact.io/[Pact.io])
+* Automatic builds are started for every push and run all tests
+
+|Low-cost operation (Resource Utilization)
+|* A public GitHub repository is used to maintain the source code
+* The Train Delays services are published as docker containers with small footprint
+
+|Easy to use (Learnability)
+|* The user interface is designed to require a minimum number of interactions (clicks, touches)
+
+|Easy for contributors to contribute (Modifiability)
+|* The system is constructed using mature and well-known technologies
+* Java is used for backend services
+* Readability and understandability are important aspects for new code
+* The architecture is described and updated frequently
 |===
