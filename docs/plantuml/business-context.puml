@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+
+actor "User" as user
+
+component "Train Delays" as td
+node "Deutsche Bahn Germany\nOpen API Portal" as db
+
+user -- td: check expected departure
+td -- db: fetch expected departure time
+@enduml

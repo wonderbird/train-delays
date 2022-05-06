@@ -1,0 +1,9 @@
+@startuml
+left to right direction
+node "Web Browser" as browser
+component "Train Delays" as td
+node "Deutsche Bahn Germany\nOpen API Portal" as db
+
+browser -- td: HTTPS
+td -- db: HTTPS
+@enduml

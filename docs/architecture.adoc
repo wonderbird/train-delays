@@ -1,3 +1,5 @@
+:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/wonderbird/train-delays/feature/web-app/docs/plantuml
+
 = Architecture
 
 :toc:
@@ -66,20 +68,8 @@ The following constraints apply for the Train Delays system:
 
 === 3.1 Business Context
 
-[plantuml,target="business-context.svg",format="svg"]
-....
-@startuml
-left to right direction
-
-actor "User" as user
-
-component "Train Delays" as td
-node "Deutsche Bahn Germany\nOpen API Portal" as db
-
-user -- td: check expected departure
-td -- db: fetch expected departure time
-@enduml
-....
+.Business Context
+image::{gitplant}/business-context.puml[Business Context Diagram]
 
 [%header,cols="1,2"]
 |===
@@ -93,18 +83,8 @@ td -- db: fetch expected departure time
 
 === 3.2 Technical Context
 
-[plantuml,target="technical-context.svg",format="svg"]
-....
-@startuml
-left to right direction
-node "Web Browser" as browser
-component "Train Delays" as td
-node "Deutsche Bahn Germany\nOpen API Portal" as db
-
-browser -- td: HTTPS
-td -- db: HTTPS
-@enduml
-....
+.Technical Context
+image::{gitplant}/technical-context.puml[Technical Context Diagram]
 
 [%header,cols="1,2"]
 |===
