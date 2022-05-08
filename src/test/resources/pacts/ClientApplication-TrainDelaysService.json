@@ -1,0 +1,84 @@
+{
+  "consumer": {
+    "name": "ClientApplication"
+  },
+  "interactions": [
+    {
+      "comments": {
+        "text": [
+        ]
+      },
+      "description": "fetch next departure",
+      "key": "c882d251",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "the next departure time is present"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/nextdeparture"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "expecteddeparture": "2000-01-31T14:00:00Z"
+          },
+          "contentType": "application/json; charset=UTF-8",
+          "encoded": false
+        },
+        "generators": {
+          "body": {
+            "$.expecteddeparture": {
+              "format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
+              "type": "DateTime"
+            }
+          }
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json; charset=UTF-8"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.expecteddeparture": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "timestamp",
+                  "timestamp": "yyyy-MM-dd'T'HH:mm:ss'Z'"
+                }
+              ]
+            }
+          },
+          "header": {
+            "Content-Type": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "application/json(;\\s?charset=[\\w\\-]+)?"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    }
+  ],
+  "metadata": {
+    "pact-jvm": {
+      "version": "4.3.6"
+    },
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  },
+  "provider": {
+    "name": "TrainDelaysService"
+  }
+}
