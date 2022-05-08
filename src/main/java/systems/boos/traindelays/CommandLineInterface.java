@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+// TODO move the CLI functionality into the RestController and adapt the Cucumber Tests
 @Component
 public class CommandLineInterface {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineInterface.class);
