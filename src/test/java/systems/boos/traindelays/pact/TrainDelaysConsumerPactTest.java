@@ -29,7 +29,7 @@ class TrainDelaysConsumerPactTest {
                 .path("/nextdeparture")
                 .willRespondWith()
                 .status(200)
-                .body(new PactDslJsonBody().datetime("expecteddeparture", "yyyy-MM-dd'T'HH:mm:ss'Z'"))
+                .body(new PactDslJsonBody().datetime("expectedDeparture", "yyyy-MM-dd'T'HH:mm:ss'Z'"))
                 .toPact(V4Pact.class);
     }
 

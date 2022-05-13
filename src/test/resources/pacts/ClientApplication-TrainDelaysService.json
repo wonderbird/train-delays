@@ -6,6 +6,7 @@
     {
       "comments": {
         "text": [
+
         ]
       },
       "description": "fetch next departure",
@@ -23,14 +24,14 @@
       "response": {
         "body": {
           "content": {
-            "expecteddeparture": "2000-01-31T14:00:00Z"
+            "expectedDeparture": "2000-01-31T14:00:00Z"
           },
           "contentType": "application/json; charset=UTF-8",
           "encoded": false
         },
         "generators": {
           "body": {
-            "$.expecteddeparture": {
+            "$.expectedDeparture": {
               "format": "yyyy-MM-dd'T'HH:mm:ss'Z'",
               "type": "DateTime"
             }
@@ -43,7 +44,7 @@
         },
         "matchingRules": {
           "body": {
-            "$.expecteddeparture": {
+            "$.expectedDeparture": {
               "combine": "AND",
               "matchers": [
                 {
