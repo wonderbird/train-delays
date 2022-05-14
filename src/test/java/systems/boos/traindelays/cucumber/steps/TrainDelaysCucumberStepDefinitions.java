@@ -86,7 +86,12 @@ public class TrainDelaysCucumberStepDefinitions {
         ZonedDateTime actual = response.getExpectedDeparture();
 
         long differenceSeconds = Math.abs(between(expected, actual).getSeconds());
-        int toleranceSeconds = 30;
+
+        // Usually the response takes one second.
+        // If the test is set up 30 seconds after a full minute,
+        // then the response will be converted to the next minute.
+        // Thus, we have to tolerate one minute deviation.
+        int toleranceSeconds = 60;
 
         assertTrue(differenceSeconds <= toleranceSeconds, "Expected departure time is " + differenceSeconds + " seconds off");
     }
