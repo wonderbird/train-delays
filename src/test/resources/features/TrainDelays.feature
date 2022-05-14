@@ -1,11 +1,10 @@
 Feature: Train Delays
 
-  Scenario Outline: Running the application
-    Given Today is April 9, 2022 at 08:30 am
-    And The next train is expected to leave at "<expected departure time>"
-    When I run the application
-    Then I should see "<expected departure time>" as scheduled departure time for the next train
+  Scenario Outline: Requesting expected departure from API
+    Given the next train is expected to leave in <expected departure> minutes
+    When I call the API
+    Then the expected departure is <expected departure> minutes in the future
     Examples:
-      | expected departure time |
-      | 23:59                   |
-      | 09:00                   |
+      | expected departure |
+      | 10                 |
+      | 30                 |

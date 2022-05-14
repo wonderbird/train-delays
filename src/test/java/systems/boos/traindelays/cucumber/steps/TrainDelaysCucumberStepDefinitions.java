@@ -1,46 +1,40 @@
 package systems.boos.traindelays.cucumber.steps;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import io.cucumber.java.After;
 import io.cucumber.java.AfterAll;
-import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.mockserver.integration.ClientAndServer;
-import org.springframework.beans.factory.annotation.Autowired;
-import systems.boos.traindelays.CommandLineInterface;
-import systems.boos.traindelays.common.MemoryAppender;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.web.client.RestTemplate;
+import systems.boos.traindelays.ExpectedDepartureResponse;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
-import java.time.Clock;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.util.List;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.time.Duration.between;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
 public class TrainDelaysCucumberStepDefinitions {
 
     private static ClientAndServer mockServer;
-    private static MemoryAppender memoryAppender;
-    private Clock clock;
-
-    // Cucumber's mechanism of wiring is not known to IntelliJ. Thus, we suppress the warning issued by IntelliJ.
-    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
-    @Autowired
-    private CommandLineInterface cli;
+    private final RestTemplate restTemplate = new RestTemplate();
+    @LocalServerPort
+    private int port;
+    private ExpectedDepartureResponse response;
 
     @BeforeAll
     public static void startMockServer() {
         mockServer = ClientAndServer.startClientAndServer(9000);
 
         // If configureMockServer() is not called twice, the cucumber BeforeAll hook will fail and report a status 404
-        configureMockServerWithExpectedDepartureTime("00:00", Clock.systemDefaultZone());
+        configureMockServerWithExpectedDepartureTime(Instant.now());
     }
 
     @AfterAll
@@ -48,8 +42,14 @@ public class TrainDelaysCucumberStepDefinitions {
         mockServer.stop();
     }
 
-    private static void configureMockServerWithExpectedDepartureTime(String expectedDepartureTime, Clock clock) {
-        String responseBody = TimetableApiResponses.createResponseWithDepartureTime(expectedDepartureTime, clock);
+    private String apiEndpoint() {
+        String serverUrl = "http://localhost";
+        String apiEndpoint = "/nextdeparture";
+        return serverUrl + ":" + port + apiEndpoint;
+    }
+
+    private static void configureMockServerWithExpectedDepartureTime(Instant expectedDepartureTime) {
+        String responseBody = TimetableApiResponses.createResponseWithExpectedDeparture(expectedDepartureTime);
         configureMockServerWithResponse(responseBody);
     }
 
@@ -69,41 +69,25 @@ public class TrainDelaysCucumberStepDefinitions {
                 );
     }
 
-    @Before
-    public void setupLogger() {
-        memoryAppender = MemoryAppender.startMemoryAppender();
+    @Given("the next train is expected to leave in {int} minutes")
+    public void theNextTrainIsExpectedToLeaveAt(int expectedDepartureMinutes) {
+        Instant expectedDepartureTime = Instant.now().plus(expectedDepartureMinutes, ChronoUnit.MINUTES);
+        configureMockServerWithExpectedDepartureTime(expectedDepartureTime);
     }
 
-    @After
-    public void resetAndStopLogger() {
-        memoryAppender.reset();
-        memoryAppender.stop();
-    }
-
-    @Given("^Today is April 9, 2022 at 08:30 am$")
-    public void todayIs20200409At0830Am() {
-        String nowString = "2022-04-09T08:30:00+02:00";
-        clock = Clock.fixed(Instant.parse(nowString), ZoneId.of("Europe/Berlin"));
-        cli.setClock(clock);
-    }
-
-    @Given("The next train is expected to leave at {string}")
-    public void theNextTrainIsExpectedToLeaveAt(String expectedDepartureTime) {
-        configureMockServerWithExpectedDepartureTime(expectedDepartureTime, clock);
-    }
-
-    @When("^I run the application$")
+    @When("^I call the API$")
     public void i_run_the_application() {
-        cli.run();
+        response = restTemplate.getForEntity(apiEndpoint(), ExpectedDepartureResponse.class).getBody();
     }
 
-    @Then("I should see {string} as scheduled departure time for the next train")
-    public void i_should_see_the_train_delays(String expectedDepartureTime) {
-        List<ILoggingEvent> events = memoryAppender.search("Next train is scheduled to leave at ", Level.INFO);
+    @Then("the expected departure is {int} minutes in the future")
+    public void i_should_see_the_train_delays(int expectedDepartureMinutes) {
+        ZonedDateTime expected = Instant.now().plus(expectedDepartureMinutes, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC);
+        ZonedDateTime actual = response.getExpectedDeparture();
 
-        assertEquals(1, events.size(), "Expected exactly one matching log message");
+        long differenceSeconds = Math.abs(between(expected, actual).getSeconds());
+        int toleranceSeconds = 30;
 
-        String actualDepartureTime = (String) events.get(0).getArgumentArray()[0];
-        assertEquals(expectedDepartureTime, actualDepartureTime);
+        assertTrue(differenceSeconds <= toleranceSeconds, "Expected departure time is " + differenceSeconds + " seconds off");
     }
 }
