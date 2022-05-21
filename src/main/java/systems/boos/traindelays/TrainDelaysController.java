@@ -25,6 +25,6 @@ public class TrainDelaysController {
 
         return new ExpectedDepartureResponse(nextDeparture.get().atZone(ZoneOffset.UTC));
 
-        // TODO Handle edge cases: no next departure, exception from timetables service
+        // TODO Handle edge cases: no next departure, exception from timetables service (e.g. status 500, not authorized because wrong api key)
     }
 }

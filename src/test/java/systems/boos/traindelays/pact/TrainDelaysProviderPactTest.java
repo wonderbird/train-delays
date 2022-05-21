@@ -10,8 +10,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import systems.boos.traindelays.TimetablesService;
+import systems.boos.traindelays.common.InstantBuilder;
+import systems.boos.traindelays.common.TimetableStopTestDataBuilder;
+import systems.boos.traindelays.model.Timetable;
+
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 @Provider("TrainDelaysService")
 @PactFolder("pacts")
@@ -19,7 +28,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TrainDelaysProviderPactTest {
     @LocalServerPort
-    int port;
+    private int port;
+
+    @MockBean
+    private TimetablesService timetablesService;
 
     @BeforeEach
     void setUp(PactVerificationContext context) {
@@ -34,6 +46,8 @@ class TrainDelaysProviderPactTest {
 
     @State("the next departure time is present")
     public void theNextDepartureTimeIsPresent() {
-        // nothing to do, real service is used
+        Timetable timetable = new Timetable();
+        timetable.setTimetableStops(List.of(TimetableStopTestDataBuilder.stopWithDeparture(InstantBuilder.inMinutes(10))));
+        when(timetablesService.fetchChanges()).thenReturn(timetable);
     }
 }
