@@ -31,14 +31,14 @@ class TimetableConsumerPactTest {
     Instant arbitraryInstant = Instant.parse("2022-04-01T19:49:00Z");
 
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
-    V4Pact findChanges(PactBuilder builder) {
+    V4Pact departureIsPresent(PactBuilder builder) {
         String apiDateTimePattern = "yyMMddHHmm";
         String apiResponseChangedTime = arbitraryInstant.atZone(ZoneId.of("Europe/Berlin"))
                 .format(DateTimeFormatter.ofPattern(apiDateTimePattern));
 
         return builder
                 .usingLegacyDsl()
-                .given("station with eva 8005143 exists")
+                .given("departure for station with eva 8005143 present")
                 .uponReceiving("fetch changes for station with eva 8005143")
                 .method("GET")
                 .path("/fchg/8005143")
@@ -54,9 +54,29 @@ class TimetableConsumerPactTest {
                 .toPact(V4Pact.class);
     }
 
+    @Pact(consumer = "FrontendApplication", provider = "TimetableService")
+    V4Pact departureIsNotPresent(PactBuilder builder) {
+        String apiDateTimePattern = "yyMMddHHmm";
+        String apiResponseChangedTime = arbitraryInstant.atZone(ZoneId.of("Europe/Berlin"))
+                .format(DateTimeFormatter.ofPattern(apiDateTimePattern));
+
+        return builder
+                .usingLegacyDsl()
+                .given("no departures for station with eva 8005143 present")
+                .uponReceiving("fetch changes for station with eva 8005143")
+                .method("GET")
+                .path("/fchg/8005143")
+                .willRespondWith()
+                .status(200)
+                .headers(headers())
+                .body(new PactXmlBuilder("timetable")
+                        .build(root -> {}))
+                .toPact(V4Pact.class);
+    }
+
     @Test
-    @PactTestFor(pactMethod = "findChanges")
-    void findChanges_whenStationWithEvaExists(MockServer mockServer) {
+    @PactTestFor(pactMethod = "departureIsPresent")
+    void findChanges_whenDepartureForStationWithEvaIsPresent(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
@@ -68,6 +88,18 @@ class TimetableConsumerPactTest {
 
         assertEquals(1, actual.getTimetableStops().size());
         assertEquals(expected, actual.getTimetableStops().get(0).getDepartures().get(0));
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "departureIsNotPresent")
+    void findChanges_whenDepartureForStationWithEvaIsNotPresent(MockServer mockServer) {
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .rootUri(mockServer.getUrl())
+                .build();
+
+        Timetable actual = new TimetablesService(restTemplate).fetchChanges();
+
+        assertEquals(0, actual.getTimetableStops().size());
     }
 
     private <T> Map<String, T> mapOf(String key, T value) {
