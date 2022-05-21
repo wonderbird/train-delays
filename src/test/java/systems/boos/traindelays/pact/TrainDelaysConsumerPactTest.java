@@ -7,7 +7,7 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.V4Pact;
 import au.com.dius.pact.core.model.annotations.Pact;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -20,7 +20,7 @@ import java.time.Instant;
 @ExtendWith(PactConsumerTestExt.class)
 class TrainDelaysConsumerPactTest {
     @Pact(consumer = "ClientApplication", provider = "TrainDelaysService")
-    V4Pact nextDeparture(PactBuilder builder) {
+    V4Pact nextDepartureIsPresent(PactBuilder builder) {
         return builder
                 .usingLegacyDsl()
                 .given("the next departure time is present")
@@ -34,15 +34,15 @@ class TrainDelaysConsumerPactTest {
     }
 
     @Test
-    @PactTestFor(pactMethod = "nextDeparture")
-    @SuppressWarnings("java:S2699")
-        // Suppress SonarLint warning about missing assert. This test works if no exception is thrown.
+    @PactTestFor(pactMethod = "nextDepartureIsPresent")
     void departures_whenDepartureExists(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
 
-        new TrainDelaysService(restTemplate).nextDeparture();
+        Departure departure = new TrainDelaysService(restTemplate).nextDeparture();
+
+        Assertions.assertNotNull(departure.expectedDeparture);
     }
 
     private static class TrainDelaysService {
@@ -52,8 +52,8 @@ class TrainDelaysConsumerPactTest {
             this.restTemplate = restTemplate;
         }
 
-        public void nextDeparture() {
-            Departure ignoredDeparture = restTemplate.<Departure>exchange("/nextdeparture",
+        public Departure nextDeparture() {
+            return restTemplate.<Departure>exchange("/nextdeparture",
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<>() {
@@ -62,7 +62,6 @@ class TrainDelaysConsumerPactTest {
     }
 
     private static class Departure {
-        @JsonProperty("expecteddeparture")
         public Instant expectedDeparture;
     }
 }
