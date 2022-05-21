@@ -50,4 +50,10 @@ class TrainDelaysProviderPactTest {
         timetable.setTimetableStops(List.of(TimetableStopTestDataBuilder.stopWithDeparture(InstantBuilder.inMinutes(10))));
         when(timetablesService.fetchChanges()).thenReturn(timetable);
     }
+
+    @State("the next departure time is not present")
+    public void theNextDepartureTimeIsNotPresent() {
+        Timetable timetable = new Timetable();
+        when(timetablesService.fetchChanges()).thenReturn(timetable);
+    }
 }

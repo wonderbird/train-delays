@@ -10,6 +10,29 @@
         ]
       },
       "description": "fetch next departure",
+      "key": "3260667e",
+      "pending": false,
+      "providerStates": [
+        {
+          "name": "the next departure time is not present"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/nextdeparture"
+      },
+      "response": {
+        "status": 204
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "comments": {
+        "text": [
+
+        ]
+      },
+      "description": "fetch next departure",
       "key": "c882d251",
       "pending": false,
       "providerStates": [
