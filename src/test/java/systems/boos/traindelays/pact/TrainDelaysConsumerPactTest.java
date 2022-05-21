@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
@@ -28,14 +29,28 @@ class TrainDelaysConsumerPactTest {
                 .method("GET")
                 .path("/nextdeparture")
                 .willRespondWith()
-                .status(200)
+                .status(HttpStatus.OK.value())
                 .body(new PactDslJsonBody().datetime("expectedDeparture", "yyyy-MM-dd'T'HH:mm:ss'Z'"))
+                .toPact(V4Pact.class);
+    }
+
+    @Pact(consumer = "ClientApplication", provider = "TrainDelaysService")
+    V4Pact nextDepartureIsNotPresent(PactBuilder builder) {
+        return builder
+                .usingLegacyDsl()
+                .given("the next departure time is not present")
+                .uponReceiving("fetch next departure")
+                .method("GET")
+                .path("/nextdeparture")
+                .willRespondWith()
+                .status(HttpStatus.NO_CONTENT.value())
+                .body("")
                 .toPact(V4Pact.class);
     }
 
     @Test
     @PactTestFor(pactMethod = "nextDepartureIsPresent")
-    void departures_whenDepartureExists(MockServer mockServer) {
+    void departures_whenDepartureIsPresent(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
@@ -43,6 +58,18 @@ class TrainDelaysConsumerPactTest {
         Departure departure = new TrainDelaysService(restTemplate).nextDeparture();
 
         Assertions.assertNotNull(departure.expectedDeparture);
+    }
+
+    @Test
+    @PactTestFor(pactMethod = "nextDepartureIsNotPresent")
+    void departures_whenDepartureIsNotPresent(MockServer mockServer) {
+        RestTemplate restTemplate = new RestTemplateBuilder()
+                .rootUri(mockServer.getUrl())
+                .build();
+
+        Departure departure = new TrainDelaysService(restTemplate).nextDeparture();
+
+        Assertions.assertNull(departure);
     }
 
     private static class TrainDelaysService {
