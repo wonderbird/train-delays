@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(PactConsumerTestExt.class)
 class TimetableConsumerPactTest {
-    Instant arbitraryInstant = Instant.parse("2022-04-01T19:49:00Z");
+    final Instant arbitraryInstant = Instant.parse("2022-04-01T19:49:00Z");
 
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
     V4Pact invalidTimetableApiToken(PactBuilder builder) {
@@ -43,13 +43,11 @@ class TimetableConsumerPactTest {
                 .willRespondWith()
                 .status(HttpStatus.UNAUTHORIZED.value())
                 .headers(jsonContentTypeHeader())
-                .body(newJsonBody(root -> {
-                    root.object("error", error -> {
-                        error.integerType("code", 900901);
-                        error.stringType("message", "Invalid Credentials");
-                        error.stringType("description", "Access failure. Unauthorized.");
-                    });
-                }).build())
+                .body(newJsonBody(root -> root.object("error", error -> {
+                    error.integerType("code", 900901);
+                    error.stringType("message", "Invalid Credentials");
+                    error.stringType("description", "Access failure. Unauthorized.");
+                })).build())
                 .toPact(V4Pact.class);
     }
 
