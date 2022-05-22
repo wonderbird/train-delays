@@ -45,9 +45,9 @@ class TimetableConsumerPactTest {
                 .headers(jsonContentTypeHeader())
                 .body(newJsonBody(root -> {
                     root.object("error", error -> {
-                       error.integerType("code", 900901);
-                       error.stringType("message", "Invalid Credentials");
-                       error.stringType("description", "Access failure. Unauthorized.");
+                        error.integerType("code", 900901);
+                        error.stringType("message", "Invalid Credentials");
+                        error.stringType("description", "Access failure. Unauthorized.");
                     });
                 }).build())
                 .toPact(V4Pact.class);
@@ -55,14 +55,39 @@ class TimetableConsumerPactTest {
 
     @Test
     @PactTestFor(pactMethod = "invalidTimetableApiToken")
-    void findChanges_whenApiTokenIsInvalid(MockServer mockServer) {
-        RestTemplate restTemplate = new RestTemplateBuilder()
-                .rootUri(mockServer.getUrl())
-                .build();
+    void fetchChanges_whenApiTokenIsInvalid(MockServer mockServer) {
+        fetchChanges_ShouldReturnEmptyTimetable(mockServer);
+    }
 
-        Timetable actual = new TimetablesService(restTemplate).fetchChanges();
+    // Note that an internal server error is also caused by
+    //
+    //     too many requests per minute (rate limit).
+    //
+    // That means that it will be normal to receive HTTP Status 500, when
+    // the API is used by many clients.
 
-        assertEquals(0, actual.getTimetableStops().size());
+    @Pact(consumer = "FrontendApplication", provider = "TimetableService")
+    V4Pact timetableServerError(PactBuilder builder) {
+        return builder
+                .usingLegacyDsl()
+                .given("the timetable api returns a server error")
+                .uponReceiving("fetch changes for station with eva 8005143")
+                .method("GET")
+                .path("/fchg/8005143")
+                .willRespondWith()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .headers(xmlContentTypeHeader())
+                .body(new PactXmlBuilder("soapenv:Reason")
+                        .build(root -> {
+                            root.setAttributes(mapOf("xmlns:soapenv", "http://www.w3.org/2003/05/soap-envelope"));
+                            root.appendElement("Text", "unknown");
+                        }))
+                .toPact(V4Pact.class);
+    }
+    @Test
+    @PactTestFor(pactMethod = "timetableServerError")
+    void fetchChanges_whenTimetabelServerReturnsInternalServerError(MockServer mockServer) {
+        fetchChanges_ShouldReturnEmptyTimetable(mockServer);
     }
 
     @Pact(consumer = "FrontendApplication", provider = "TimetableService")
@@ -91,7 +116,7 @@ class TimetableConsumerPactTest {
 
     @Test
     @PactTestFor(pactMethod = "departureIsPresent")
-    void findChanges_whenDepartureIsPresent(MockServer mockServer) {
+    void fetchChanges_whenDepartureIsPresent(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();
@@ -123,7 +148,11 @@ class TimetableConsumerPactTest {
 
     @Test
     @PactTestFor(pactMethod = "departureIsNotPresent")
-    void findChanges_whenDepartureIsNotPresent(MockServer mockServer) {
+    void fetchChanges_whenDepartureIsNotPresent(MockServer mockServer) {
+        fetchChanges_ShouldReturnEmptyTimetable(mockServer);
+    }
+
+    private void fetchChanges_ShouldReturnEmptyTimetable(MockServer mockServer) {
         RestTemplate restTemplate = new RestTemplateBuilder()
                 .rootUri(mockServer.getUrl())
                 .build();

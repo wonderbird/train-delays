@@ -34,7 +34,5 @@ public class TrainDelaysController {
         }
 
         return result;
-
-        // TODO Handle edge cases: exception from timetables service (e.g. status 500, not authorized because wrong api key)
     }
 }
