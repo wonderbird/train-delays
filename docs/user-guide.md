@@ -18,8 +18,22 @@ one for free:
     - Select `DefaultApplication` in the `Application` dropdown
         - Click `Subscribe`
 
-## Run the Application
+## Run the Application in a Docker Container
+
+```sh
+docker run -p 8080:8080 --env API_KEY=<YOUR API KEY> --name train-delays-app --rm train-delays-app
+```
+
+## Run the Application Using a Local Java Installation
 
 ```sh
 API_KEY="<YOUR API KEY>" ./gradlew bootRun
+```
+
+## Query the Next Departure
+
+Fire an HTTP GET request to http://localhost:8080/nextdeparture
+
+```sh
+curl --include http://localhost:8080/nextdeparture
 ```
