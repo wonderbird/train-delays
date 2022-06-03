@@ -18,7 +18,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // adding the Jackson reference automatically allows processing application/xml response bodies
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.2'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
