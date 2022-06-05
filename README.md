@@ -18,6 +18,12 @@ The current version is one step on the road to the [Product Vision](docs/product
 Many thanks to [JetBrains](https://www.jetbrains.com/?from=train-delays) who provide
 an [Open Source License](https://www.jetbrains.com/community/opensource/) for this project ❤️.
 
+## Documentation Overview
+
+- [User Guide](docs/user-guide.md)
+- [Architecture](docs/architecture.adoc)
+- [Test Concept](docs/test-concepts.md)
+
 ## Build, Test, Run
 
 ### Build the Solution and Run the Tests

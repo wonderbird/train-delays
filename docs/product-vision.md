@@ -10,4 +10,4 @@ Configure the complication using the associated iPhone App:
 
 The following screenshot shows that the next train with number "RB25" is expected to be delayed by 7 minutes.
 
-![Apple Watch Clock Face Showing Train Delays](product-vision.png)
+![Apple Watch Clock Face Showing Train Delays](images/product-vision.png)
