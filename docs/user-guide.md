@@ -20,14 +20,14 @@ one for free:
 
 ## Run the Application in a Docker Container
 
-The [build pipeline](../.github/workflows/build.yml) publishes the application to the GitHub Packages directory. Thus,
-you can pull an image and run it.
+The [build pipeline](../.github/workflows/build.yml) publishes the application to [Docker
+Hub](https://hub.docker.com/r/boos/train-delays). Thus, you can pull an image and run it.
 
 In the following, replace `<YOUR API KEY>` with the `Access Token` displayed on the [My Subscriptions
 Tab](https://developer.deutschebahn.com/store/site/pages/subscriptions.jag).
 
 ```sh
-docker run -p 8080:8080 --env API_KEY=<YOUR API KEY> --name train-delays-app --rm boos/train-delays:feature-web-app
+docker run -p 8080:8080 --env API_KEY=<YOUR API KEY> --name train-delays-app --rm boos/train-delays
 ```
 
 ## Alternative for Developers: Run the Application Using a Local Java Installation
