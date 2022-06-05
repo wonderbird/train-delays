@@ -128,3 +128,16 @@ The following table relates the quality goals introduced in <<1.2 Quality Goals>
 * Readability and understandability are important aspects for new code
 * The architecture is described and updated frequently
 |===
+
+== 5 Building Block View
+
+The Train Delays application is a Spring Boot REST service. The structure is simple and can be found in the folder
+link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traindelays].
+
+== 6 Deployment View
+
+For main branch builds, the link:../.github/workflows/gradle.yml[build pipeline] creates a docker image containing the build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
+
+Users run the image on their Docker instance.
+
+Further details are described in the link:user-guide.md[User Guide].
