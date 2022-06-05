@@ -1,9 +1,10 @@
 # Train Delays
 
-[![Build Status Badge](https://github.com/wonderbird/train-delays/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/wonderbird/train-delays/actions/workflows/gradle.yml?query=workflow%3A%22Java+CI+with+Gradle%22)
+[![Build Status Badge](https://github.com/wonderbird/train-delays/workflows/Build%20and%20Publish/badge.svg)](https://github.com/wonderbird/train-delays/actions/workflows/build.yml?query=workflow%3A%22Build+and+Publish%22)
 [![Coverage Status Badge](https://coveralls.io/repos/github/wonderbird/train-delays/badge.svg?branch=main)](https://coveralls.io/github/wonderbird/train-delays?branch=main)
-[![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/test_coverage)](https://codeclimate.com/github/wonderbird/train-delays/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
+[![Image Size](https://img.shields.io/docker/image-size/boos/train-delays)](https://hub.docker.com/repository/docker/boos/train-delays)
 
 Find out when will the next train will leave the station Rösrath Stümpen.
 
