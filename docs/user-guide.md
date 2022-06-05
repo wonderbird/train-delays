@@ -20,7 +20,7 @@ one for free:
 
 ## Run the Application in a Docker Container
 
-The [build pipeline](../.github/workflows/gradle.yml) publishes the application to the GitHub Packages directory. Thus,
+The [build pipeline](../.github/workflows/build.yml) publishes the application to the GitHub Packages directory. Thus,
 you can pull an image and run it.
 
 In the following, replace `<YOUR API KEY>` with the `Access Token` displayed on the [My Subscriptions

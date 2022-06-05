@@ -136,7 +136,8 @@ link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traind
 
 == 6 Deployment View
 
-For main branch builds, the link:../.github/workflows/gradle.yml[build pipeline] creates a docker image containing the build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
+For main branch builds, the link:../.github/workflows/build.yml[build pipeline] creates a docker image containing the
+build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
 
 Users run the image on their Docker instance.
 

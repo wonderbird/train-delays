@@ -1,11 +1,11 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+# Build Java JAR and publish as Docker image to Docker Hub.
+#
+# Adopted from
+#
+# - https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+# -
 
-name: Java CI with Gradle
+name: Build and Publish
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and test
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -50,9 +50,11 @@ jobs:
     name: Publish Test Reports
     runs-on: ubuntu-latest
 
-    # Repository secrets may only be used when running on the controlled main branch
-    # otherwise we run the risk of exposing secrets to a malicious attacker
-    if: github.ref == 'refs/heads/main'
+    #   Repository secrets may only be used when running on the controlled main branch
+    #   otherwise we run the risk of exposing secrets to a malicious attacker
+    # AND
+    #   Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
+    if: github.ref == 'refs/heads/main' && github.repository == 'wonderbird/train-delays'
 
     needs: build-and-test
 
@@ -91,9 +93,11 @@ jobs:
     name: Publish Docker Image
     runs-on: ubuntu-latest
 
-    # Repository secrets may only be used when running on the controlled main branch
-    # otherwise we run the risk of exposing secrets to a malicious attacker
-    if: github.ref == 'refs/heads/main'
+    #   Repository secrets may only be used when running on the controlled main branch
+    #   otherwise we run the risk of exposing secrets to a malicious attacker
+    # AND
+    #   Ensure this job never runs on forked repos. It's only executed for 'dspace/dspace'
+    if: github.ref == 'refs/heads/main' && github.repository == 'wonderbird/train-delays'
 
     needs: build-and-test
 
