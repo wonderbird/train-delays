@@ -1,6 +1,8 @@
 package systems.boos.traindelays.unit;
 
 import org.junit.jupiter.api.Test;
+import systems.boos.traindelays.common.InstantBuilder;
+import systems.boos.traindelays.common.TimetableStopTestDataBuilder;
 import systems.boos.traindelays.model.Event;
 import systems.boos.traindelays.model.Timetable;
 import systems.boos.traindelays.model.TimetableStop;
@@ -18,28 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 class TimetableTest {
 
-    private final Instant time7am = timeToInstant("07:00");
-
-    private static TimetableStop stopWithDeparture(Instant changedTime) {
-        Event departure = new Event();
-        departure.setChangedTime(changedTime);
-
-        TimetableStop stop = new TimetableStop();
-        stop.setDepartures(List.of(departure));
-        return stop;
-    }
-
-    private static Instant timeToInstant(String timeString) {
-        String changedTimeString = String.format("2022-04-09T%s:00+02:00", timeString);
-        return Instant.parse(changedTimeString);
-    }
+    private final Instant time7am = InstantBuilder.atTime("07:00");
 
     @Test
     void findFirstDepartureAfter_SingleTimetableStop_ReturnsDeparture() {
-        Instant expectedDeparture = timeToInstant("08:00");
+        Instant expectedDeparture = InstantBuilder.atTime("08:00");
 
         Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(stopWithDeparture(expectedDeparture)));
+        timetable.setTimetableStops(List.of(TimetableStopTestDataBuilder.stopWithDeparture(expectedDeparture)));
 
         Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
@@ -48,12 +36,12 @@ class TimetableTest {
 
     @Test
     void findFirstDepartureAfter_UnsortedTimetableStops_ReturnsNearestNextDeparture() {
-        Instant expectedDeparture = timeToInstant("08:00");
+        Instant expectedDeparture = InstantBuilder.atTime("08:00");
 
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(List.of(
-                stopWithDeparture(timeToInstant("09:30")),
-                stopWithDeparture(expectedDeparture)));
+                TimetableStopTestDataBuilder.stopWithDeparture(InstantBuilder.atTime("09:30")),
+                TimetableStopTestDataBuilder.stopWithDeparture(expectedDeparture)));
 
         Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 
@@ -63,7 +51,7 @@ class TimetableTest {
     @Test
     void findFirstDepartureAfter_SinglePastTimetableStop_ReturnsEmptyOptional() {
         Timetable timetable = new Timetable();
-        timetable.setTimetableStops(List.of(stopWithDeparture(timeToInstant("06:00"))));
+        timetable.setTimetableStops(List.of(TimetableStopTestDataBuilder.stopWithDeparture(InstantBuilder.atTime("06:00"))));
 
         Optional<Instant> actualDeparture = timetable.findFirstDepartureAfter(time7am);
 

@@ -31,6 +31,12 @@ jobs:
         with:
           arguments: clean build test cucumber jacocoTestReport
 
+      - name: Attach JAR as Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: train-delays-0.0.1-SNAPSHOT.jar
+          path: build/libs/train-delays-0.0.1-SNAPSHOT.jar
+
       - name: Attach Test Results as Build Artifacts
         if: always()
         uses: actions/upload-artifact@v3
@@ -41,11 +47,11 @@ jobs:
             build/reports/tests
 
   publish-reports:
-    name: Publish reports
+    name: Publish Test Reports
     runs-on: ubuntu-latest
 
-    # Coveralls and CodeClimate repository tokens may only be used when running on the controlled main branch
-    # otherwise we run the risk of exposing the repository secret to a malicious attacker
+    # Repository secrets may only be used when running on the controlled main branch
+    # otherwise we run the risk of exposing secrets to a malicious attacker
     if: github.ref == 'refs/heads/main'
 
     needs: build-and-test
@@ -79,3 +85,44 @@ jobs:
           JACOCO_SOURCE_PATH: "src/main/java"
         with:
           coverageLocations: build/reports/jacoco/test/jacocoTestReport.xml:jacoco
+
+  publish-docker-image:
+    # Documentation: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
+    name: Publish Docker Image
+    runs-on: ubuntu-latest
+
+    # Repository secrets may only be used when running on the controlled main branch
+    # otherwise we run the risk of exposing secrets to a malicious attacker
+    if: github.ref == 'refs/heads/main'
+
+    needs: build-and-test
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download JAR
+        uses: actions/download-artifact@v3
+        with:
+          name: train-delays-0.0.1-SNAPSHOT.jar
+          path: build/libs
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: boos/train-delays
+          tags: type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

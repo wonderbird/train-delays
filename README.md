@@ -7,8 +7,8 @@
 
 Find out when will the next train will leave the station Rösrath Stümpen.
 
-The [User Guide](docs/user-guide.md) describes how to find out the corrected departure time of the
-train RB25 from the train station Rösrath Stümpen. The user interface is a console application written in Java.
+This web application shows the expected departure time of the next train from the station Rösrath-Stümpen.
+The [User Guide](docs/user-guide.md) describes how to run the application.
 
 The current version is one step on the road to the [Product Vision](docs/product-vision.md).
 

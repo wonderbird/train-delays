@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
  * <p>
  * Convenient appender to be able to check slf4j invocations.
  * <p>
- * For usage instructions, see https://www.baeldung.com/junit-asserting-logs
+ * For usage instructions, see <a href="https://www.baeldung.com/junit-asserting-logs">Baeldung: Asserting Log Messages With JUnit</a>
  * <p>
  * The method {@link #startMemoryAppender()} creates the appender and inserts it into the logging framework.
  * <p>
- * Adopted from https://github.com/eugenp/tutorials/blob/master/testing-modules/testing-assertions/src/test/java/com/baeldung/junit/log/MemoryAppender.java
+ * Adopted from <a href="https://github.com/eugenp/tutorials/blob/master/testing-modules/testing-assertions/src/test/java/com/baeldung/junit/log/MemoryAppender.java">Eugen on GitHub: MemoryAppender.java</a>
  * <p>
  * MIT License
  * <p>
