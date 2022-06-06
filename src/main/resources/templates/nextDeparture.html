@@ -5,6 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    <p th:text="'Die nächste RB25 verlässt Rösrath Stümpen um ' + ${departure} + ' Uhr.'" />
+    <p>
+        Die nächste RB25 verlässt Rösrath Stümpen um
+        <span id="departure" th:text="${departure}" />
+        Uhr.
+    </p>
 </body>
 </html>

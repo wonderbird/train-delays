@@ -27,6 +27,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: "com.vaadin.external.google", module: "android-json"
     }
+    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.62.0'
 
     testImplementation 'au.com.dius.pact.consumer:java8:4.1.38'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.3.10'
