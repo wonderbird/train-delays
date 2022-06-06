@@ -6,7 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.mockserver.integration.ClientAndServer;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.web.client.RestTemplate;
 import systems.boos.traindelays.ExpectedDepartureResponse;
 import systems.boos.traindelays.common.TimetableApiResponses;
