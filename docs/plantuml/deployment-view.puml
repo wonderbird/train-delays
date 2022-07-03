@@ -25,7 +25,7 @@ cloud "Google" {
             }
         }
 
-        node "Cloud Run" {
+        node "Cloud Run" as google_cloud_run {
             agent "Train Delays" <<Docker Container>> as google_container
         }
     }
@@ -38,8 +38,7 @@ gh_repo --> google_build: trigger build
 gh_build --> docker_image: update image
 
 google_build --> google_image: update image
-google_build --> google_container: deploy new instance
-google_container -> google_image: is instance of
+google_image <-- google_cloud_run: re-deploy
 
 google_container <-- user: browse to web app
 @enduml
