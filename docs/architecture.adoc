@@ -6,14 +6,15 @@
 
 == Acknowledgements
 
-This documentation is based on the https://docs.arc42.org[arc42] template.
-The examples provided there and in https://www.dokchess.de/["DokChess als Beispiel für arc42"] act as templates for some sections.
-Many thanks to all contributors for your valuable work.
+This documentation is based on the https://docs.arc42.org[arc42] template. The examples provided there and in
+https://www.dokchess.de/["DokChess als Beispiel für arc42"] act as templates for some sections. Many thanks to all
+contributors for your valuable work.
 
 == 1 Introduction and Goals
 
-Commuters using the Deutsche Bahn frequently face train delays and cancellations.
-Knowing the expected train delay or cancellation upfront allows to find alternative means of transportation so that the commuters reach their destination relaxed and on time.
+Commuters using the Deutsche Bahn frequently face train delays and cancellations. Knowing the expected train delay or
+cancellation upfront allows to find alternative means of transportation so that the commuters reach their destination
+relaxed and on time.
 
 The Train Delays system provides an easy mechanism to see train delays or cancellations early.
 
@@ -118,6 +119,7 @@ The following table relates the quality goals introduced in <<1.2 Quality Goals>
 |Low-cost operation (Resource Utilization)
 |* A public GitHub repository is used to maintain the source code
 * The Train Delays services are published as docker containers with small footprint
+* Docker instances running the Train Delays services are created on demand on https://cloud.google.com/run?hl=en[Google Cloud Run] (see <<ADR-001 Deployment Platform: Google Cloud Run>>).
 
 |Easy to use (Learnability)
 |* The user interface is designed to require a minimum number of interactions (clicks, touches)
@@ -142,3 +144,71 @@ build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
 Users run the image on their Docker instance.
 
 Further details are described in the link:user-guide.md[User Guide].
+
+== 9 Architecture Decisions
+
+Architecture Decisions are documented in this section in the form of Architecture Decision Records (ADR). For more information, refer to the https://adr.github.io/[ADR GitHub Organization].
+
+=== ADR-001 Deployment Platform: Google Cloud Run
+
+[cols="1,2"]
+|===
+|status | accepted
+|date   | July 3, 2022
+|===
+
+==== Context and Problem Statement
+
+The Train Delays web application shall be available as a permanent service with a fixed internet address.
+
+Which deployment technology and hosting provider shall be selected?
+
+==== Decision Drivers
+
+From section <<1.2 Quality Goals>>, especially the following quality attributes are important:
+
+* Low-cost operation (resource utilization)
+* Easy to use (learnability)
+
+As described in section <<2 Constraints>>, **common technologies** shall be used.
+
+==== Considered Options
+
+A short search on the internet brought up Geekflare:
+https://geekflare.com/docker-hosting-platforms/#geekflare-toc-google-cloud-run[10 Best Docker Hosting Platforms for your
+Containers] dated June 30, 2022.
+
+==== Decision Outcome: Google Cloud Run
+
+From the list, https://cloud.google.com/run?hl=en[Google Cloud Run] has been tested shortly and selected. Other products have not been tested yet. This ADR shall be re-evaluated when the https://cloud.google.com/run?hl=en[Google Cloud Run] platform shows disadvantages or when other platforms seem to fit better.
+
+The following properties of Google Cloud Run are matching the decision drivers:
+
+* Common technologies
+** The platform is compatible with the currently widely spread Docker container technology
+** An automatic deployment can be triggered by pushing changes to a GitHub repository
+
+* Low-cost operation (resource utilization)
+** Container instances are only paid when they are running
+** Docker containers are only created when there are pending requests
+** Docker containers are automatically shut down when idle
+** Request rate limits can be configured
+** The maximum number of running Docker containers can be configured
+
+* Easy to use (learnability)
+** There are sufficient user guides and examples helping new user to learn the technology (see section <<Documentation of the Google Cloud Run Platform>> below)
+
+==== Documentation of the Google Cloud Run Platform
+
+The following links are presented in suggested reading order:
+
+. https://cloud.google.com/run?hl=en[Cloud Run] - Product Overview.
+. https://cloud.google.com/run/docs/quickstarts/deploy-container?hl=en[Deploy a container to Cloud Run]
+. https://cloud.google.com/run/docs/building/containers?hl=en[Building Containers]
+. https://cloud.google.com/artifact-registry/docs/overview?hl=en[Artifact Registry]
+. https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en[Store Docker container images in Artifact Registry]
+
+The following links show the tools provided by Google:
+
+** https://console.cloud.google.com/home/dashboard[Google Cloud Console] - Dashboard.
+** https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]
