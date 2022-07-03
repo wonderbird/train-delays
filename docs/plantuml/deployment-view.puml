@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+
+actor Owner as owner
+actor User as user
+
+cloud GitHub {
+    database "wonderbird/\ntrain-delays" <<Repository>> as gh_repo
+    agent "Build and Publish" <<GitHub Action>> as gh_build
+}
+
+cloud dockerhub {
+    database "boos" <<Repository>> {
+        artifact "train-delays" <<Image>> as docker_image
+    }
+}
+
+cloud "Google" {
+    package "Train Delays" <<Project>> {
+        agent "Cloud Build" <<Action>> as google_build
+
+        database "Artifact Repository" <<Repository>> {
+            database "Docker Repository" <<Repository>> {
+                artifact "train-delays" <<Image>> as google_image
+            }
+        }
+
+        node "Cloud Run" {
+            agent "Train Delays" <<Docker Container>> as google_container
+        }
+    }
+}
+
+owner --> gh_repo: push changes
+gh_repo --> gh_build: trigger build
+gh_repo --> google_build: trigger build
+
+gh_build --> docker_image: update image
+
+google_build --> google_image: update image
+google_build --> google_container: deploy new instance
+google_container -> google_image: is instance of
+
+google_container <-- user: browse to web app
+@enduml

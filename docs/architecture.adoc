@@ -138,12 +138,14 @@ link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traind
 
 == 6 Deployment View
 
-For main branch builds, the link:../.github/workflows/build.yml[build pipeline] creates a docker image containing the
-build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
+image::{gitplant}/deployment-view.puml[Deployment View]
 
-Users run the image on their Docker instance.
+For every change pushed to the GitHub repository, two build actions are triggered:
 
-Further details are described in the link:user-guide.md[User Guide].
+. The GitHub "Build and Publish" action build and runs all tests. If successful, it updates the train-delays image on
+dockerhub.
+
+. The Google Cloud Build action builds the docker image (again) and pushes it to the repository inside the Google project. From there, Cloud Run re-deploys the updated train delays instance.
 
 == 9 Architecture Decisions
 
