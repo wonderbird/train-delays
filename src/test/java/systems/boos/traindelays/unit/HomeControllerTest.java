@@ -33,10 +33,12 @@ class HomeControllerTest {
         webClient = MockMvcWebClientBuilder
                 .webAppContextSetup(context)
                 .build();
+        webClient.getOptions().setJavaScriptEnabled(false);
+        webClient.getOptions().setCssEnabled(false);
     }
 
     @Test
-    void someTest() throws Exception {
+    void homePage_whenDepartureIsPresent() throws Exception {
         Timetable timetable = new Timetable();
         timetable.setTimetableStops(Collections.singletonList(TimetableStopTestDataBuilder.stopWithDeparture(InstantBuilder.inMinutes(10))));
 
