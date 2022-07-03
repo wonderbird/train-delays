@@ -1,4 +1,4 @@
-:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/wonderbird/train-delays/feature/web-app/docs/plantuml
+:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/wonderbird/train-delays/feature/web-view/docs/plantuml
 
 = Architecture
 
