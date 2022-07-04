@@ -136,16 +136,23 @@ The following table relates the quality goals introduced in <<1.2 Quality Goals>
 The Train Delays application is a Spring Boot REST service. The structure is simple and can be found in the folder
 link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traindelays].
 
-== 6 Deployment View
+== 7 Deployment View
 
 image::{gitplant}/deployment-view.puml[Deployment View]
 
+== 8 Concepts
+
+=== 8.1 Build, Test, Deploy
+
+image::{gitplant}/build-test-deploy.puml[Overview of the Build, Test and Deploy Actions]
+
 For every change pushed to the GitHub repository, two build actions are triggered:
 
-. The GitHub Build and Publish action builds and runs all tests. If successful, it updates the train-delays image on
-dockerhub.
+. The link:../.github/workflows/build.yml[GitHub Build and Publish action] builds and runs all tests. If successful, it
+updates the train-delays image on dockerhub.
 
-. The Google Cloud Build action builds the docker image (again) and pushes it to the Docker repository within the Google project. From there, Cloud Run re-deploys the updated train delays instance.
+. The Google Cloud Build action builds the docker image (again) and pushes it to the Docker repository within the Google
+project. From there, Cloud Run re-deploys the updated train delays instance.
 
 == 9 Architecture Decisions
 
