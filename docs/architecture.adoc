@@ -138,7 +138,64 @@ link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traind
 
 == 7 Deployment View
 
+=== 7.1 Overview
+
 image::{gitplant}/deployment-view.puml[Deployment View]
+
+[cols="1,2a"]
+|===
+|Element |Description
+
+|Train Delays Docker Container
+|
+
+The Train Delays web application is a Java process running inside a docker container.
+
+|Cloud Run
+|
+
+The Train Delays Docker Container is hosted in the https://cloud.google.com/run?hl=en[Google Cloud Run] infrastructure.
+
+|Docker Image `train-delays`
+|
+
+This docker image is instantiated by Cloud Run when the Train Delays Docker Container is deployed. The image is
+automatically updated by Google Cloud Build whenever source code is pushed to the GitHub Repository
+`wonderbird/train-delays`.
+
+|Docker Repository
+|
+
+Google Cloud Run requires Docker images to be stored in a Docker Repository, which is part of the same Google project.
+
+|Artifact Repository
+|
+
+The Artifact Repository is the parent structure required when creating a Docker Repository in the Google Cloud.
+
+|Train Delays Project
+|
+
+This Google Cloud Console project is the container for all Google Cloud related configuration of the Train Delays
+system.
+
+|Source Code Repository `wonderbird/train-delays`
+|
+
+This repository contains the Java source code of the Train Delays web application.
+
+|Docker Image `train-delays`
+|
+
+This Docker image is built from the same sources as the image stored in the Docker Repository on Google. Hosting the
+image on dockerhub allows to share it with the Open Source Community.
+
+|Docker Repository `boos`
+|
+
+This public repository allows to share Docker images with the Open Source Community.
+
+|===
 
 == 8 Concepts
 

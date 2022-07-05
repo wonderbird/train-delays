@@ -2,6 +2,7 @@
 left to right direction
 
 actor User as user
+actor Owner as owner
 
 cloud GitHub {
     node "wonderbird/train-delays" <<Source Code Repository>> as gh_repo
@@ -32,4 +33,6 @@ google_container --> google_image: <<instance of>>
 google_image --> gh_repo: <<built from>>
 
 docker_image --> gh_repo: <<built from>>
+
+gh_repo --> owner: <<maintained by>>
 @enduml
