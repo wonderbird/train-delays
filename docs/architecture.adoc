@@ -197,6 +197,42 @@ This public repository allows to share Docker images with the Open Source Commun
 
 |===
 
+=== 7.2 Initial Deployment (Disaster Recovery)
+
+This section lists the steps to set up a deployment to https://cloud.google.com/run?hl=en[Google Cloud Run] from scratch. This is useful in the following scenarios:
+
+. A new contributor has forked the Train Delays system and wants to deploy a system of her own.
+
+. The Train Delays system has been destroyed without being able to recover.
+
+==== 7.2.1 Prerequisites
+
+. Register with https://console.cloud.google.com/[Google Cloud Console]
+
+. https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]
+
+. Authenticate with gcloud (this is a part of the previous step)
+
+   ```shell
+   gcloud init
+   ```
+
+==== 7.2.2 Setup Project and Continuous Deployment
+
+. Follow the instructions in
+https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en[Store Docker container images
+in Artifact Registry] to
+
+   * create a project with billing enabled
+   * enable the https://console.cloud.google.com/apis/library/artifactregistry.googleapis.com[Artifact Registry API] in
+your project.
+   * https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en#create[create a Docker repository]
+
+. Create a service to automatically build the project by following https://cloud.google.com/run/docs/quickstarts/deploy-container?hl=en[Deploy a container to Cloud
+Run]
+
+   * When creating the service, connect to the (forked) GitHub repository
+
 == 8 Concepts
 
 === 8.1 Build, Test, Deploy
