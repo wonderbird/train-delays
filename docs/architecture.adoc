@@ -247,6 +247,39 @@ updates the train-delays image on dockerhub.
 . The Google Cloud Build action builds the docker image (again) and pushes it to the Docker repository within the Google
 project. From there, Cloud Run re-deploys the updated train delays instance.
 
+=== 8.2 Test Concepts
+
+==== 8.2.1 Acceptance Tests
+
+Features and scenarios are specified using the Gherkin DSL and executed with https://cucumber.io/[Cucumber].
+
+The following articles describe the used concepts:
+
+* Moisés Macero: https://thepracticaldeveloper.com/cucumber-tests-spring-boot-dependency-injection/[Cucumber Tests in Spring Boot with Dependency Injection]
+* baeldung: https://www.baeldung.com/junit-asserting-logs[Asserting Log Messages With JUnit]
+
+==== 8.2.2 API Verification
+
+This application uses https://pact.io/[Pact] tests to verify the following APIs:
+
+* Consuming the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Deutsche Bahn Timetables v1 API]
+* Providing the TrainDelays API
+
+==== 8.2.3 Web Application UI Tests
+
+Spring UI controllers are tested using https://htmlunit.sourceforge.io/[HtmlUnit]. In such tests, the backend services are stubbed using Spring `MockBean`s, so that only the UI controller is tested.
+
+The link:../src/test/java/systems/boos/traindelays/unit/HomeControllerTest.java[HomeControllerTest.java] gives an example.
+
+==== 8.2.4 Low Level Tests
+
+JUnit5 based unit tests verify implementation details and most error scenarios.
+
+==== 8.2.5 References
+
+* Philip Riecks: [Guide to @SpringBootTest for Spring Boot Integration
+Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
+
 == 9 Architecture Decisions
 
 Architecture Decisions are documented in this section in the form of Architecture Decision Records (ADR). For more information, refer to the https://adr.github.io/[ADR GitHub Organization].
