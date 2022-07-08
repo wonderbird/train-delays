@@ -232,7 +232,7 @@ free:
 Bahn, Germany.
 
 . On the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab] generate a key for
-the production environment. Save the key to your password manager for using it later.
+the production environment.
 
 . On the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Timetables -
 v1 API page]
@@ -267,7 +267,7 @@ Run]
 
    * When creating the service, connect to the (forked) GitHub repository
    * Pass the environment variable `API_KEY` with the value of the Deutsche
-Bahn Open API Key to the Docker container. You can re-create a key on the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab].
+Bahn Open API Key to the Docker container. You can review your keys on the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab].
 
 == 8 Concepts
 
