@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // adding the Jackson reference automatically allows processing application/xml response bodies
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
@@ -26,6 +27,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: "com.vaadin.external.google", module: "android-json"
     }
+    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.62.0'
 
     testImplementation 'au.com.dius.pact.consumer:java8:4.1.38'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.3.11'

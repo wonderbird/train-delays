@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+
+actor User as user
+actor Owner as owner
+
+cloud GitHub {
+    node "wonderbird/train-delays" <<Source Code Repository>> as gh_repo
+}
+
+cloud dockerhub {
+    node "boos" <<Docker Repository>> {
+        artifact "train-delays" <<Docker Image>> as docker_image
+    }
+}
+
+cloud "Google" {
+    package "Train Delays" <<Project>> {
+        node "Artifact Repository" {
+            node "Docker Repository" {
+                artifact "train-delays" <<Docker Image>> as google_image
+            }
+        }
+
+        node "Cloud Run" as google_cloud_run {
+            agent "Train Delays" <<Docker Container>> as google_container
+        }
+    }
+}
+
+user --> google_container: visit web page
+google_container --> google_image: <<instance of>>
+google_image --> gh_repo: <<built from>>
+
+docker_image --> gh_repo: <<built from>>
+
+gh_repo --> owner: <<maintained by>>
+@enduml

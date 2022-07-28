@@ -12,9 +12,13 @@ class TrainDelaysApplicationTests {
     @Autowired
     private TrainDelaysApplication trainDelaysApplication;
 
+    @Autowired
+    private HomeController homeController;
+
     @Test
     void contextLoads() {
         assertNotNull(trainDelaysApplication);
+        assertNotNull(homeController);
     }
 
 }

@@ -1,4 +1,4 @@
-:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/wonderbird/train-delays/feature/web-app/docs/plantuml
+:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/wonderbird/train-delays/main/docs/plantuml
 
 = Architecture
 
@@ -6,14 +6,15 @@
 
 == Acknowledgements
 
-This documentation is based on the https://docs.arc42.org[arc42] template.
-The examples provided there and in https://www.dokchess.de/["DokChess als Beispiel für arc42"] act as templates for some sections.
-Many thanks to all contributors for your valuable work.
+This documentation is based on the https://docs.arc42.org[arc42] template. The examples provided there and in
+https://www.dokchess.de/["DokChess als Beispiel für arc42"] act as templates for some sections. Many thanks to all
+contributors for your valuable work.
 
 == 1 Introduction and Goals
 
-Commuters using the Deutsche Bahn frequently face train delays and cancellations.
-Knowing the expected train delay or cancellation upfront allows to find alternative means of transportation so that the commuters reach their destination relaxed and on time.
+Commuters using the Deutsche Bahn frequently face train delays and cancellations. Knowing the expected train delay or
+cancellation upfront allows to find alternative means of transportation so that the commuters reach their destination
+relaxed and on time.
 
 The Train Delays system provides an easy mechanism to see train delays or cancellations early.
 
@@ -83,6 +84,8 @@ image::{gitplant}/business-context.puml[Business Context Diagram]
 
 === 3.2 Technical Context
 
+==== 3.2.1 Overview
+
 .Technical Context
 image::{gitplant}/technical-context.puml[Technical Context Diagram]
 
@@ -96,6 +99,20 @@ image::{gitplant}/technical-context.puml[Technical Context Diagram]
 |Deutsche Bahn Germany Open API Portal
 |Train Delays calls the APIs of the Deutsche Bahn Germany Open API Portal.
 |===
+
+==== 3.2.1 External Interfaces
+
+===== Deutsche Bahn Germany Open API Portal
+
+Section <<Subscribe to the Deutsche Bahn Open Data Timetables v1 API>> describes how to register for the API and subscribe to the used services.
+
+The following links give detailed information on the API:
+
+* https://developer.deutschebahn.com/store/site/pages/home.jag[Open API-Portal] of Deutsche
+Bahn, Germany
+
+* https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Timetables -
+v1 API]
 
 == 4 Solution Strategy
 
@@ -118,6 +135,7 @@ The following table relates the quality goals introduced in <<1.2 Quality Goals>
 |Low-cost operation (Resource Utilization)
 |* A public GitHub repository is used to maintain the source code
 * The Train Delays services are published as docker containers with small footprint
+* Docker instances running the Train Delays services are created on demand on https://cloud.google.com/run?hl=en[Google Cloud Run] (see <<ADR-001 Deployment Platform: Google Cloud Run>>).
 
 |Easy to use (Learnability)
 |* The user interface is designed to require a minimum number of interactions (clicks, touches)
@@ -134,11 +152,234 @@ The following table relates the quality goals introduced in <<1.2 Quality Goals>
 The Train Delays application is a Spring Boot REST service. The structure is simple and can be found in the folder
 link:../src/main/java/systems/boos/traindelays[src/main/java/systems.boos.traindelays].
 
-== 6 Deployment View
+== 7 Deployment View
 
-For main branch builds, the link:../.github/workflows/build.yml[build pipeline] creates a docker image containing the
-build artifact. This image is pushed to https://hub.docker.com[Docker Hub].
+=== 7.1 Overview
 
-Users run the image on their Docker instance.
+image::{gitplant}/deployment-view.puml[Deployment View]
 
-Further details are described in the link:user-guide.md[User Guide].
+[cols="1,2a"]
+|===
+|Element |Description
+
+|Train Delays Docker Container
+|
+
+The Train Delays web application is a Java process running inside a docker container.
+
+|Cloud Run
+|
+
+The Train Delays Docker Container is hosted in the https://cloud.google.com/run?hl=en[Google Cloud Run] infrastructure.
+
+|Docker Image `train-delays`
+|
+
+This docker image is instantiated by Cloud Run when the Train Delays Docker Container is deployed. The image is
+automatically updated by Google Cloud Build whenever source code is pushed to the GitHub Repository
+`wonderbird/train-delays`.
+
+|Docker Repository
+|
+
+Google Cloud Run requires Docker images to be stored in a Docker Repository, which is part of the same Google project.
+
+|Artifact Repository
+|
+
+The Artifact Repository is the parent structure required when creating a Docker Repository in the Google Cloud.
+
+|Train Delays Project
+|
+
+This Google Cloud Console project is the container for all Google Cloud related configuration of the Train Delays
+system.
+
+|Source Code Repository `wonderbird/train-delays`
+|
+
+This repository contains the Java source code of the Train Delays web application.
+
+|Docker Image `train-delays`
+|
+
+This Docker image is built from the same sources as the image stored in the Docker Repository on Google. Hosting the
+image on dockerhub allows to share it with the Open Source Community.
+
+|Docker Repository `boos`
+|
+
+This public repository allows to share Docker images with the Open Source Community.
+
+|===
+
+=== 7.2 Initial Deployment (Disaster Recovery)
+
+This section lists the steps to set up a deployment to https://cloud.google.com/run?hl=en[Google Cloud Run] from scratch. This is useful in the following scenarios:
+
+. A new contributor has forked the Train Delays system and wants to deploy a system of her own.
+
+. The Train Delays system has been destroyed without being able to recover.
+
+==== 7.2.1 Prerequisites
+
+===== Subscribe to the Deutsche Bahn Open Data Timetables v1 API
+
+The `train-delays` web application requires an access key for the Deutsche Bahn Open API-Portal. You can get one for
+free:
+
+. Register a free account for https://developer.deutschebahn.com/store/site/pages/home.jag[Open API-Portal] of Deutsche
+Bahn, Germany.
+
+. On the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab] generate a key for
+the production environment.
+
+. On the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Timetables -
+v1 API page]
+  * Select `DefaultApplication` in the `Application` dropdown
+  * Click `Subscribe`
+
+===== Register with Google Cloud Platform and Install the gcloud CLI
+
+. Register with https://console.cloud.google.com/[Google Cloud Console]
+
+. https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]
+
+. Authenticate with gcloud (this is a part of the previous step)
+
+   ```shell
+   gcloud init
+   ```
+
+==== 7.2.2 Setup Project and Continuous Deployment
+
+. Follow the instructions in
+https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en[Store Docker container images
+in Artifact Registry] to
+
+   * create a project with billing enabled
+   * enable the https://console.cloud.google.com/apis/library/artifactregistry.googleapis.com[Artifact Registry API] in
+your project.
+   * https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en#create[create a Docker repository]
+
+. Create a service to automatically build the project by following https://cloud.google.com/run/docs/quickstarts/deploy-container?hl=en[Deploy a container to Cloud
+Run]
+
+   * When creating the service, connect to the (forked) GitHub repository
+   * Pass the environment variable `API_KEY` with the value of the Deutsche
+Bahn Open API Key to the Docker container. You can review your keys on the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab].
+
+== 8 Concepts
+
+=== 8.1 Build, Test, Deploy
+
+image::{gitplant}/build-test-deploy.puml[Overview of the Build, Test and Deploy Actions]
+
+For every change pushed to the GitHub repository, two build actions are triggered:
+
+. The link:../.github/workflows/build.yml[GitHub Build and Publish action] builds and runs all tests. If successful, it
+updates the train-delays image on dockerhub.
+
+. The Google Cloud Build action builds the docker image (again) and pushes it to the Docker repository within the Google
+project. From there, Cloud Run re-deploys the updated train delays instance.
+
+=== 8.2 Test Concepts
+
+==== 8.2.1 Acceptance Tests
+
+Features and scenarios are specified using the Gherkin DSL and executed with https://cucumber.io/[Cucumber].
+
+The following articles describe the used concepts:
+
+* Moisés Macero: https://thepracticaldeveloper.com/cucumber-tests-spring-boot-dependency-injection/[Cucumber Tests in Spring Boot with Dependency Injection]
+* baeldung: https://www.baeldung.com/junit-asserting-logs[Asserting Log Messages With JUnit]
+
+==== 8.2.2 API Verification
+
+This application uses https://pact.io/[Pact] tests to verify the following APIs:
+
+* Consuming the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Deutsche Bahn Timetables v1 API]
+* Providing the TrainDelays API
+
+==== 8.2.3 Web Application UI Tests
+
+Spring UI controllers are tested using https://htmlunit.sourceforge.io/[HtmlUnit]. In such tests, the backend services are stubbed using Spring `MockBean`s, so that only the UI controller is tested.
+
+The link:../src/test/java/systems/boos/traindelays/unit/HomeControllerTest.java[HomeControllerTest.java] gives an example.
+
+==== 8.2.4 Low Level Tests
+
+JUnit5 based unit tests verify implementation details and most error scenarios.
+
+==== 8.2.5 References
+
+* Philip Riecks: [Guide to @SpringBootTest for Spring Boot Integration
+Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
+
+== 9 Architecture Decisions
+
+Architecture Decisions are documented in this section in the form of Architecture Decision Records (ADR). For more information, refer to the https://adr.github.io/[ADR GitHub Organization].
+
+=== ADR-001 Deployment Platform: Google Cloud Run
+
+[cols="1,2"]
+|===
+|status | accepted
+|date   | July 3, 2022
+|===
+
+==== Context and Problem Statement
+
+The Train Delays web application shall be available as a permanent service with a fixed internet address.
+
+Which deployment technology and hosting provider shall be selected?
+
+==== Decision Drivers
+
+From section <<1.2 Quality Goals>>, especially the following quality attributes are important:
+
+* Low-cost operation (resource utilization)
+* Easy to use (learnability)
+
+As described in section <<2 Constraints>>, **common technologies** shall be used.
+
+==== Considered Options
+
+A short search on the internet brought up Geekflare:
+https://geekflare.com/docker-hosting-platforms/#geekflare-toc-google-cloud-run[10 Best Docker Hosting Platforms for your
+Containers] dated June 30, 2022.
+
+==== Decision Outcome: Google Cloud Run
+
+From the list, https://cloud.google.com/run?hl=en[Google Cloud Run] has been tested shortly and selected. Other products have not been tested yet. This ADR shall be re-evaluated when the https://cloud.google.com/run?hl=en[Google Cloud Run] platform shows disadvantages or when other platforms seem to fit better.
+
+The following properties of Google Cloud Run are matching the decision drivers:
+
+* Common technologies
+** The platform is compatible with the currently widely spread Docker container technology
+** An automatic deployment can be triggered by pushing changes to a GitHub repository
+
+* Low-cost operation (resource utilization)
+** Container instances are only paid when they are running
+** Docker containers are only created when there are pending requests
+** Docker containers are automatically shut down when idle
+** Request rate limits can be configured
+** The maximum number of running Docker containers can be configured
+
+* Easy to use (learnability)
+** There are sufficient user guides and examples helping new user to learn the technology (see section <<Documentation of the Google Cloud Run Platform>> below)
+
+==== Documentation of the Google Cloud Run Platform
+
+The following links are presented in suggested reading order:
+
+. https://cloud.google.com/run?hl=en[Cloud Run] - Product Overview.
+. https://cloud.google.com/run/docs/quickstarts/deploy-container?hl=en[Deploy a container to Cloud Run]
+. https://cloud.google.com/run/docs/building/containers?hl=en[Building Containers]
+. https://cloud.google.com/artifact-registry/docs/overview?hl=en[Artifact Registry]
+. https://cloud.google.com/artifact-registry/docs/docker/store-docker-container-images?hl=en[Store Docker container images in Artifact Registry]
+
+The following links show the tools provided by Google:
+
+** https://console.cloud.google.com/home/dashboard[Google Cloud Console] - Dashboard.
+** https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]

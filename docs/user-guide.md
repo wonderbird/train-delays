@@ -1,42 +1,35 @@
 # Train Delays User Guide
 
-## Prerequisites
+## As a Normal User ...
 
-### Subscribe to the Deutsche Bahn Open Data Timetables v1 API
+... just navigate to the [Train Delays Web Application](https://train-delays-lvnrwcqd7q-ew.a.run.app/).
 
-At the time of writing, this application requires an access key for the Deutsche Bahn Open API-Portal. You can get
-one for free:
+## As a Software Developer ...
 
-- Register a free account for [Open API-Portal](https://developer.deutschebahn.com/store/site/pages/home.jag)
-  of Deutsche Bahn, Germany.
+### Prerequisite
 
-- On the [My Subscriptions Tab](https://developer.deutschebahn.com/store/site/pages/subscriptions.jag)
-  generate a key for the production environment.
+Please register with and subscribe to the [Timetables - v1
+API](https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData). This is described in detail in section [7.2.1 Prerequisites of the Architecture Document](architecture.adoc#721-prerequisites).
 
-- On the
-  [Timetables - v1 API page](https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData)
-    - Select `DefaultApplication` in the `Application` dropdown
-        - Click `Subscribe`
-
-## Run the Application in a Docker Container
+### Run the Application in a Docker Container
 
 The [build pipeline](../.github/workflows/build.yml) publishes the application to [Docker
 Hub](https://hub.docker.com/r/boos/train-delays). Thus, you can pull an image and run it.
 
-In the following, replace `<YOUR API KEY>` with the `Access Token` displayed on the [My Subscriptions
+Then, in the following, replace `<YOUR API KEY>` with the `Access Token` displayed on the [My Subscriptions
 Tab](https://developer.deutschebahn.com/store/site/pages/subscriptions.jag).
 
 ```sh
 docker run -p 8080:8080 --env API_KEY=<YOUR API KEY> --name train-delays-app --rm boos/train-delays
 ```
 
-## Alternative for Developers: Run the Application Using a Local Java Installation
+### Run the Application Using a Local Java Installation
 
 ```sh
 API_KEY="<YOUR API KEY>" ./gradlew bootRun
 ```
 
-## Query the Next Departure
+### Query the Next Departure
 
 Fire an HTTP GET request to http://localhost:8080/nextdeparture
 
