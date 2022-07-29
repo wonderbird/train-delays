@@ -5,6 +5,11 @@ GET https://api.deutschebahn.com/timetables/v1/fchg/8005143
 Authorization: Bearer {{auth_token}}
 Accept: application/xml
 
+### Query planned timetable data for station eva id
+GET https://api.deutschebahn.com/timetables/v1/plan/8005143/220729/09
+Authorization: Bearer {{auth_token}}
+Accept: application/xml
+
 ### Query station eva id for Rösrath-Stümpen
 GET https://api.deutschebahn.com/timetables/v1/station/r%C3%B6srath-st%C3%BCmpen
 Authorization: Bearer {{auth_token}}
