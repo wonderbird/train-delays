@@ -76,7 +76,7 @@ public class TrainDelaysCucumberStepDefinitions {
     }
 
     @When("^I call the API$")
-    public void i_run_the_application() {
+    public void i_call_the_api() {
         response = restTemplate.getForEntity(apiEndpoint(), ExpectedDepartureResponse.class).getBody();
     }
 
