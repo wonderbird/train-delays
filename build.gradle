@@ -58,7 +58,7 @@ task cucumber() {
         javaexec {
             mainClass = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
-            args = ['--plugin', 'pretty', '--glue', 'systems.boos.traindelays', 'src/test/resources']
+            args = ['--tags', 'not @wip', '--plugin', 'pretty', '--glue', 'systems.boos.traindelays', 'src/test/resources']
         }
     }
 }

@@ -12,11 +12,14 @@ import systems.boos.traindelays.ExpectedDepartureResponse;
 import systems.boos.traindelays.common.TimetableApiResponses;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 import static java.time.Duration.between;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
@@ -42,24 +45,30 @@ public class TrainDelaysCucumberStepDefinitions {
         mockServer.stop();
     }
 
-    private String apiEndpoint() {
-        String serverUrl = "http://localhost";
-        String apiEndpoint = "/nextdeparture";
-        return serverUrl + ":" + port + apiEndpoint;
-    }
-
     private static void configureMockServerWithExpectedDepartureTime(Instant expectedDepartureTime) {
         String responseBody = TimetableApiResponses.createResponseWithExpectedDeparture(expectedDepartureTime);
-        configureMockServerWithResponse(responseBody);
+        configureMockServerResponseForPath(responseBody, "/timetables/v1/fchg/8005143");
     }
 
-    private static void configureMockServerWithResponse(String responseBody) {
+    private static void configureMockServerWithPlannedDepartureTime(Instant plannedDepartureTime) {
+        ZonedDateTime zonedPlannedDepartureTime = plannedDepartureTime
+                .atZone(ZoneId.of("Europe/Berlin"));
+
+        String dateString = zonedPlannedDepartureTime.format(DateTimeFormatter.ofPattern("yyMMdd"));
+        String hoursString = zonedPlannedDepartureTime.format(DateTimeFormatter.ofPattern("HH"));
+        String path = String.format("/timetables/v1/plan/8005143/%s/%s", dateString, hoursString);
+
+        String responseBody = TimetableApiResponses.createResponseWithPlannedDeparture(plannedDepartureTime);
+        configureMockServerResponseForPath(responseBody, path);
+    }
+
+    private static void configureMockServerResponseForPath(String responseBody, String path) {
         mockServer.reset();
         mockServer
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/timetables/v1/fchg/8005143")
+                                .withPath(path)
                 )
                 .respond(
                         response()
@@ -69,6 +78,12 @@ public class TrainDelaysCucumberStepDefinitions {
                 );
     }
 
+    private String apiEndpoint() {
+        String serverUrl = "http://localhost";
+        String apiEndpoint = "/nextdeparture";
+        return serverUrl + ":" + port + apiEndpoint;
+    }
+
     @Given("the next train is expected to leave in {int} minutes")
     public void theNextTrainIsExpectedToLeaveAt(int expectedDepartureMinutes) {
         Instant expectedDepartureTime = Instant.now().plus(expectedDepartureMinutes, ChronoUnit.MINUTES);
@@ -76,12 +91,12 @@ public class TrainDelaysCucumberStepDefinitions {
     }
 
     @When("^I call the API$")
-    public void i_call_the_api() {
+    public void iCallTheApi() {
         response = restTemplate.getForEntity(apiEndpoint(), ExpectedDepartureResponse.class).getBody();
     }
 
     @Then("the expected departure is {int} minutes in the future")
-    public void i_should_see_the_train_delays(int expectedDepartureMinutes) {
+    public void theExpectedDepartureIsMinutesInTheFuture(int expectedDepartureMinutes) {
         ZonedDateTime expected = Instant.now().plus(expectedDepartureMinutes, ChronoUnit.MINUTES).atZone(ZoneOffset.UTC);
         ZonedDateTime actual = response.getExpectedDeparture();
 
@@ -94,5 +109,25 @@ public class TrainDelaysCucumberStepDefinitions {
         int toleranceSeconds = 60;
 
         assertTrue(differenceSeconds <= toleranceSeconds, "Expected departure time is " + differenceSeconds + " seconds off");
+    }
+
+    @Given("the planned departure for the next train is in {int} minutes")
+    public void thePlannedDepartureForTheNextTrainIsInMinutes(int plannedDepartureMinutes) {
+        Instant plannedDepartureTime = Instant.now().plus(plannedDepartureMinutes, ChronoUnit.MINUTES);
+        configureMockServerWithPlannedDepartureTime(plannedDepartureTime);
+    }
+
+    @Then("the expected delay is {int} minutes")
+    public void theExpectedDelayIsMinutes(int expectedDelayMinutes) {
+        int actualDelayMinutes = response.getExpectedDelayMinutes();
+
+        // Attention
+        // If we see this test fail with 1 minute offset, then this may be caused by a
+        // the execution time of the requests and the coincidence that the test finished
+        // its setup just at the 59th second of the minute.
+        //
+        // If that happens more than once, then check whether adding some seconds to the
+        // expected or the planned departure time in order to compensate for this
+        assertEquals(expectedDelayMinutes, actualDelayMinutes, "Expected delay is " + (expectedDelayMinutes - actualDelayMinutes) + " minutes off");
     }
 }

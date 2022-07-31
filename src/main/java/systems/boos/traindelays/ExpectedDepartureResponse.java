@@ -7,6 +7,8 @@ import java.time.ZonedDateTime;
 public class ExpectedDepartureResponse {
     private ZonedDateTime expectedDeparture;
 
+    private int expectedDelayMinutes;
+
     public ExpectedDepartureResponse() {
     }
 
@@ -21,5 +23,13 @@ public class ExpectedDepartureResponse {
 
     public void setExpectedDeparture(ZonedDateTime value) {
         this.expectedDeparture = value;
+    }
+
+    public int getExpectedDelayMinutes() {
+        return expectedDelayMinutes;
+    }
+
+    public void setExpectedDelayMinutes(int value) {
+        this.expectedDelayMinutes = value;
     }
 }
