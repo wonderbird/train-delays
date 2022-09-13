@@ -41,11 +41,8 @@ public class TimetablesService {
 
     private HttpEntity<String> getRequestEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, generateAuthToken());
+        headers.add("DB-Client-Id", System.getenv("CLIENT_ID"));
+        headers.add("DB-Api-Key", System.getenv("API_KEY"));
         return new HttpEntity<>(headers);
-    }
-
-    private String generateAuthToken() {
-        return "Bearer " + System.getenv("API_KEY");
     }
 }
