@@ -104,15 +104,13 @@ image::{gitplant}/technical-context.puml[Technical Context Diagram]
 
 ===== Deutsche Bahn Germany Open API Portal
 
-Section <<Subscribe to the Deutsche Bahn Open Data Timetables v1 API>> describes how to register for the API and subscribe to the used services.
+Section <<Subscribe to the DB API Marketplace Timetables API>> describes how to register for the API and subscribe to the used services.
 
 The following links give detailed information on the API:
 
-* https://developer.deutschebahn.com/store/site/pages/home.jag[Open API-Portal] of Deutsche
-Bahn, Germany
+* https://developers.deutschebahn.com/db-api-marketplace/apis/[DB API Marketplace] of Deutsche Bahn, Germany
 
-* https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Timetables -
-v1 API]
+* https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables/api/1309#/Timetables_10197/overview[Timetables API]
 
 == 4 Solution Strategy
 
@@ -223,21 +221,19 @@ This section lists the steps to set up a deployment to https://cloud.google.com/
 
 ==== 7.2.1 Prerequisites
 
-===== Subscribe to the Deutsche Bahn Open Data Timetables v1 API
+===== Subscribe to the DB API Marketplace Timetables API
 
-The `train-delays` web application requires an access key for the Deutsche Bahn Open API-Portal. You can get one for
+The `train-delays` web application requires an access key for the DB API Marketplace. You can get one for
 free:
 
-. Register a free account for https://developer.deutschebahn.com/store/site/pages/home.jag[Open API-Portal] of Deutsche
-Bahn, Germany.
+. Follow the instructions in https://developers.deutschebahn.com/db-api-marketplace/apis/start[So startest Du einfach mit den APIs
+] (in German)
 
-. On the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab] generate a key for
-the production environment.
+. From the https://developers.deutschebahn.com/db-api-marketplace/apis/product[Catalog of the DB API Marketplace] subscribe to the **Timetables** API
 
-. On the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Timetables -
-v1 API page]
-  * Select `DefaultApplication` in the `Application` dropdown
-  * Click `Subscribe`
+Attention:
+
+Store the API Key for APIs you subscribe to a password safe. The DB API Marketplace will not show the key later, but you can verify whether you have stored the correct key in the https://developers.deutschebahn.com/db-api-marketplace/apis/application[DB API Marketplace Applications tab].
 
 ===== Register with Google Cloud Platform and Install the gcloud CLI
 
@@ -298,7 +294,7 @@ The following articles describe the used concepts:
 
 This application uses https://pact.io/[Pact] tests to verify the following APIs:
 
-* Consuming the https://developer.deutschebahn.com/store/apis/info?name=Timetables&version=v1&provider=DBOpenData[Deutsche Bahn Timetables v1 API]
+* Consuming the https://developers.deutschebahn.com/db-api-marketplace/apis/product/timetables/api/1309#/Timetables_10197/overview[Deutsche Bahn Timetables API]
 * Providing the TrainDelays API
 
 ==== 8.2.3 Web Application UI Tests

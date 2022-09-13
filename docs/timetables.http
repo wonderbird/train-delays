@@ -1,11 +1,13 @@
 # This file contains HTTP requests for the DB Open Data Timetables API
 
 ### Query all known changes for the station eva id
-GET https://api.deutschebahn.com/timetables/v1/fchg/8005143
-Authorization: Bearer {{auth_token}}
+GET https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/fchg/8005143
 Accept: application/xml
+DB-Client-Id: {{client_id}}
+DB-Api-Key: {{api_key}}
 
 ### Query station eva id for Rösrath-Stümpen
-GET https://api.deutschebahn.com/timetables/v1/station/r%C3%B6srath-st%C3%BCmpen
-Authorization: Bearer {{auth_token}}
+GET https://apis.deutschebahn.com/db-api-marketplace/apis/timetables/v1/station/r%C3%B6srath-st%C3%BCmpen
 Accept: application/xml
+DB-Client-Id: {{client_id}}
+DB-Api-Key: {{api_key}}
