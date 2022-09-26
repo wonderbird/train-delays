@@ -33,7 +33,7 @@ dependencies {
     testImplementation 'au.com.dius.pact.consumer:junit5:4.3.14'
     testImplementation 'au.com.dius.pact.provider:junit5spring:4.3.14'
 
-    testImplementation 'org.json:json:20220320'
+    testImplementation 'org.json:json:20220924'
     testImplementation 'org.apache.commons:commons-collections4:4.4'
     testImplementation 'io.cucumber:cucumber-spring:7.8.0'
     testImplementation 'io.cucumber:cucumber-java:7.8.0'
