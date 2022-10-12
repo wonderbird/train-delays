@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.3'
+    id 'org.springframework.boot' version '2.7.4'
     id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
     id 'jacoco'
@@ -27,7 +27,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: "com.vaadin.external.google", module: "android-json"
     }
-    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.64.0'
+    testImplementation 'net.sourceforge.htmlunit:htmlunit:2.65.1'
 
     testImplementation 'au.com.dius.pact.consumer:java8:4.1.39'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.3.14'
