@@ -35,7 +35,7 @@ dependencies {
 
     testImplementation 'org.json:json:20220924'
     testImplementation 'org.apache.commons:commons-collections4:4.4'
-    testImplementation 'io.cucumber:cucumber-spring:7.8.0'
+    testImplementation 'io.cucumber:cucumber-spring:7.10.0'
     testImplementation 'io.cucumber:cucumber-java:7.8.0'
     testImplementation 'io.cucumber:cucumber-junit:7.8.0'
     testImplementation 'org.mock-server:mockserver-netty:5.14.0'
