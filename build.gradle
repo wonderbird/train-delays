@@ -29,7 +29,7 @@ dependencies {
     }
     testImplementation 'net.sourceforge.htmlunit:htmlunit:2.67.0'
 
-    testImplementation 'au.com.dius.pact.consumer:java8:4.1.39'
+    testImplementation 'au.com.dius.pact.consumer:java8:4.1.41'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.3.14'
     testImplementation 'au.com.dius.pact.provider:junit5spring:4.3.15'
 
