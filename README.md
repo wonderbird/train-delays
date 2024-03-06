@@ -25,6 +25,13 @@ an [Open Source License](https://www.jetbrains.com/community/opensource/) for th
 
 ## Build, Test, Run
 
+### Prerequisites
+
+The build is tested with the following versions:
+
+- [Java 17.0.4](https://adoptopenjdk.net/)
+- [Gradle 7.6.3](https://gradle.org/)
+
 ### Build the Solution and Run the Tests
 
 ```sh
