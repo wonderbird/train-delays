@@ -8,7 +8,9 @@
 name: Build and Publish
 
 on:
+  workflow_dispatch:
   push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -27,7 +29,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and Test with Gradle
-        uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: clean build test cucumber jacocoTestReport
 
