@@ -29,13 +29,13 @@ an [Open Source License](https://www.jetbrains.com/community/opensource/) for th
 
 The build is tested with the following versions:
 
-- [Java 17.0.4](https://adoptopenjdk.net/)
-- [Gradle 7.6.3](https://gradle.org/)
+- [Java 21.0.2](https://adoptopenjdk.net/)
+- [Gradle](https://gradle.org/) is configured by the [gradle-wrapper.properties](gradle/wrapper/gradle-wrapper.properties)
 
 ### Build the Solution and Run the Tests
 
 ```sh
-./gradlew clean build test
+./gradlew clean build test --warning-mode all
 ```
 
 ## Before Creating a Pull Request

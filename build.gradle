@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.4'
-    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'org.springframework.boot' version '3.2.3'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.12.0'
@@ -8,7 +8,10 @@ plugins {
 
 group = 'systems.boos'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+}
 
 repositories {
     mavenCentral()
@@ -29,9 +32,9 @@ dependencies {
     }
     testImplementation 'net.sourceforge.htmlunit:htmlunit:2.67.0'
 
-    testImplementation 'au.com.dius.pact.consumer:java8:4.1.39'
-    testImplementation 'au.com.dius.pact.consumer:junit5:4.3.14'
-    testImplementation 'au.com.dius.pact.provider:junit5spring:4.3.15'
+    testImplementation 'au.com.dius.pact.consumer:java8:4.1.42'
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.6.7'
+    testImplementation 'au.com.dius.pact.provider:junit5spring:4.6.7'
 
     testImplementation 'org.json:json:20220924'
     testImplementation 'org.apache.commons:commons-collections4:4.4'

@@ -1,4 +1,4 @@
-FROM gradle:jdk17 AS builder
+FROM gradle:jdk21 AS builder
 
 WORKDIR /home/gradle/src
 COPY --chown=gradle:gradle settings.gradle build.gradle ./
