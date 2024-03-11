@@ -38,6 +38,22 @@ The build is tested with the following versions:
 ./gradlew clean build test --warning-mode all
 ```
 
+### Build and Run the Docker Image
+
+Build the Docker image:
+
+```sh
+docker build -t boos/train-delays .
+```
+
+Pass the environment variable `DB_API_KEY` and `CLIENT_ID` to the Docker container when running it:
+
+```sh
+export DB_API_KEY=your-api-key
+export CLIENT_ID=your-client-id
+docker run -p 8080:8080 --env DB_API_KEY=$DB_API_KEY --env CLIENT_ID=$CLIENT_ID boos/train-delays
+```
+
 ## Before Creating a Pull Request
 
 ### Check Code Metrics
