@@ -84,7 +84,7 @@ class TimetableConsumerPactTest {
     }
     @Test
     @PactTestFor(pactMethod = "timetableServerError")
-    void fetchChanges_whenTimetabelServerReturnsInternalServerError(MockServer mockServer) {
+    void fetchChanges_whenTimetableServerReturnsInternalServerError(MockServer mockServer) {
         fetchChanges_ShouldReturnEmptyTimetable(mockServer);
     }
 
