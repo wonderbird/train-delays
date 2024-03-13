@@ -1,2 +1,5 @@
-###
+### GET next departure from local system
 GET http://localhost:8080/nextdeparture
+
+### GET next departure from production system
+GET https://train-delays-lvnrwcqd7q-ew.a.run.app/nextdeparture
