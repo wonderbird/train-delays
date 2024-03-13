@@ -24,8 +24,13 @@ Note: The API Key will not be revealed. Please save the key to a password safe w
 Document](architecture.adoc#721-prerequisites)).
 
 ```sh
-docker run -p 8080:8080 --env CLIENT_ID=<YOUR CLIENT ID> --env API_KEY=<YOUR API KEY> --name train-delays-app --rm boos/train-delays
+export API_KEY=<YOUR API KEY>
+export CLIENT_ID=<YOUR CLIENT ID>
+docker run -p 8080:8080 --env API_KEY=$API_KEY --env CLIENT_ID=$CLIENT_ID boos/train-delays
 ```
+
+To test the local Docker container, fire an HTTP GET request to http://localhost:8080/nextdeparture
+See [traindelays.http](./traindelays.http) for a sample request.
 
 ### Run the Application Using a Local Java Installation
 

@@ -46,13 +46,15 @@ Build the Docker image:
 docker build -t boos/train-delays .
 ```
 
-Pass the environment variable `DB_API_KEY` and `CLIENT_ID` to the Docker container when running it:
+Pass the environment variables `API_KEY` and `CLIENT_ID` to the Docker container when running it:
 
 ```sh
-export DB_API_KEY=your-api-key
-export CLIENT_ID=your-client-id
-docker run -p 8080:8080 --env DB_API_KEY=$DB_API_KEY --env CLIENT_ID=$CLIENT_ID boos/train-delays
+export API_KEY=<YOUR API KEY>
+export CLIENT_ID=<YOUR CLIENT ID>
+docker run -p 8080:8080 --env API_KEY=$API_KEY --env CLIENT_ID=$CLIENT_ID boos/train-delays
 ```
+
+See [User Guide](docs/user-guide.md) for more details.
 
 ## Before Creating a Pull Request
 
