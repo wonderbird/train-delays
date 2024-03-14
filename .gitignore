@@ -1,3 +1,7 @@
+### Draw.io / diagrams.net temporary files ###
+.$*.bkp
+.$*.dtmp
+
 ### private secret configuration for the http-client ###
 http-client.private.env.json
 
