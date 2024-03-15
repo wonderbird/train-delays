@@ -312,6 +312,19 @@ JUnit5 based unit tests verify implementation details and most error scenarios.
 * Philip Riecks: [Guide to @SpringBootTest for Spring Boot Integration
 Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
 
+=== 8.3 Logging of the Production System
+
+The production system logs are collected by https://cloud.google.com/run?hl=en[Google Cloud Run] and can be viewed in the https://console.cloud.google.com/run[Google Cloud Console].
+
+For the current train-delays instance, the logs can be viewed at https://console.cloud.google.com/run/detail/europe-west1/train-delays/logs?project=train-delays-355110[Google Cloud Run - Logs].
+
+If you have created your own instance, then perform the following steps to view the logs:
+
+. Open the https://console.cloud.google.com/run[Google Cloud Console]
+. Select the project in the dropdown at the top of the page
+. Select the service
+. Click on the "Logs" tab
+
 == 9 Architecture Decisions
 
 Architecture Decisions are documented in this section in the form of Architecture Decision Records (ADR). For more information, refer to the https://adr.github.io/[ADR GitHub Organization].
