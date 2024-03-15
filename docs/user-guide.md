@@ -18,7 +18,7 @@ Document](architecture.adoc#721-prerequisites).
 The [build pipeline](../.github/workflows/build.yml) publishes the application to [Docker
 Hub](https://hub.docker.com/r/boos/train-delays). Thus, you can pull an image and run it.
 
-Then, in the following, replace `<YOUR CLIENT ID>` and `<YOUR API KEY>` with the values displayed in the section "Berechtigungsnachweise" for your application in [DB API Marketplace / Anwendungen](https://developers.deutschebahn.com/db-api-marketplace/apis/application).
+Then, in the following, replace `<YOUR CLIENT ID>` and `<YOUR API KEY>` with the values displayed in the section "Berechtigungsnachweise" for your application in [DB API Marketplace / Applications](https://developers.deutschebahn.com/db-api-marketplace/apis/application).
 
 Note: The API Key will not be revealed. Please save the key to a password safe when creating it (see [7.2.1 Prerequisites of the Architecture
 Document](architecture.adoc#721-prerequisites)).
