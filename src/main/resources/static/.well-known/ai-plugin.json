@@ -9,7 +9,7 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://train-delays-lvnrwcqd7q-ew.a.run.app/openapi.yaml"
+    "url": "https://train-delays-lvnrwcqd7q-ew.a.run.app/v3/api-docs"
   },
   "logo_url": "https://train-delays-lvnrwcqd7q-ew.a.run.app/logo.png",
   "contact_email": "kontakt@boos.systems",
