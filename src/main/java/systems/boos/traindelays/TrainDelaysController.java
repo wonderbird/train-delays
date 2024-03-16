@@ -23,7 +23,7 @@ public class TrainDelaysController {
         this.timetablesService = timetablesService;
     }
 
-    @Operation(summary = "Time of next train leaving Rösrath Stümpen", description = "Get the time when the next train leaves the station Rösrath-Stümpen")
+    @Operation(summary = "Time of next train leaving Rösrath-Stümpen", description = "Get the time when the next train leaves the station Rösrath-Stümpen")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Time of next departure"),
             @ApiResponse(responseCode = "204", description = "No trains received from DB Timetables API"),

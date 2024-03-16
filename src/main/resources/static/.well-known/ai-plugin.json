@@ -3,7 +3,7 @@
   "name_for_human": "Train Delays",
   "name_for_model": "train-delays",
   "description_for_human": "Query train delays. The API shows when the next train leaves the train station Rösrath-Stümpen.",
-  "description_for_model": "Tell the user when the next train leaves the train station Rösrath Stümpen.",
+  "description_for_model": "Tell the user when the next train leaves the train station Rösrath-Stümpen.",
   "auth": {
     "type": "none"
   },

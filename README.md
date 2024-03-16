@@ -6,10 +6,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
 [![Image Size](https://img.shields.io/docker/image-size/boos/train-delays)](https://hub.docker.com/repository/docker/boos/train-delays)
 
-Find out when will the next train will leave the station Rösrath Stümpen.
+Find out when the next train will leave the station Rösrath-Stümpen.
 
 This web application shows the expected departure time of the next train from the station Rösrath-Stümpen.
-The [User Guide](docs/user-guide.md) describes how to run the application.
 
 The current version is one step on the road to the [Product Vision](docs/product-vision.md).
 
