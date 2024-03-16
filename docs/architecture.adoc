@@ -229,11 +229,9 @@ free:
 . Follow the instructions in https://developers.deutschebahn.com/db-api-marketplace/apis/start[So startest Du einfach mit den APIs
 ] (in German)
 
-. From the https://developers.deutschebahn.com/db-api-marketplace/apis/product[Catalog of the DB API Marketplace] subscribe to the **Timetables** API
+. From the https://developers.deutschebahn.com/db-api-marketplace/apis/product[Catalog of the DB API Marketplace] subscribe to the **Timetables** API. Note: Specifying an OAuth2 Redirect URL is not necessary.
 
-Attention:
-
-Store the API Key for APIs you subscribe to a password safe. The DB API Marketplace will not show the key later, but you can verify whether you have stored the correct key in the https://developers.deutschebahn.com/db-api-marketplace/apis/application[DB API Marketplace Applications tab].
+WARNING: Store the Client Secret (the API Key) and the Client ID for APIs you subscribe to a password safe. The DB API Marketplace will not show the key later, but you can verify whether you have stored the correct key in https://developers.deutschebahn.com/db-api-marketplace/apis/application[DB API Marketplace / Applications].
 
 ===== Register with Google Cloud Platform and Install the gcloud CLI
 
@@ -262,8 +260,10 @@ your project.
 Run]
 
    * When creating the service, connect to the (forked) GitHub repository
-   * Pass the environment variable `API_KEY` with the value of the Deutsche
-Bahn Open API Key to the Docker container. You can review your keys on the https://developer.deutschebahn.com/store/site/pages/subscriptions.jag[My Subscriptions Tab].
+   * Create an environment variable named `API_KEY` and copy the DB API **Client Secret** into it
+   * Create an environment variable named `CLIENT_ID` and copy the DB API **Client ID** into it
+
+NOTE: You can review the applications registered with your DB API Marketplace account in https://developers.deutschebahn.com/db-api-marketplace/apis/application[DB API Marketplace / Applications].
 
 == 8 Concepts
 
@@ -311,6 +311,19 @@ JUnit5 based unit tests verify implementation details and most error scenarios.
 
 * Philip Riecks: [Guide to @SpringBootTest for Spring Boot Integration
 Tests](https://rieckpil.de/guide-to-springboottest-for-spring-boot-integration-tests/)
+
+=== 8.3 Logging of the Production System
+
+The production system logs are collected by https://cloud.google.com/run?hl=en[Google Cloud Run] and can be viewed in the https://console.cloud.google.com/run[Google Cloud Console].
+
+For the current train-delays instance, the logs can be viewed at https://console.cloud.google.com/run/detail/europe-west1/train-delays/logs?project=train-delays-355110[Google Cloud Run - Logs].
+
+If you have created your own instance, then perform the following steps to view the logs:
+
+. Open the https://console.cloud.google.com/run[Google Cloud Console]
+. Select the project in the dropdown at the top of the page
+. Select the service
+. Click on the "Logs" tab
 
 == 9 Architecture Decisions
 
