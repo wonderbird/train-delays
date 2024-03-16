@@ -1,5 +1,11 @@
 ### GET next departure from local system
 GET http://localhost:8080/nextdeparture
 
+### GET open api specification in JSON format from local system
+GET http://localhost:8080/v3/api-docs
+
+### GET open api specification in YAML format from local system
+GET http://localhost:8080/v3/api-docs.yaml
+
 ### GET next departure from production system
 GET https://train-delays-lvnrwcqd7q-ew.a.run.app/nextdeparture
