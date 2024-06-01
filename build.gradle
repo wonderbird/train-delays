@@ -39,7 +39,7 @@ dependencies {
     testImplementation 'net.sourceforge.htmlunit:htmlunit:2.70.0'
 
     testImplementation 'au.com.dius.pact.consumer:java8:4.1.42'
-    testImplementation 'au.com.dius.pact.consumer:junit5:4.6.7'
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.6.10'
     testImplementation 'au.com.dius.pact.provider:junit5spring:4.6.7'
 
     testImplementation 'org.json:json:20240303'
