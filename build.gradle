@@ -28,7 +28,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
 
     // adding the Jackson reference automatically allows processing application/xml response bodies
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.14.3'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
