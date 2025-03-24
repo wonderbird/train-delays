@@ -18,6 +18,8 @@ Note: The API Key will not be revealed. Please save the key to a password safe w
 Document](architecture.adoc#721-prerequisites)).
 
 ```sh
+docker build -t boos/train-delays .
+
 export API_KEY=<YOUR API KEY>
 export CLIENT_ID=<YOUR CLIENT ID>
 docker run -p 8080:8080 --env API_KEY=$API_KEY --env CLIENT_ID=$CLIENT_ID boos/train-delays
