@@ -237,7 +237,7 @@ WARNING: Store the Client Secret (the API Key) and the Client ID for APIs you su
 
 . Register with https://console.cloud.google.com/[Google Cloud Console]
 
-. https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]
+docs. https://cloud.google.com/sdk/docs/install?hl=en[Install the gcloud CLI]. Note that a https://formulae.brew.sh/cask/google-cloud-sdk[Homebrew cask] is available: `brew install --cask google-cloud-sdk`.
 
 . Authenticate with gcloud (this is a part of the previous step)
 
