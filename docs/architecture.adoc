@@ -261,8 +261,9 @@ Run]
 
    * When creating the service, connect to the (forked) GitHub repository
    * Scale from 0 .. 1: Since the service is still in an early stage, set the minimum number of instances to 0 and the maximum to 1
-   * Instance-based billing: The number of requests is so low, that the billing type doesn't make much difference
-   * Limit parallel requests to 5 to avoid the risk of high costs while the service is in development
+   * 512 MB RAM and 0.5 vCPU are sufficient for now
+     - Request-based billing is required to configure < 1 vCPU
+     - Parallel requests must be limited to 1 for request based billing
    * Create an environment variable named `API_KEY` and copy the DB API **Client Secret** into it
    * Create an environment variable named `CLIENT_ID` and copy the DB API **Client ID** into it
    * Configure Cloud Build as described in https://cloud.google.com/build/docs/automate-builds[Automate builds by using Cloud Build]
