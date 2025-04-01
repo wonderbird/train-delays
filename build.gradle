@@ -38,7 +38,7 @@ dependencies {
     }
     testImplementation 'org.htmlunit:htmlunit:4.10.0'
 
-    testImplementation 'au.com.dius.pact.consumer:java8:4.1.42'
+    testImplementation 'au.com.dius.pact.consumer:java8:4.1.43'
     testImplementation 'au.com.dius.pact.consumer:junit5:4.6.10'
     testImplementation 'au.com.dius.pact.provider:junit5spring:4.6.10'
 
