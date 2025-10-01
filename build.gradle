@@ -25,7 +25,7 @@ dependencies {
     // Generate OpenAPI documentation from Javadoc, see https://springdoc.org/#javadoc-support
     annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.15.0'
     implementation 'com.github.therapi:therapi-runtime-javadoc:0.15.0'
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
 
     // adding the Jackson reference automatically allows processing application/xml response bodies
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.3'
