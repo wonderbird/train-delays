@@ -96,14 +96,6 @@ jobs:
           add-prefix: src/main/java
           skip-errors: false
 
-      - name: Report Coverage to Qlty.sh
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-          JACOCO_SOURCE_PATH: "src/main/java"
-        with:
-          coverageLocations: build/reports/jacoco/test/jacocoTestReport.xml:jacoco
-
   publish-docker-image:
     # Documentation: https://docs.github.com/en/actions/publishing-packages/publishing-docker-images
     name: Publish Docker Image
