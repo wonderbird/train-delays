@@ -2,8 +2,8 @@
 
 [![Build Status Badge](https://github.com/wonderbird/train-delays/workflows/Build%20and%20Publish/badge.svg)](https://github.com/wonderbird/train-delays/actions/workflows/build.yml?query=workflow%3A%22Build+and+Publish%22)
 [![Coverage Status Badge](https://coveralls.io/repos/github/wonderbird/train-delays/badge.svg?branch=main)](https://coveralls.io/github/wonderbird/train-delays?branch=main)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/test_coverage)](https://codeclimate.com/github/wonderbird/train-delays/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/90718a2dfc4e3bde6d44/maintainability)](https://codeclimate.com/github/wonderbird/train-delays/maintainability)
+[![Code Coverage](https://qlty.sh/gh/wonderbird/projects/train-delays/coverage.svg)](https://qlty.sh/gh/wonderbird/projects/train-delays)
+[![Maintainability](https://qlty.sh/gh/wonderbird/projects/train-delays/maintainability.svg)](https://qlty.sh/gh/wonderbird/projects/train-delays)
 [![Image Size](https://img.shields.io/docker/image-size/boos/train-delays)](https://hub.docker.com/repository/docker/boos/train-delays)
 
 Find out when the next train will leave the station Rösrath-Stümpen.
